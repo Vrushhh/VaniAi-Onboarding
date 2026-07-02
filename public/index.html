@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VANI — Your brand's voice workforce</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Devanagari:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F7F6F1;
+    --card:#FFFFFF;
+    --ink:#12201A;
+    --ink-soft:#4A5A52;
+    --green:#0B5C3F;
+    --green-deep:#073D2A;
+    --marigold:#F2A81D;
+    --line:#DFDCD1;
+    --mono:'IBM Plex Mono', monospace;
+    --dev:'Noto Sans Devanagari', sans-serif;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Instrument Sans',sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif;line-height:1.06;letter-spacing:-0.02em}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+  .eyebrow{
+    font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--green);display:inline-flex;align-items:center;gap:8px;margin-bottom:18px;
+  }
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--green)}
+  :focus-visible{outline:2px solid var(--green);outline-offset:3px;border-radius:4px}
+
+  /* ---------- Nav ---------- */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(247,246,241,.85);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .logo{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:22px;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
+  .logo-dot{width:11px;height:11px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(11,92,63,.15)}
+  .nav-links{display:flex;gap:30px;font-size:15px;font-weight:500;color:var(--ink-soft)}
+  .nav-links a:hover{color:var(--ink)}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;justify-content:center;
+    font-family:'Instrument Sans',sans-serif;font-weight:600;font-size:15px;
+    padding:12px 22px;border-radius:999px;border:1px solid transparent;cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn-primary{background:var(--green);color:#fff}
+  .btn-primary:hover{background:var(--green-deep);transform:translateY(-1px);box-shadow:0 8px 20px rgba(11,92,63,.22)}
+  .btn-ghost{border-color:var(--line);background:transparent;color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--ink)}
+  .nav-cta{padding:9px 18px;font-size:14px}
+  @media(max-width:820px){.nav-links{display:none}}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:84px 0 40px}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+  @media(max-width:960px){.hero-grid{grid-template-columns:1fr;gap:44px}}
+  .hero h1{font-size:clamp(40px,5.4vw,66px);font-weight:800}
+  .hero h1 em{font-style:normal;color:var(--green);position:relative;white-space:nowrap}
+  .hero h1 em::after{
+    content:"";position:absolute;left:0;right:0;bottom:6px;height:10px;
+    background:rgba(242,168,29,.4);z-index:-1;border-radius:3px;
+  }
+  .hero p.lede{font-size:19px;color:var(--ink-soft);margin:22px 0 32px;max-width:520px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .hero-note{font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);margin-top:16px}
+
+  /* ---------- Live call card (signature) ---------- */
+  .call-card{
+    background:var(--card);border:1px solid var(--line);border-radius:22px;
+    box-shadow:0 24px 60px rgba(18,32,26,.10);
+    overflow:hidden;max-width:480px;margin-left:auto;
+  }
+  @media(max-width:960px){.call-card{margin:0 auto}}
+  .call-head{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 20px;border-bottom:1px solid var(--line);background:#FBFAF6;
+  }
+  .call-id{display:flex;align-items:center;gap:12px}
+  .call-avatar{
+    width:38px;height:38px;border-radius:50%;background:var(--green);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:15px;
+  }
+  .call-meta{font-size:13px;line-height:1.35}
+  .call-meta strong{display:block;font-size:14px}
+  .call-meta span{color:var(--ink-soft)}
+  .call-status{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.5px;color:var(--green)}
+  .pulse{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 1.6s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(11,92,63,.35)}50%{box-shadow:0 0 0 6px rgba(11,92,63,0)}}
+  .call-usecase{
+    font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-soft);padding:9px 20px;border-bottom:1px dashed var(--line);
+    display:flex;justify-content:space-between;
+  }
+  .transcript{padding:20px;min-height:290px;display:flex;flex-direction:column;gap:12px}
+  .bubble{
+    max-width:86%;padding:11px 15px;border-radius:14px;font-size:14.5px;
+    opacity:0;transform:translateY(8px);animation:rise .4s ease forwards;
+  }
+  .bubble .who{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:4px;opacity:.7}
+  .bubble.agent{background:#EDF4F0;border:1px solid #DBE8E1;align-self:flex-start;font-family:var(--dev)}
+  .bubble.customer{background:#FDF6E7;border:1px solid #F3E4C2;align-self:flex-end;font-family:var(--dev)}
+  @keyframes rise{to{opacity:1;transform:translateY(0)}}
+  .call-foot{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 20px;border-top:1px solid var(--line);background:#FBFAF6;
+  }
+  .wave{display:flex;align-items:center;gap:3px;height:26px}
+  .wave i{width:3px;border-radius:2px;background:var(--green);height:8px;animation:wave 1s ease-in-out infinite}
+  .wave i:nth-child(2){animation-delay:.1s}.wave i:nth-child(3){animation-delay:.2s}
+  .wave i:nth-child(4){animation-delay:.3s}.wave i:nth-child(5){animation-delay:.4s}
+  .wave i:nth-child(6){animation-delay:.5s}.wave i:nth-child(7){animation-delay:.6s}
+  .wave i:nth-child(8){animation-delay:.7s}.wave i:nth-child(9){animation-delay:.8s}
+  @keyframes wave{0%,100%{height:6px}50%{height:22px}}
+  .call-outcome{font-family:var(--mono);font-size:12px;color:var(--ink-soft)}
+  .call-outcome b{color:var(--green)}
+
+  /* ---------- Language ticker ---------- */
+  .ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 0;overflow:hidden;background:#FBFAF6;margin-top:56px}
+  .ticker-track{display:flex;gap:56px;white-space:nowrap;animation:scroll 40s linear infinite;width:max-content}
+  .ticker span{font-size:19px;color:var(--ink-soft);font-family:var(--dev)}
+  .ticker b{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--green);text-transform:uppercase;margin-left:8px;font-weight:500}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ---------- Sections ---------- */
+  section{padding:96px 0}
+  .sec-head{max-width:640px;margin-bottom:52px}
+  .sec-head h2{font-size:clamp(30px,3.6vw,44px);font-weight:700}
+  .sec-head p{color:var(--ink-soft);font-size:17px;margin-top:14px}
+
+  /* Jobs grid */
+  .jobs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:960px){.jobs{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:620px){.jobs{grid-template-columns:1fr}}
+  .job{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:24px;display:flex;flex-direction:column;gap:12px;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .job:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(18,32,26,.08)}
+  .job h3{font-size:18.5px;font-weight:600}
+  .job p{font-size:14.5px;color:var(--ink-soft);flex:1}
+  .job .line{
+    font-family:var(--dev);font-size:13.5px;background:#F2F1EA;border-left:3px solid var(--marigold);
+    padding:10px 12px;border-radius:0 8px 8px 0;color:var(--ink);
+  }
+  .job .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--green)}
+
+  /* Inbound split */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  @media(max-width:900px){.split{grid-template-columns:1fr}}
+  .inbound-list{display:flex;flex-direction:column;gap:14px}
+  .in-item{
+    display:flex;gap:16px;background:var(--card);border:1px solid var(--line);
+    border-radius:14px;padding:18px 20px;align-items:flex-start;
+  }
+  .in-item .ic{
+    width:38px;height:38px;flex:none;border-radius:10px;background:#EDF4F0;color:var(--green);
+    display:flex;align-items:center;justify-content:center;font-size:17px;
+  }
+  .in-item strong{display:block;font-size:15.5px;margin-bottom:3px}
+  .in-item span{font-size:14px;color:var(--ink-soft)}
+
+  /* Engine */
+  .engine{background:var(--green-deep);color:#F2F1E8;border-radius:28px;padding:72px 56px;margin:0 28px}
+  @media(max-width:700px){.engine{padding:48px 26px;margin:0 16px}}
+  .engine .eyebrow{color:var(--marigold)}
+  .engine .eyebrow::before{background:var(--marigold)}
+  .engine h2{color:#fff}
+  .engine .sec-head p{color:rgba(242,241,232,.75)}
+  .pipeline{display:flex;align-items:stretch;gap:0;margin-top:14px;flex-wrap:wrap}
+  .stage{
+    flex:1;min-width:190px;border:1px solid rgba(242,241,232,.2);border-radius:16px;
+    padding:22px;background:rgba(255,255,255,.04);position:relative;margin-right:34px;
+  }
+  .stage:last-child{margin-right:0}
+  .stage::after{
+    content:"→";position:absolute;right:-27px;top:50%;transform:translateY(-50%);
+    color:var(--marigold);font-size:20px;
+  }
+  .stage:last-child::after{display:none}
+  @media(max-width:760px){.stage{margin-right:0;margin-bottom:30px;min-width:100%}
+    .stage::after{content:"↓";right:auto;left:50%;top:auto;bottom:-27px;transform:translateX(-50%)}}
+  .stage .st-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--marigold);margin-bottom:8px}
+  .stage strong{font-size:16.5px;display:block;margin-bottom:6px;font-family:'Bricolage Grotesque',sans-serif}
+  .stage span{font-size:13.5px;color:rgba(242,241,232,.7)}
+  .engine-facts{display:flex;gap:34px;flex-wrap:wrap;margin-top:44px;padding-top:34px;border-top:1px solid rgba(242,241,232,.16)}
+  .fact{font-size:14px;color:rgba(242,241,232,.85);display:flex;align-items:center;gap:9px}
+  .fact::before{content:"✓";color:var(--marigold);font-weight:700}
+
+  /* Steps */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:step}
+  @media(max-width:820px){.steps{grid-template-columns:1fr}}
+  .step{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px;
+    counter-increment:step;
+  }
+  .step::before{
+    content:counter(step,decimal-leading-zero);
+    font-family:var(--mono);font-size:13px;color:var(--marigold);
+    display:block;margin-bottom:16px;letter-spacing:.1em;
+  }
+  .step h3{font-size:19px;margin-bottom:8px}
+  .step p{font-size:14.5px;color:var(--ink-soft)}
+
+  /* Compliance strip */
+  .comply{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  @media(max-width:900px){.comply{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.comply{grid-template-columns:1fr}}
+  .comp{
+    border:1px dashed var(--line);border-radius:14px;padding:22px;background:transparent;
+  }
+  .comp strong{font-size:15px;display:block;margin-bottom:6px}
+  .comp span{font-size:13.5px;color:var(--ink-soft)}
+  .comp .badge{
+    font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--green);background:#EDF4F0;padding:4px 9px;border-radius:6px;display:inline-block;margin-bottom:12px;
+  }
+
+  /* Final CTA */
+  .final{
+    text-align:center;padding:110px 28px;
+  }
+  .final h2{font-size:clamp(34px,4.4vw,54px);font-weight:800;max-width:760px;margin:0 auto 20px}
+  .final h2 span{color:var(--green)}
+  .final p{color:var(--ink-soft);font-size:17px;max-width:520px;margin:0 auto 36px}
+  .final .hero-cta{justify-content:center}
+
+  footer{border-top:1px solid var(--line);padding:36px 0;background:#FBFAF6}
+  .foot-in{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+  .foot-in p{font-size:13.5px;color:var(--ink-soft)}
+  .foot-links{display:flex;gap:22px;font-size:13.5px;color:var(--ink-soft)}
+  .foot-links a:hover{color:var(--ink)}
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation:none !important;transition:none !important}
+    .bubble{opacity:1;transform:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-in">
+    <a class="logo" href="#"><span class="logo-dot"></span>VANI</a>
+    <div class="nav-links">
+      <a href="#jobs">Outbound</a>
+      <a href="#inbound">Inbound</a>
+      <a href="#engine">Engine</a>
+      <a href="#how">How it works</a>
+      <a href="#trust">Trust</a>
+    </div>
+    <a class="btn btn-primary nav-cta" href="#cta">Start free</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Voice AI for Indian D2C brands</span>
+      <h1>Your brand's <em>voice workforce</em>, on every call.</h1>
+      <p class="lede">VANI agents call your customers — and answer when they call you — in Hindi, Tamil, Bengali, Assamese and 8 more languages. Confirm orders, qualify leads, recover payments, resolve support. No dialer team. No sales wall.</p>
+      <div class="hero-cta">
+        <button class="btn btn-primary" data-demo>Get a demo call</button>
+        <a class="btn btn-ghost" href="#jobs">See what agents do</a>
+      </div>
+      <p class="hero-note">Self-serve setup · First 100 call-minutes free · No card required</p>
+    </div>
+
+    <div class="call-card" role="img" aria-label="Simulated live call between a VANI voice agent and a customer, shown as a chat transcript">
+      <div class="call-head">
+        <div class="call-id">
+          <div class="call-avatar">व</div>
+          <div class="call-meta">
+            <strong>Asha · VANI Agent</strong>
+            <span>Outbound · +91 98••• ••231</span>
+          </div>
+        </div>
+        <div class="call-status"><span class="pulse"></span>LIVE 00:19</div>
+      </div>
+      <div class="call-usecase"><span id="usecase-label">Job: Order confirmation</span><span>hi-IN</span></div>
+      <div class="transcript" id="transcript" aria-live="polite"></div>
+      <div class="call-foot">
+        <div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="call-outcome" id="outcome">Listening…</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track" id="ticker-track">
+      <span>नमस्ते<b>Hindi</b></span><span>নমস্কাৰ<b>Assamese</b></span><span>வணக்கம்<b>Tamil</b></span>
+      <span>নমস্কার<b>Bengali</b></span><span>నమస్కారం<b>Telugu</b></span><span>નમસ્તે<b>Gujarati</b></span>
+      <span>ನಮಸ್ಕಾರ<b>Kannada</b></span><span>नमस्कार<b>Marathi</b></span><span>നമസ്കാരം<b>Malayalam</b></span>
+      <span>ਸਤ ਸ੍ਰੀ ਅਕਾਲ<b>Punjabi</b></span><span>ନମସ୍କାର<b>Odia</b></span><span>Hello<b>English</b></span>
+    </div>
+  </div>
+</header>
+
+<section id="jobs">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Outbound</span>
+      <h2>One workforce. Every outbound job on your list.</h2>
+      <p>Each agent runs a job you'd otherwise staff a calling team for — from the first order confirmation to the last payment nudge.</p>
+    </div>
+    <div class="jobs">
+      <div class="job">
+        <span class="tag">Orders</span>
+        <h3>Order confirmation</h3>
+        <p>Verify COD and prepaid orders within minutes of checkout. Cut RTO before it ships.</p>
+        <div class="line">"आपका ऑर्डर कन्फर्म करना है — कल डिलीवरी ठीक रहेगी?"</div>
+      </div>
+      <div class="job">
+        <span class="tag">Sales</span>
+        <h3>Lead qualification</h3>
+        <p>Call every new lead while it's warm. Ask your qualifying questions, score, and route to your team.</p>
+        <div class="line">"आप कितने बजट में देख रहे हैं — मैं सही ऑप्शन बताती हूँ।"</div>
+      </div>
+      <div class="job">
+        <span class="tag">Retention</span>
+        <h3>Win-back &amp; renewals</h3>
+        <p>Reach lapsed customers and expiring subscriptions with a personal call, not another ignored SMS.</p>
+        <div class="line">"आपका प्लान इस हफ़्ते ख़त्म हो रहा है — रिन्यू कर दूँ?"</div>
+      </div>
+      <div class="job">
+        <span class="tag">Collections</span>
+        <h3>Payment follow-up</h3>
+        <p>Polite, consistent EMI and invoice reminders that keep relationships intact — and money moving.</p>
+        <div class="line">"आपकी EMI कल ड्यू है — अभी लिंक भेज दूँ?"</div>
+      </div>
+      <div class="job">
+        <span class="tag">Voice of customer</span>
+        <h3>Feedback &amp; NPS</h3>
+        <p>Post-delivery calls that customers actually answer. Structured feedback lands in your dashboard.</p>
+        <div class="line">"डिलीवरी कैसी रही? एक से दस में कितने नंबर देंगे?"</div>
+      </div>
+      <div class="job">
+        <span class="tag">Logistics</span>
+        <h3>Delivery coordination</h3>
+        <p>Confirm addresses, reschedule attempts, and reduce failed deliveries before the courier gives up.</p>
+        <div class="line">"डिलीवरी बॉय पहुँच नहीं पाया — नया टाइम बता दीजिए।"</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="inbound" style="padding-top:0">
+  <div class="wrap split">
+    <div>
+      <span class="eyebrow">Inbound</span>
+      <h2 style="font-size:clamp(30px,3.6vw,44px)">And when customers call you, someone always answers.</h2>
+      <p style="color:var(--ink-soft);font-size:17px;margin-top:14px">The same agents pick up your support line — 24×7, in the caller's language, with your catalogue and policies loaded. Anything they can't resolve is transferred to your team with full context.</p>
+    </div>
+    <div class="inbound-list">
+      <div class="in-item"><div class="ic">?</div><div><strong>FAQ answering</strong><span>Trained on your policies, sizing, and product details.</span></div></div>
+      <div class="in-item"><div class="ic">⌖</div><div><strong>Order status</strong><span>Live tracking lookups from your store or 3PL, read out on the call.</span></div></div>
+      <div class="in-item"><div class="ic">↺</div><div><strong>Returns &amp; exchanges</strong><span>Initiates the return, books the pickup, confirms by WhatsApp.</span></div></div>
+      <div class="in-item"><div class="ic">☎</div><div><strong>Smart transfer</strong><span>Escalates to a human with the transcript and customer history attached.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="engine" style="padding-top:0">
+  <div class="engine">
+    <div class="sec-head">
+      <span class="eyebrow">The shared engine</span>
+      <h2>Every job runs on one Indic-first voice engine.</h2>
+      <p>Built for how India actually talks on the phone — code-mixed Hinglish, regional accents, noisy lines.</p>
+    </div>
+    <div class="pipeline">
+      <div class="stage">
+        <div class="st-label">Listen</div>
+        <strong>Indic speech recognition</strong>
+        <span>Understands 12 languages and everyday code-mixing, tuned for real phone-line audio.</span>
+      </div>
+      <div class="stage">
+        <div class="st-label">Think</div>
+        <strong>Conversation brain</strong>
+        <span>Follows your flow, handles interruptions and objections, and knows when to hand off.</span>
+      </div>
+      <div class="stage">
+        <div class="st-label">Speak</div>
+        <strong>Natural Indic voices</strong>
+        <span>Human-sounding voices with correct pronunciation of brand terms, OTPs, and amounts.</span>
+      </div>
+    </div>
+    <div class="engine-facts">
+      <div class="fact">Sub-second response latency</div>
+      <div class="fact">Hosted entirely in India</div>
+      <div class="fact">Thousands of parallel calls</div>
+      <div class="fact">Every call recorded &amp; transcribed</div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Self-serve</span>
+      <h2>Live before lunch. No demos-with-sales required.</h2>
+      <p>Sign up, build, and launch on your own — the way you'd expect from a modern tool, not an enterprise contract.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <h3>Create your agent</h3>
+        <p>Pick a ready-made job pack — order confirmation, lead calls, support line — then add your brand name, script tweaks, and languages.</p>
+      </div>
+      <div class="step">
+        <h3>Test on your own phone</h3>
+        <p>Trigger a call to yourself in one click. Talk to your agent, hear the voice, and refine the flow until it sounds right.</p>
+      </div>
+      <div class="step">
+        <h3>Go live on your numbers</h3>
+        <p>Connect your store or CRM, upload a calling list or forward your support line, and watch outcomes land in your dashboard.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="trust" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Compliance, built in</span>
+      <h2>Calling in India has rules. We handle them.</h2>
+      <p>Compliance isn't paperwork we hand you — it's a feature of the platform.</p>
+    </div>
+    <div class="comply">
+      <div class="comp"><span class="badge">DPDP</span><strong>India data residency</strong><span>Recordings, transcripts, and customer data stay on servers in India.</span></div>
+      <div class="comp"><span class="badge">TRAI · DLT</span><strong>Registered calling</strong><span>Guided DLT registration and consent-first call flows out of the box.</span></div>
+      <div class="comp"><span class="badge">Consent</span><strong>Disclosure on every call</strong><span>Agents identify themselves as AI and honour do-not-call requests instantly.</span></div>
+      <div class="comp"><span class="badge">Audit</span><strong>Full call trail</strong><span>Searchable recordings and transcripts for every conversation, exportable anytime.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="final" id="cta">
+  <span class="eyebrow" style="justify-content:center;display:inline-flex">Get started</span>
+  <h2>Give your brand a voice that <span>never misses a call.</span></h2>
+  <p>Create an agent, call your own phone, and hear it for yourself — free, in the next five minutes.</p>
+  <div class="hero-cta">
+    <button class="btn btn-primary" data-demo>Get a live demo call now</button>
+    <a class="btn btn-ghost" href="#">Talk to a founder</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-in">
+    <a class="logo" href="#" style="font-size:18px"><span class="logo-dot" style="width:9px;height:9px"></span>VANI</a>
+    <div class="foot-links">
+      <a href="#">Pricing</a><a href="#">Docs</a><a href="#">Privacy</a><a href="#">DPDP &amp; Security</a><a href="#">Contact</a>
+    </div>
+    <p>© 2026 VANI · Made in India, for India's phone lines.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // duplicate ticker content for seamless loop
+  var track = document.getElementById('ticker-track');
+  track.innerHTML += track.innerHTML;
+
+  var scenarios = [
+    {
+      label: "Job: Order confirmation",
+      outcome: 'Outcome: <b>Order confirmed</b>',
+      turns: [
+        {who:'agent', name:'Asha (AI)', text:'नमस्ते! मैं आशा बोल रही हूँ, आपके ऑर्डर #4821 को कन्फर्म करने के लिए।'},
+        {who:'customer', name:'Customer', text:'हाँ, ऑर्डर मैंने ही किया है।'},
+        {who:'agent', name:'Asha (AI)', text:'बढ़िया! डिलीवरी कल शाम तक होगी। पेमेंट कैश ऑन डिलीवरी रहेगा, ठीक है?'},
+        {who:'customer', name:'Customer', text:'हाँ ठीक है, धन्यवाद।'}
+      ]
+    },
+    {
+      label: "Job: Lead qualification",
+      outcome: 'Outcome: <b>Hot lead → routed to sales</b>',
+      turns: [
+        {who:'agent', name:'Asha (AI)', text:'नमस्ते! आपने हमारी वेबसाइट पर enquiry की थी — क्या अभी बात कर सकते हैं?'},
+        {who:'customer', name:'Customer', text:'हाँ बताइए, मुझे 2BHK में interest है।'},
+        {who:'agent', name:'Asha (AI)', text:'ज़रूर! आपका बजट किस रेंज में है, ताकि मैं सही ऑप्शन बताऊँ?'},
+        {who:'customer', name:'Customer', text:'70–80 लाख तक देख रहे हैं।'}
+      ]
+    },
+    {
+      label: "Job: Payment follow-up",
+      outcome: 'Outcome: <b>Payment link sent</b>',
+      turns: [
+        {who:'agent', name:'Asha (AI)', text:'नमस्ते! आपकी EMI कल ड्यू है — reminder के लिए कॉल किया है।'},
+        {who:'customer', name:'Customer', text:'अच्छा हुआ बता दिया, लिंक भेज दीजिए।'},
+        {who:'agent', name:'Asha (AI)', text:'WhatsApp पर पेमेंट लिंक अभी भेज रही हूँ। और कुछ मदद चाहिए?'},
+        {who:'customer', name:'Customer', text:'नहीं, बस यही। थैंक यू!'}
+      ]
+    }
+  ];
+
+  var box = document.getElementById('transcript');
+  var label = document.getElementById('usecase-label');
+  var outcome = document.getElementById('outcome');
+  var s = 0;
+
+  function playScenario(){
+    var sc = scenarios[s];
+    label.textContent = sc.label;
+    outcome.textContent = 'Listening…';
+    box.innerHTML = '';
+    sc.turns.forEach(function(t, i){
+      setTimeout(function(){
+        var d = document.createElement('div');
+        d.className = 'bubble ' + t.who;
+        d.innerHTML = '<span class="who">' + t.name + '</span>' + t.text;
+        box.appendChild(d);
+        if(i === sc.turns.length - 1){
+          setTimeout(function(){ outcome.innerHTML = sc.outcome; }, 900);
+        }
+      }, reduce ? 0 : i * 2200);
+    });
+    s = (s + 1) % scenarios.length;
+    setTimeout(playScenario, reduce ? 12000 : sc.turns.length * 2200 + 4200);
+  }
+  playScenario();
+})();
+</script>
+
+<!-- ── Demo call modal ─────────────────────────────────────────────── -->
+<style>
+  .modal-backdrop{
+    position:fixed;inset:0;background:rgba(18,32,26,.45);backdrop-filter:blur(4px);
+    display:none;align-items:center;justify-content:center;z-index:100;padding:20px;
+  }
+  .modal-backdrop.open{display:flex}
+  .modal{
+    background:var(--card);border-radius:22px;max-width:440px;width:100%;
+    padding:32px;box-shadow:0 30px 80px rgba(18,32,26,.3);position:relative;
+  }
+  .modal h3{font-size:24px;margin-bottom:8px}
+  .modal .sub{font-size:14.5px;color:var(--ink-soft);margin-bottom:24px}
+  .modal-close{
+    position:absolute;top:16px;right:16px;width:34px;height:34px;border-radius:50%;
+    border:1px solid var(--line);background:none;cursor:pointer;font-size:16px;color:var(--ink-soft);
+  }
+  .phone-row{display:flex;gap:10px;margin-bottom:14px}
+  .phone-prefix{
+    font-family:var(--mono);font-size:15px;display:flex;align-items:center;
+    padding:0 14px;border:1px solid var(--line);border-radius:12px;background:#F2F1EA;color:var(--ink-soft);
+  }
+  .phone-input{
+    flex:1;font-family:var(--mono);font-size:16px;padding:13px 14px;
+    border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);letter-spacing:.06em;
+  }
+  .phone-input:focus{outline:2px solid var(--green);outline-offset:1px;border-color:transparent}
+  .consent{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--ink-soft);margin-bottom:20px}
+  .consent input{margin-top:3px;accent-color:var(--green)}
+  .modal .btn{width:100%}
+  .modal .btn[disabled]{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
+  .call-error{font-size:13.5px;color:#B03A2E;margin-top:12px;display:none}
+  .stepper{display:none;flex-direction:column;gap:0;margin-top:6px}
+  .st-item{display:flex;gap:14px;align-items:flex-start;position:relative;padding-bottom:22px}
+  .st-item:last-child{padding-bottom:0}
+  .st-item::before{
+    content:"";position:absolute;left:11px;top:26px;bottom:0;width:2px;background:var(--line);
+  }
+  .st-item:last-child::before{display:none}
+  .st-dot{
+    width:24px;height:24px;border-radius:50%;border:2px solid var(--line);background:#fff;
+    flex:none;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;z-index:1;
+  }
+  .st-item.active .st-dot{border-color:var(--green);animation:pulse 1.6s infinite}
+  .st-item.done .st-dot{border-color:var(--green);background:var(--green)}
+  .st-item.done .st-dot::after{content:"✓"}
+  .st-text strong{display:block;font-size:14.5px}
+  .st-text span{font-size:12.5px;color:var(--ink-soft)}
+  .modal .fineprint{font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-top:18px;text-align:center}
+</style>
+
+<div class="modal-backdrop" id="demo-modal" role="dialog" aria-modal="true" aria-labelledby="demo-title">
+  <div class="modal">
+    <button class="modal-close" id="demo-close" aria-label="Close">✕</button>
+
+    <div id="demo-form-view">
+      <h3 id="demo-title">Get a call from Asha</h3>
+      <p class="sub">Enter your mobile number and our AI agent will call you within seconds — talk to her in Hindi, English, or Hinglish.</p>
+      <div class="phone-row">
+        <span class="phone-prefix">+91</span>
+        <input class="phone-input" id="demo-phone" type="tel" inputmode="numeric" maxlength="10"
+               placeholder="98XXX XXXXX" autocomplete="tel-national" aria-label="10-digit mobile number">
+      </div>
+      <label class="consent">
+        <input type="checkbox" id="demo-consent">
+        <span>This is my number and I agree to receive one automated demo call from an AI agent. The call may be recorded for quality.</span>
+      </label>
+      <button class="btn btn-primary" id="demo-submit">Call me now</button>
+      <p class="call-error" id="demo-error" role="alert"></p>
+    </div>
+
+    <div id="demo-status-view" style="display:none">
+      <h3>Calling you now…</h3>
+      <p class="sub">Keep your phone nearby — answer and just start talking.</p>
+      <div class="stepper" id="demo-stepper" style="display:flex">
+        <div class="st-item" data-step="dialing"><div class="st-dot"></div><div class="st-text"><strong>Placing the call</strong><span>Connecting to your number</span></div></div>
+        <div class="st-item" data-step="ringing"><div class="st-dot"></div><div class="st-text"><strong>Ringing your phone</strong><span>Pick up when it rings</span></div></div>
+        <div class="st-item" data-step="connected"><div class="st-dot"></div><div class="st-text"><strong>Asha is on the line</strong><span>Say hello — she speaks your language</span></div></div>
+        <div class="st-item" data-step="completed"><div class="st-dot"></div><div class="st-text"><strong>Call complete</strong><span>Liked it? Create your own agent.</span></div></div>
+      </div>
+      <p class="call-error" id="demo-status-error" role="alert"></p>
+      <p class="fineprint">Demo calls are limited to a few per number per hour.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var modal = document.getElementById('demo-modal');
+  var formView = document.getElementById('demo-form-view');
+  var statusView = document.getElementById('demo-status-view');
+  var phoneEl = document.getElementById('demo-phone');
+  var consentEl = document.getElementById('demo-consent');
+  var submitEl = document.getElementById('demo-submit');
+  var errEl = document.getElementById('demo-error');
+  var statusErrEl = document.getElementById('demo-status-error');
+  var poller = null;
+
+  document.querySelectorAll('[data-demo]').forEach(function(btn){
+    btn.addEventListener('click', function(){ openModal(); });
+  });
+  document.getElementById('demo-close').addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
+
+  function openModal(){
+    modal.classList.add('open');
+    formView.style.display = '';
+    statusView.style.display = 'none';
+    errEl.style.display = 'none';
+    setTimeout(function(){ phoneEl.focus(); }, 50);
+  }
+  function closeModal(){
+    modal.classList.remove('open');
+    if(poller){ clearInterval(poller); poller = null; }
+  }
+  function showError(el, msg){ el.textContent = msg; el.style.display = 'block'; }
+
+  phoneEl.addEventListener('input', function(){
+    phoneEl.value = phoneEl.value.replace(/\D/g,'').slice(0,10);
+  });
+
+  submitEl.addEventListener('click', async function(){
+    errEl.style.display = 'none';
+    var num = phoneEl.value.replace(/\D/g,'');
+    if(!/^[6-9]\d{9}$/.test(num)){
+      return showError(errEl, 'Enter a valid 10-digit Indian mobile number.');
+    }
+    if(!consentEl.checked){
+      return showError(errEl, 'Please tick the consent box first.');
+    }
+    submitEl.disabled = true;
+    submitEl.textContent = 'Placing call…';
+    try{
+      var res = await fetch('/api/demo-call', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ phone: '+91' + num, consent: true })
+      });
+      var data = await res.json();
+      if(!res.ok) throw new Error(data.error || 'Something went wrong.');
+      formView.style.display = 'none';
+      statusView.style.display = '';
+      setStep('dialing');
+      startPolling(data.id);
+    }catch(err){
+      showError(errEl, err.message);
+    }finally{
+      submitEl.disabled = false;
+      submitEl.textContent = 'Call me now';
+    }
+  });
+
+  var ORDER = ['dialing','ringing','connected','completed'];
+  function setStep(status){
+    // agent-joined counts as connected for the UI
+    var s = status === 'agent-joined' ? 'connected' : status;
+    var idx = ORDER.indexOf(s);
+    document.querySelectorAll('#demo-stepper .st-item').forEach(function(item, i){
+      item.classList.toggle('done', idx > i || s === 'completed' && i <= idx);
+      item.classList.toggle('active', i === idx && s !== 'completed');
+    });
+  }
+
+  function startPolling(id){
+    if(poller) clearInterval(poller);
+    poller = setInterval(async function(){
+      try{
+        var res = await fetch('/api/demo-call/' + id);
+        var data = await res.json();
+        if(!res.ok) throw new Error(data.error || 'Lost track of the call.');
+        if(data.status === 'failed'){
+          clearInterval(poller); poller = null;
+          showError(statusErrEl, "The call didn't connect. Check the number and try again.");
+          return;
+        }
+        setStep(data.status);
+        if(data.status === 'completed'){ clearInterval(poller); poller = null; }
+      }catch(e){
+        clearInterval(poller); poller = null;
+        showError(statusErrEl, e.message);
+      }
+    }, 1500);
+  }
+})();
+</script>
+</body>
+</html>
