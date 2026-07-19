@@ -119,7 +119,7 @@ app.post(
     res.set("Content-Type", "application/xml");
     res.send(`<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-    <Stream bidirectional="true" keepCallAlive="true">${wsUrl}</Stream>
+    <Stream bidirectional="true" keepCallAlive="true" contentType="audio/x-mulaw;rate=8000">${wsUrl}</Stream>
 </Response>`);
   }
 );
