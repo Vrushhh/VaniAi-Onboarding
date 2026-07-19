@@ -107,7 +107,6 @@ app.post(
 /* ── Vobiz status callbacks (answer / hangup) ────────────────────────── */
 app.post(
   "/webhooks/vobiz-answer",
-  express.json({ type: "*/*" }),
   (req, res) => {
     const demoId = req.query.demo_id;
     console.log(`[vobiz] answer callback: demo=${demoId}`);
@@ -129,7 +128,6 @@ app.post(
 
 app.post(
   "/webhooks/vobiz-hangup",
-  express.json({ type: "*/*" }),
   (req, res) => {
     const demoId = req.query.demo_id;
     console.log(`[vobiz] hangup callback: demo=${demoId}`);
