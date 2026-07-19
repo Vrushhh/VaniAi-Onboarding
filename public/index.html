@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VANI — Your brand's voice workforce</title>
+<title>KZUNO — Your brand's voice workforce</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Devanagari:wght@400;500&display=swap" rel="stylesheet">
@@ -47,7 +47,48 @@
     border-bottom:1px solid var(--line);
   }
   .nav-in{display:flex;align-items:center;justify-content:space-between;height:68px}
-  .logo{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:22px;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
+  .logo{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:22px;letter-spacing:-.01em;display:flex;align-items:center;gap:9px;position:relative;}
+  .logo-origin{
+    font-family:'Instrument Sans', sans-serif;
+    font-size:11px;
+    font-weight:500;
+    color:var(--ink-soft);
+    background: #EFECE6;
+    border: 1px solid var(--line);
+    padding: 4px 8px;
+    border-radius: 6px;
+    position: absolute;
+    left: 100%;
+    margin-left: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-5px);
+    transition: opacity .2s ease, transform .2s ease, visibility .2s;
+    z-index: 100;
+  }
+  .logo-origin::before{
+    content: '';
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent var(--line) transparent transparent;
+  }
+  .logo-origin::after{
+    content: '';
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 4px;
+    border-style: solid;
+    border-color: transparent #EFECE6 transparent transparent;
+    margin-right: -1px;
+  }
+  .logo:hover .logo-origin{opacity:1;visibility:visible;transform:translateX(0)}
   .logo-dot{width:11px;height:11px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(11,92,63,.15)}
   .nav-links{display:flex;gap:30px;font-size:15px;font-weight:500;color:var(--ink-soft)}
   .nav-links a:hover{color:var(--ink)}
@@ -257,7 +298,7 @@
 
 <nav>
   <div class="wrap nav-in">
-    <a class="logo" href="#"><span class="logo-dot"></span>VANI</a>
+    <a class="logo" href="#"><span class="logo-dot"></span>KZUNO<span class="logo-origin">derived from <b>kizuna</b> — meaning "human bond"</span></a>
     <div class="nav-links">
       <a href="#jobs">Outbound</a>
       <a href="#inbound">Inbound</a>
@@ -274,7 +315,7 @@
     <div>
       <span class="eyebrow">Voice AI for Indian D2C brands</span>
       <h1>Your brand's <em>voice workforce</em>, on every call.</h1>
-      <p class="lede">VANI agents call your customers — and answer when they call you — in Hindi, Tamil, Bengali, Assamese and 8 more languages. Confirm orders, qualify leads, recover payments, resolve support. No dialer team. No sales wall.</p>
+      <p class="lede">KZUNO agents call your customers — and answer when they call you — in Hindi, Tamil, Bengali, Assamese and 8 more languages. Confirm orders, qualify leads, recover payments, resolve support. No dialer team. No sales wall.</p>
       <div class="hero-cta">
         <button class="btn btn-primary" data-demo>Get a demo call</button>
         <a class="btn btn-ghost" href="#jobs">See what agents do</a>
@@ -282,12 +323,12 @@
       <p class="hero-note">Self-serve setup · First 100 call-minutes free · No card required</p>
     </div>
 
-    <div class="call-card" role="img" aria-label="Simulated live call between a VANI voice agent and a customer, shown as a chat transcript">
+    <div class="call-card" role="img" aria-label="Simulated live call between a KZUNO voice agent and a customer, shown as a transcript">
       <div class="call-head">
         <div class="call-id">
-          <div class="call-avatar">व</div>
+          <div class="call-avatar">क</div>
           <div class="call-meta">
-            <strong>Asha · VANI Agent</strong>
+            <strong>Asha · KZUNO Agent</strong>
             <span>Outbound · +91 98••• ••231</span>
           </div>
         </div>
@@ -384,7 +425,7 @@
     <div>
       <span class="eyebrow">Hybrid Workforce</span>
       <h2 style="font-size:clamp(30px,3.6vw,44px)">A voice workforce that works with your human team.</h2>
-      <p style="color:var(--ink-soft);font-size:17px;margin-top:14px;margin-bottom:24px;">VANI isn't here to replace your team—it's here to empower them. Our AI handling repetitive level-1 calls allows your corporate customer support team to focus on high-value, complex human relationships.</p>
+      <p style="color:var(--ink-soft);font-size:17px;margin-top:14px;margin-bottom:24px;">KZUNO isn't here to replace your team—it's here to empower them. Our AI handling repetitive level-1 calls allows your corporate customer support team to focus on high-value, complex human relationships.</p>
       <div class="inbound-list">
         <div class="in-item">
           <div class="ic">👥</div>
@@ -532,11 +573,11 @@
 
 <footer>
   <div class="wrap foot-in">
-    <a class="logo" href="#" style="font-size:18px"><span class="logo-dot" style="width:9px;height:9px"></span>VANI</a>
+    <a class="logo" href="#" style="font-size:18px"><span class="logo-dot" style="width:9px;height:9px"></span>KZUNO<span class="logo-origin">derived from <b>kizuna</b> — meaning "human bond"</span></a>
     <div class="foot-links">
       <a href="#">Pricing</a><a href="#">Docs</a><a href="#">Privacy</a><a href="#">DPDP &amp; Security</a><a href="#">Contact</a>
     </div>
-    <p>© 2026 VANI · Made in India, for India's phone lines.</p>
+    <p>© 2026 KZUNO · Made in India, for India's phone lines.</p>
   </div>
 </footer>
 

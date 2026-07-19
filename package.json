@@ -1,7 +1,7 @@
 {
-  "name": "vani-demo-call",
+  "name": "kzuno-demo-call",
   "version": "1.0.0",
-  "description": "VANI landing page with end-to-end AI demo call powered by xAI Voice Agent (Grok) over SIP telephony",
+  "description": "KZUNO landing page with end-to-end AI demo call powered by xAI Voice Agent (Grok) over SIP telephony",
   "type": "module",
   "main": "server.js",
   "scripts": {

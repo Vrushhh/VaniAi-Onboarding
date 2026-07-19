@@ -1,5 +1,5 @@
 // server.js
-// VANI demo-call app (Exotel + xAI Grok Voice Agent):
+// KZUNO demo-call app (Exotel + xAI Grok Voice Agent):
 //
 //   POST /api/demo-call            { phone, consent } → Exotel rings the user
 //   GET  /api/demo-call/:id        poll status for the UI stepper
@@ -98,6 +98,6 @@ attachBridge(server);
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-  console.log(`VANI demo app on http://localhost:${PORT}`);
+  console.log(`KZUNO demo app on http://localhost:${PORT}`);
   console.log(`Exotel stream endpoint: ${(process.env.PUBLIC_BASE_URL || "http://localhost:" + PORT).replace(/^http/, "ws")}/exotel-media`);
 });
