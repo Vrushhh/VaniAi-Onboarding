@@ -114,6 +114,9 @@ app.post(
       updateCallStatus(demoId, "connected");
     }
 
+    const toPhone = req.query.to_number || "";
+    const callerIdAttr = toPhone ? ` callerId="${toPhone}"` : "";
+
     const sipUri = process.env.XAI_SIP_URI || `sip:${process.env.VOBIZ_NUMBER || "+918071578639"}@sip.voice.x.ai;transport=tls`;
     const isSip = sipUri.startsWith("sip:");
     const dialElement = isSip ? `<User>${sipUri}</User>` : `<Number>${sipUri}</Number>`;
@@ -121,7 +124,7 @@ app.post(
     res.set("Content-Type", "application/xml");
     res.send(`<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-    <Dial>
+    <Dial${callerIdAttr}>
         ${dialElement}
     </Dial>
 </Response>`);
