@@ -114,16 +114,12 @@ app.post(
       updateCallStatus(demoId, "connected");
     }
 
-    const sipUri = process.env.XAI_SIP_URI || `sip:${process.env.VOBIZ_NUMBER || "+918071578639"}@sip.voice.x.ai;transport=tls`;
-    const isSip = sipUri.startsWith("sip:");
-    const dialElement = isSip ? `<User>${sipUri}</User>` : `<Number>${sipUri}</Number>`;
+    const wsUrl = `${process.env.PUBLIC_BASE_URL.replace(/^http/, "ws")}/vobiz-media?demo_id=${encodeURIComponent(demoId)}`;
 
     res.set("Content-Type", "application/xml");
     res.send(`<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-    <Dial>
-        ${dialElement}
-    </Dial>
+    <Stream bidirectional="true" contentType="audio/x-l16;rate=8000">${wsUrl}</Stream>
 </Response>`);
   }
 );
