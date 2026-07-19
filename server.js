@@ -115,12 +115,14 @@ app.post(
     }
 
     const sipUri = process.env.XAI_SIP_URI || `sip:${process.env.VOBIZ_NUMBER || "+918071578639"}@sip.voice.x.ai;transport=tls`;
+    const isSip = sipUri.startsWith("sip:");
+    const dialElement = isSip ? `<User>${sipUri}</User>` : `<Number>${sipUri}</Number>`;
 
     res.set("Content-Type", "application/xml");
     res.send(`<?xml version="1.0" encoding="UTF-8"?>
 <Response>
     <Dial>
-        <User>${sipUri}</User>
+        ${dialElement}
     </Dial>
 </Response>`);
   }
