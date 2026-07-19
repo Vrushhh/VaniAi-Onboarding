@@ -12,6 +12,7 @@ import http from "node:http";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { startDemoCall, assertExotelConfigured } from "./lib/exotel.js";
+import { startVobizCall, assertVobizConfigured } from "./lib/vobiz.js";
 import { attachBridge } from "./lib/bridge.js";
 import {
   normalizeIndianNumber,
@@ -31,8 +32,15 @@ app.post("/api/demo-call", express.json(), async (req, res) => {
   if (!process.env.XAI_API_KEY) {
     return res.status(503).json({ error: "Server missing XAI_API_KEY." });
   }
+
+  const useVobiz = !!(process.env.VOBIZ_AUTH_ID && process.env.VOBIZ_AUTH_TOKEN);
+
   try {
-    assertExotelConfigured();
+    if (useVobiz) {
+      assertVobizConfigured();
+    } else {
+      assertExotelConfigured();
+    }
   } catch (err) {
     return res.status(503).json({ error: err.message });
   }
@@ -50,8 +58,14 @@ app.post("/api/demo-call", express.json(), async (req, res) => {
 
   const record = createCall(phone);
   try {
-    const sid = await startDemoCall(phone, record.id);
-    updateCallStatus(record.id, "dialing", { exotelSid: sid });
+    let sid;
+    if (useVobiz) {
+      sid = await startVobizCall(phone, record.id);
+      updateCallStatus(record.id, "dialing", { vobizCallId: sid });
+    } else {
+      sid = await startDemoCall(phone, record.id);
+      updateCallStatus(record.id, "dialing", { exotelSid: sid });
+    }
     return res.json({ id: record.id, status: "dialing" });
   } catch (err) {
     console.error("[api] demo-call failed:", err.message);
@@ -85,6 +99,42 @@ app.post(
         const rec = getCall(demoId);
         if (rec.status === "dialing") updateCallStatus(demoId, "ringing");
       }
+    }
+    res.status(200).json({ ok: true });
+  }
+);
+
+/* ── Vobiz status callbacks (answer / hangup) ────────────────────────── */
+app.post(
+  "/webhooks/vobiz-answer",
+  express.json({ type: "*/*" }),
+  (req, res) => {
+    const demoId = req.query.demo_id;
+    console.log(`[vobiz] answer callback: demo=${demoId}`);
+    if (demoId && getCall(demoId)) {
+      updateCallStatus(demoId, "connected");
+    }
+
+    const sipUri = process.env.XAI_SIP_URI || `sip:${process.env.VOBIZ_NUMBER || "+918071578639"}@sip.voice.x.ai;transport=tls`;
+
+    res.set("Content-Type", "application/xml");
+    res.send(`<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+    <Dial>
+        <User>${sipUri}</User>
+    </Dial>
+</Response>`);
+  }
+);
+
+app.post(
+  "/webhooks/vobiz-hangup",
+  express.json({ type: "*/*" }),
+  (req, res) => {
+    const demoId = req.query.demo_id;
+    console.log(`[vobiz] hangup callback: demo=${demoId}`);
+    if (demoId && getCall(demoId)) {
+      updateCallStatus(demoId, "completed");
     }
     res.status(200).json({ ok: true });
   }
