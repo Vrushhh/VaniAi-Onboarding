@@ -707,6 +707,28 @@
       <p class="call-error" id="demo-status-error" role="alert"></p>
       <p class="fineprint">Demo calls are limited to a few per number per hour.</p>
     </div>
+
+    <div id="demo-success-view" style="display:none">
+      <h3 style="text-align:center;margin-bottom:8px">Hope you enjoyed the call! 🎉</h3>
+      <p class="sub" style="text-align:center;margin-bottom:24px">You just experienced the power of real-time voice AI for D2C brands.</p>
+      
+      <div class="feedback-section" id="feedback-section" style="margin: 20px 0; text-align: center;">
+        <span style="font-size: 13.5px; color: var(--ink-soft); display: block; margin-bottom: 10px;">How was Asha's response?</span>
+        <div style="display: flex; gap: 12px; justify-content: center;">
+          <button class="btn btn-ghost feedback-btn" data-val="up" style="padding: 8px 20px; border-radius: 999px; font-size: 16px;">👍</button>
+          <button class="btn btn-ghost feedback-btn" data-val="down" style="padding: 8px 20px; border-radius: 999px; font-size: 16px;">👎</button>
+        </div>
+      </div>
+      <div id="feedback-thanks" style="display: none; text-align: center; margin: 20px 0; color: var(--green); font-size: 14px; font-weight: 600;">
+        Thank you for your feedback!
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 24px;">
+        <a href="https://console.kzuno.in/register" target="_blank" class="btn btn-primary" style="text-align: center; text-decoration: none; width: 100%; box-sizing: border-box; display: inline-flex;">Build Your Own Agent</a>
+        <a href="https://calendly.com/kzuno" target="_blank" class="btn btn-ghost" style="text-align: center; text-decoration: none; width: 100%; box-sizing: border-box; display: inline-flex;">Talk to an Expert</a>
+      </div>
+      <button class="btn-text" id="demo-success-close" style="width: 100%; margin-top: 20px; font-size: 13.5px; color: var(--ink-soft); background: none; border: none; cursor: pointer; text-decoration: underline; font-weight: 500;">Return to Homepage</button>
+    </div>
   </div>
 </div>
 
@@ -715,6 +737,7 @@
   var modal = document.getElementById('demo-modal');
   var formView = document.getElementById('demo-form-view');
   var statusView = document.getElementById('demo-status-view');
+  var successView = document.getElementById('demo-success-view');
   var phoneEl = document.getElementById('demo-phone');
   var consentEl = document.getElementById('demo-consent');
   var submitEl = document.getElementById('demo-submit');
@@ -726,13 +749,22 @@
     btn.addEventListener('click', function(){ openModal(); });
   });
   document.getElementById('demo-close').addEventListener('click', closeModal);
+  document.getElementById('demo-success-close').addEventListener('click', closeModal);
   modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
   document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
+
+  document.querySelectorAll('.feedback-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.getElementById('feedback-section').style.display = 'none';
+      document.getElementById('feedback-thanks').style.display = 'block';
+    });
+  });
 
   function openModal(){
     modal.classList.add('open');
     formView.style.display = '';
     statusView.style.display = 'none';
+    successView.style.display = 'none';
     errEl.style.display = 'none';
     setTimeout(function(){ phoneEl.focus(); }, 50);
   }
@@ -801,7 +833,15 @@
           return;
         }
         setStep(data.status);
-        if(data.status === 'completed'){ clearInterval(poller); poller = null; }
+        if(data.status === 'completed'){
+          clearInterval(poller); poller = null;
+          setTimeout(function(){
+            statusView.style.display = 'none';
+            successView.style.display = '';
+            document.getElementById('feedback-section').style.display = 'block';
+            document.getElementById('feedback-thanks').style.display = 'none';
+          }, 1200);
+        }
       }catch(e){
         clearInterval(poller); poller = null;
         showError(statusErrEl, e.message);
