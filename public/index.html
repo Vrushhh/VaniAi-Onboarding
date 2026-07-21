@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KZUNO — Your brand's voice workforce</title>
+<title>KZUNO - Your brand's voice workforce</title>
+<link rel="icon" type="image/png" id="favicon" href="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Devanagari:wght@400;500&display=swap" rel="stylesheet">
@@ -47,23 +48,20 @@
     border-bottom:1px solid var(--line);
   }
   .nav-in{display:flex;align-items:center;justify-content:space-between;height:68px}
-  .logo{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:22px;letter-spacing:-.01em;display:flex;align-items:center;gap:9px;}
-  .logo-derived{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:11px;
-    font-weight:400;
-    color:var(--ink-soft);
-    text-transform:lowercase;
-    margin-left:4px;
-    border-left:1px solid var(--line);
-    padding-left:10px;
-    height:16px;
-    display:inline-flex;
-    align-items:center;
-    letter-spacing:0;
+  .logo-img-link {
+    display: inline-flex;
+    align-items: center;
+    height: 38px;
+    transition: transform 0.2s ease;
   }
-  @media(max-width:540px){.logo-derived{display:none}}
-  .logo-dot{width:11px;height:11px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(11,92,63,.15)}
+  .logo-img-link:hover {
+    transform: translateY(-1px);
+  }
+  .logo-img-link img {
+    height: 28px;
+    width: auto;
+    display: block;
+  }
   .nav-links{display:flex;gap:30px;font-size:15px;font-weight:500;color:var(--ink-soft)}
   .nav-links a:hover{color:var(--ink)}
   .btn{
@@ -272,7 +270,9 @@
 
 <nav>
   <div class="wrap nav-in">
-    <a class="logo" href="#"><span class="logo-dot"></span>KZUNO<span class="logo-derived">/kizuna/ · human bond</span></a>
+    <a class="logo-img-link" href="#">
+      <img class="logo-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="KZUNO" style="opacity: 0; transition: opacity 0.2s;">
+    </a>
     <div class="nav-links">
       <a href="#jobs">Outbound</a>
       <a href="#inbound">Inbound</a>
@@ -514,7 +514,9 @@
 
 <footer>
   <div class="wrap foot-in">
-    <a class="logo" href="#" style="font-size:18px"><span class="logo-dot" style="width:9px;height:9px"></span>KZUNO<span class="logo-derived" style="font-size:10px;height:12px;padding-left:8px;margin-left:2px;">/kizuna/ · human bond</span></a>
+    <a class="logo-img-link" href="#">
+      <img class="logo-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="KZUNO" style="opacity: 0; transition: opacity 0.2s; height: 22px;">
+    </a>
     <div class="foot-links">
       <a href="#">Pricing</a><a href="#">Docs</a><a href="#">Privacy</a><a href="#">DPDP &amp; Security</a><a href="mailto:hello@kzuno.in">hello@kzuno.in</a>
     </div>
@@ -815,6 +817,112 @@
       }
     }, 1500);
   }
+
+  // Dynamic background removal and auto-cropping for the logo image
+  (function() {
+    var img = new Image();
+    img.src = '/logo.png';
+    img.crossOrigin = 'Anonymous';
+    img.onload = function() {
+      var canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      try {
+        var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        var data = imgData.data;
+        
+        var minX = canvas.width;
+        var minY = canvas.height;
+        var maxX = 0;
+        var maxY = 0;
+        var hasLogoPixels = false;
+        
+        for (var y = 0; y < canvas.height; y++) {
+          for (var x = 0; x < canvas.width; x++) {
+            var i = (y * canvas.width + x) * 4;
+            var r = data[i];
+            var g = data[i+1];
+            var b = data[i+2];
+            
+            // Only key out pixels if ALL channels are very dark (background).
+            // This prevents keying out the darker ridges inside the green letters.
+            var isBackground = (r < 35 && g < 35 && b < 35);
+            
+            if (isBackground) {
+              var avg = (r + g + b) / 3;
+              if (avg < 15) {
+                data[i+3] = 0;
+              } else {
+                data[i+3] = Math.round((avg - 15) / 20 * 255);
+              }
+            } else {
+              // Keep logo pixels fully solid to prevent an overly rugged/eroded look
+              data[i+3] = 255;
+              
+              if (x < minX) minX = x;
+              if (y < minY) minY = y;
+              if (x > maxX) maxX = x;
+              if (y > maxY) maxY = y;
+              hasLogoPixels = true;
+            }
+          }
+        }
+        
+        ctx.putImageData(imgData, 0, 0);
+        
+        var finalSrc;
+        if (hasLogoPixels && (maxX > minX) && (maxY > minY)) {
+          var cropWidth = maxX - minX + 1;
+          var cropHeight = maxY - minY + 1;
+          
+          // 1. Create the cropped full logo (loop + textured KZUNO words)
+          var cropCanvas = document.createElement('canvas');
+          cropCanvas.width = cropWidth;
+          cropCanvas.height = cropHeight;
+          var cropCtx = cropCanvas.getContext('2d');
+          cropCtx.drawImage(canvas, minX, minY, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
+          finalSrc = cropCanvas.toDataURL();
+          
+          // 2. Generate a square icon containing only the logo mark (loop icon on the left) for favicon
+          try {
+            var iconSize = cropHeight;
+            var iconCanvas = document.createElement('canvas');
+            iconCanvas.width = iconSize;
+            iconCanvas.height = iconSize;
+            var iconCtx = iconCanvas.getContext('2d');
+            iconCtx.drawImage(cropCanvas, 0, 0, iconSize, iconSize, 0, 0, iconSize, iconSize);
+            
+            var faviconEl = document.getElementById('favicon');
+            if (faviconEl) {
+              faviconEl.href = iconCanvas.toDataURL();
+            }
+          } catch (err) {
+            console.error('Failed to generate icon:', err);
+          }
+        } else {
+          finalSrc = canvas.toDataURL();
+        }
+        
+        document.querySelectorAll('.logo-img').forEach(function(el) {
+          el.src = finalSrc;
+          el.style.opacity = 1;
+        });
+      } catch (e) {
+        document.querySelectorAll('.logo-img').forEach(function(el) {
+          el.src = '/logo.png';
+          el.style.opacity = 1;
+        });
+      }
+    };
+    img.onerror = function() {
+      document.querySelectorAll('.logo-img').forEach(function(el) {
+        el.src = '/logo.png';
+        el.style.opacity = 1;
+      });
+    };
+  })();
 })();
 </script>
 </body>
