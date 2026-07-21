@@ -25,6 +25,11 @@ import {
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 
+app.get("/debug-logs", (req, res) => {
+  res.type("text/plain");
+  res.send((global.debugLogs || []).join("\n"));
+});
+
 app.use(express.static(path.join(__dirname, "public")));
 
 /* ── Trigger a demo call ─────────────────────────────────────────────── */
