@@ -818,7 +818,7 @@
     }, 1500);
   }
 
-  // Dynamic background removal and auto-cropping for the logo image
+  // Dynamic background removal and auto-cropping for the new green logo image
   (function() {
     var img = new Image();
     img.src = '/logo.png';
@@ -846,19 +846,12 @@
             var g = data[i+1];
             var b = data[i+2];
             
-            // Only key out pixels if ALL channels are very dark (background).
-            // This prevents keying out the darker ridges inside the green letters.
-            var isBackground = (r < 35 && g < 35 && b < 35);
+            // Key out white / near-white background pixels
+            var isBackground = (r > 215 && g > 215 && b > 215);
             
             if (isBackground) {
-              var avg = (r + g + b) / 3;
-              if (avg < 15) {
-                data[i+3] = 0;
-              } else {
-                data[i+3] = Math.round((avg - 15) / 20 * 255);
-              }
+              data[i+3] = 0; // Transparent
             } else {
-              // Keep logo pixels fully solid to prevent an overly rugged/eroded look
               data[i+3] = 255;
               
               if (x < minX) minX = x;
@@ -877,7 +870,6 @@
           var cropWidth = maxX - minX + 1;
           var cropHeight = maxY - minY + 1;
           
-          // 1. Create the cropped full logo (loop + textured KZUNO words)
           var cropCanvas = document.createElement('canvas');
           cropCanvas.width = cropWidth;
           cropCanvas.height = cropHeight;
@@ -885,7 +877,6 @@
           cropCtx.drawImage(canvas, minX, minY, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
           finalSrc = cropCanvas.toDataURL();
           
-          // 2. Generate a square icon containing only the logo mark (loop icon on the left) for favicon
           try {
             var iconSize = cropHeight;
             var iconCanvas = document.createElement('canvas');
