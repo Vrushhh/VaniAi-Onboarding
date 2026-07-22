@@ -1,17 +1,17 @@
 // server.js
-// KZUNO demo-call app (Exotel + xAI Grok Voice Agent):
+// KZUNO demo-call app (Vobiz + Sarvam Voice Agent):
 //
-//   POST /api/demo-call            { phone, consent } → Exotel rings the user
+//   POST /api/demo-call            { phone, consent } → Vobiz rings the user
 //   GET  /api/demo-call/:id        poll status for the UI stepper
-//   WS   /exotel-media             Exotel AgentStream ↔ xAI bridge (lib/bridge.js)
-//   POST /webhooks/exotel-status   Exotel call lifecycle (answered/terminal)
+//   WS   /vobiz-media              Vobiz bidirectional stream ↔ Sarvam bridge (lib/bridge.js)
+//   POST /webhooks/vobiz-answer    Vobiz answer callback
+//   POST /webhooks/vobiz-hangup    Vobiz hangup callback
 
 import "dotenv/config";
 import express from "express";
 import http from "node:http";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { startDemoCall, assertExotelConfigured } from "./lib/exotel.js";
 import { startVobizCall, assertVobizConfigured } from "./lib/vobiz.js";
 import { attachBridge } from "./lib/bridge.js";
 import {
@@ -34,18 +34,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 /* ── Trigger a demo call ─────────────────────────────────────────────── */
 app.post("/api/demo-call", express.json(), async (req, res) => {
-  if (!process.env.XAI_API_KEY) {
-    return res.status(503).json({ error: "Server missing XAI_API_KEY." });
-  }
-
-  const useVobiz = !!(process.env.VOBIZ_AUTH_ID && process.env.VOBIZ_AUTH_TOKEN);
-
   try {
-    if (useVobiz) {
-      assertVobizConfigured();
-    } else {
-      assertExotelConfigured();
-    }
+    assertVobizConfigured();
   } catch (err) {
     return res.status(503).json({ error: err.message });
   }
@@ -63,14 +53,8 @@ app.post("/api/demo-call", express.json(), async (req, res) => {
 
   const record = createCall(phone);
   try {
-    let sid;
-    if (useVobiz) {
-      sid = await startVobizCall(phone, record.id);
-      updateCallStatus(record.id, "dialing", { vobizCallId: sid });
-    } else {
-      sid = await startDemoCall(phone, record.id);
-      updateCallStatus(record.id, "dialing", { exotelSid: sid });
-    }
+    const sid = await startVobizCall(phone, record.id);
+    updateCallStatus(record.id, "dialing", { vobizCallId: sid });
     return res.json({ id: record.id, status: "dialing" });
   } catch (err) {
     console.error("[api] demo-call failed:", err.message);
@@ -85,29 +69,6 @@ app.get("/api/demo-call/:id", (req, res) => {
   if (!rec) return res.status(404).json({ error: "Unknown call" });
   res.json({ id: rec.id, status: rec.status });
 });
-
-/* ── Exotel status callback (answered / terminal) ────────────────────── */
-app.post(
-  "/webhooks/exotel-status",
-  express.json({ type: "*/*" }),
-  express.urlencoded({ extended: false }),
-  (req, res) => {
-    const demoId = req.query.demo_id;
-    const body = req.body || {};
-    const status = (body.Status || body.CallStatus || body.status || "").toLowerCase();
-    console.log(`[exotel] status callback: demo=${demoId} status=${status}`);
-
-    if (demoId && getCall(demoId)) {
-      if (["completed"].includes(status)) updateCallStatus(demoId, "completed");
-      else if (["failed", "busy", "no-answer", "canceled"].includes(status)) updateCallStatus(demoId, "failed");
-      else if (["in-progress", "answered"].includes(status)) {
-        const rec = getCall(demoId);
-        if (rec.status === "dialing") updateCallStatus(demoId, "ringing");
-      }
-    }
-    res.status(200).json({ ok: true });
-  }
-);
 
 /* ── Vobiz status callbacks (answer / hangup) ────────────────────────── */
 app.post(
@@ -151,5 +112,5 @@ attachBridge(server);
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`KZUNO demo app on http://localhost:${PORT}`);
-  console.log(`Exotel stream endpoint: ${(process.env.PUBLIC_BASE_URL || "http://localhost:" + PORT).replace(/^http/, "ws")}/exotel-media`);
+  console.log(`Vobiz stream endpoint: ${(process.env.PUBLIC_BASE_URL || "http://localhost:" + PORT).replace(/^http/, "ws")}/vobiz-media`);
 });
