@@ -3,6 +3,8 @@
 //
 //   POST /api/demo-call            { phone, consent } → Vobiz rings the user
 //   GET  /api/demo-call/:id        poll status for the UI stepper
+//   GET  /api/transcripts          JSON list of all call records & full transcripts
+//   GET  /transcripts              HTML Live Transcript Dashboard for quality analysis
 //   WS   /vobiz-media              Vobiz bidirectional stream ↔ Sarvam bridge (lib/bridge.js)
 //   POST /webhooks/vobiz-answer    Vobiz answer callback
 //   POST /webhooks/vobiz-hangup    Vobiz hangup callback
@@ -20,6 +22,7 @@ import {
   createCall,
   updateCallStatus,
   getCall,
+  getAllCalls,
 } from "./lib/store.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -28,6 +31,87 @@ const app = express();
 app.get("/debug-logs", (req, res) => {
   res.type("text/plain");
   res.send((global.debugLogs || []).join("\n"));
+});
+
+/* ── Live Call Transcripts API & UI ─────────────────────────────────── */
+app.get("/api/transcripts", (_req, res) => {
+  res.json(getAllCalls());
+});
+
+app.get("/api/demo-call/:id/transcript", (req, res) => {
+  const rec = getCall(req.params.id);
+  if (!rec) return res.status(404).json({ error: "Unknown call" });
+  res.json({ id: rec.id, phone: rec.to, status: rec.status, transcript: rec.transcript || [] });
+});
+
+app.get("/transcripts", (_req, res) => {
+  const calls = getAllCalls();
+  let html = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>KZUNO Call Transcripts & Analytics</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding: 24px; }
+    h1 { color: #38bdf8; font-size: 24px; margin-bottom: 4px; }
+    p.sub { color: #94a3b8; font-size: 14px; margin-bottom: 24px; }
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+    .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 12px; margin-bottom: 16px; }
+    .phone { font-weight: 600; font-size: 16px; color: #f1f5f9; }
+    .status { background: #0284c7; color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 12px; text-transform: uppercase; font-weight: 600; }
+    .conversation { display: flex; flex-direction: column; gap: 12px; }
+    .bubble { display: flex; flex-direction: column; }
+    .user { align-self: flex-start; background: #334155; color: #f8fafc; padding: 10px 14px; border-radius: 12px 12px 12px 2px; max-width: 80%; }
+    .agent { align-self: flex-end; background: #0369a1; color: #fff; padding: 10px 14px; border-radius: 12px 12px 2px 12px; max-width: 80%; }
+    .role { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.85; margin-bottom: 4px; font-weight: 600; }
+    .lang { font-size: 10px; background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 4px; margin-left: 6px; font-weight: normal; }
+    .empty { color: #64748b; font-style: italic; font-size: 13px; }
+    .time { font-size: 11px; color: #64748b; margin-left: 8px; font-weight: normal; }
+  </style>
+</head>
+<body>
+  <h1>🎙️ KZUNO Call Transcripts & Analysis</h1>
+  <p class="sub">Turn-by-turn conversation logs, language codes, and agent trajectories.</p>
+`;
+
+  if (calls.length === 0) {
+    html += `<div class="card empty">No call recordings logged yet. Place a demo call to see live transcripts here.</div>`;
+  } else {
+    for (const c of calls) {
+      const dateStr = new Date(c.createdAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+      html += `<div class="card">
+        <div class="header">
+          <span class="phone">📱 ${c.to || "Unknown"} <span class="time">(${dateStr})</span></span>
+          <span class="status">${c.status || "completed"}</span>
+        </div>
+        <div class="conversation">`;
+
+      const turns = c.transcript || [];
+      if (turns.length === 0) {
+        html += `<div class="empty">No transcript turns recorded for this call.</div>`;
+      } else {
+        for (const t of turns) {
+          const isUser = t.role === "user";
+          const roleClass = isUser ? "user" : "agent";
+          const roleName = isUser ? "👤 Caller" : "🤖 Vaani (Agent)";
+          const langBadge = t.lang ? `<span class="lang">${t.lang}</span>` : "";
+          const tTime = t.timestamp ? new Date(t.timestamp).toLocaleTimeString() : "";
+          html += `
+          <div class="bubble">
+            <div class="${roleClass}">
+              <div class="role">${roleName} ${langBadge} <span style="float:right; margin-left:12px; opacity:0.6">${tTime}</span></div>
+              <div>${t.text}</div>
+            </div>
+          </div>`;
+        }
+      }
+      html += `</div></div>`;
+    }
+  }
+
+  html += `</body></html>`;
+  res.send(html);
 });
 
 app.use(express.static(path.join(__dirname, "public")));
