@@ -68,6 +68,13 @@ app.get("/transcripts", (_req, res) => {
     .lang { font-size: 10px; background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 4px; margin-left: 6px; font-weight: normal; }
     .empty { color: #64748b; font-style: italic; font-size: 13px; }
     .time { font-size: 11px; color: #64748b; margin-left: 8px; font-weight: normal; }
+    @media(max-width: 600px) {
+      body { padding: 14px; }
+      .card { padding: 14px; border-radius: 10px; }
+      .header { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .user, .agent { max-width: 92%; font-size: 13.5px; padding: 9px 12px; }
+      h1 { font-size: 20px; }
+    }
   </style>
 </head>
 <body>
