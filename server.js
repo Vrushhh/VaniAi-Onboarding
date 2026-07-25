@@ -51,10 +51,12 @@ app.get("/transcripts", (_req, res) => {
 <head>
   <meta charset="utf-8">
   <title>KZUNO Call Transcripts & Analytics</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding: 24px; }
-    h1 { color: #38bdf8; font-size: 24px; margin-bottom: 4px; }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding: 24px; }
+    h1 { font-family: 'Montserrat', sans-serif; color: #38bdf8; font-size: 24px; margin-bottom: 4px; font-weight: 700; }
     p.sub { color: #94a3b8; font-size: 14px; margin-bottom: 24px; }
     .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
     .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 12px; margin-bottom: 16px; }
