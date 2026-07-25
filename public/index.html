@@ -376,7 +376,7 @@
 <nav>
   <div class="wrap nav-in">
     <a class="logo-img-link" href="#">
-      <img class="logo-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="KZUNO" style="opacity: 0; transition: opacity 0.2s;">
+      <img class="logo-img" src="/logo.png" alt="KZUNO" style="height: 32px; width: auto; display: block; opacity: 1;">
     </a>
     <div class="nav-links">
       <a href="#jobs">Outbound</a>
@@ -695,7 +695,7 @@
 <footer>
   <div class="wrap foot-in">
     <a class="logo-img-link" href="#">
-      <img class="logo-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="KZUNO" style="opacity: 0; transition: opacity 0.2s; height: 22px;">
+      <img class="logo-img" src="/logo.png" alt="KZUNO" style="height: 26px; width: auto; display: block; opacity: 1;">
     </a>
     <div class="foot-links">
       <a href="#">Pricing</a><a href="#">Docs</a><a href="#">Privacy</a><a href="#">DPDP &amp; Security</a><a href="mailto:hello@kzuno.in">hello@kzuno.in</a>
@@ -1180,6 +1180,80 @@
         }
       });
     });
+  // Dynamic background removal and auto-cropping for logo image & favicon
+  (function() {
+    var img = new Image();
+    img.src = '/logo.png';
+    img.crossOrigin = 'Anonymous';
+    img.onload = function() {
+      var canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      try {
+        var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        var data = imgData.data;
+        var minX = canvas.width, minY = canvas.height, maxX = 0, maxY = 0;
+        var hasLogoPixels = false;
+        
+        for (var y = 0; y < canvas.height; y++) {
+          for (var x = 0; x < canvas.width; x++) {
+            var i = (y * canvas.width + x) * 4;
+            var r = data[i], g = data[i+1], b = data[i+2];
+            var isBackground = (r > 215 && g > 215 && b > 215);
+            if (isBackground) {
+              data[i+3] = 0;
+            } else {
+              data[i+3] = 255;
+              if (x < minX) minX = x;
+              if (y < minY) minY = y;
+              if (x > maxX) maxX = x;
+              if (y > maxY) maxY = y;
+              hasLogoPixels = true;
+            }
+          }
+        }
+        
+        ctx.putImageData(imgData, 0, 0);
+        var finalSrc;
+        if (hasLogoPixels && (maxX > minX) && (maxY > minY)) {
+          var cropWidth = maxX - minX + 1;
+          var cropHeight = maxY - minY + 1;
+          var cropCanvas = document.createElement('canvas');
+          cropCanvas.width = cropWidth;
+          cropCanvas.height = cropHeight;
+          var cropCtx = cropCanvas.getContext('2d');
+          cropCtx.drawImage(canvas, minX, minY, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
+          finalSrc = cropCanvas.toDataURL();
+          
+          try {
+            var iconSize = cropHeight;
+            var iconCanvas = document.createElement('canvas');
+            iconCanvas.width = iconSize;
+            iconCanvas.height = iconSize;
+            var iconCtx = iconCanvas.getContext('2d');
+            iconCtx.drawImage(cropCanvas, 0, 0, iconSize, iconSize, 0, 0, iconSize, iconSize);
+            var faviconEl = document.getElementById('favicon');
+            if (faviconEl) faviconEl.href = iconCanvas.toDataURL();
+          } catch (err) {}
+        } else {
+          finalSrc = canvas.toDataURL();
+        }
+        
+        var logoImgs = document.querySelectorAll('.logo-img');
+        logoImgs.forEach(function(el) {
+          el.src = finalSrc;
+          el.style.opacity = '1';
+        });
+      } catch (e) {
+        var logoImgs = document.querySelectorAll('.logo-img');
+        logoImgs.forEach(function(el) {
+          el.src = '/logo.png';
+          el.style.opacity = '1';
+        });
+      }
+    };
   })();
 })();
 </script>
