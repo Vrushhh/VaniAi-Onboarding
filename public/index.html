@@ -275,13 +275,20 @@
   @media(max-width:900px){.comply{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:560px){.comply{grid-template-columns:1fr}}
   .comp{
-    border:1px dashed var(--line);border-radius:14px;padding:22px;background:transparent;
+    border:1px solid var(--line);border-radius:18px;padding:26px 22px;
+    background:var(--card);box-shadow:0 4px 16px rgba(18,32,26,.03);
+    transition:transform .2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .2s ease, border-color .2s ease;
   }
-  .comp strong{font-size:15px;display:block;margin-bottom:6px}
-  .comp span{font-size:13.5px;color:var(--ink-soft)}
+  .comp:hover{
+    transform:translateY(-4px);box-shadow:0 14px 35px rgba(18,32,26,.09);
+    border-color:rgba(24,90,58,.35);
+  }
+  .comp strong{font-size:16px;font-weight:700;display:block;margin-bottom:8px;color:var(--ink);font-family:var(--primary-font)}
+  .comp span{font-size:14px;color:var(--ink-soft);line-height:1.5;display:block}
   .comp .badge{
-    font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
-    color:var(--green);background:#EDF4F0;padding:4px 9px;border-radius:6px;display:inline-block;margin-bottom:12px;
+    font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--green);background:#EDF4F0;border:1px solid #DBE8E1;padding:5px 11px;border-radius:999px;
+    display:inline-flex;align-items:center;gap:6px;margin-bottom:14px;
   }
 
   /* ROI & Savings Calculator - Uniform Web Design */
@@ -617,10 +624,26 @@
       <p>Compliance isn't paperwork we hand you — it's a feature of the platform.</p>
     </div>
     <div class="comply">
-      <div class="comp"><span class="badge">DPDP</span><strong>India data residency</strong><span>Recordings, transcripts, and customer data stay on servers in India.</span></div>
-      <div class="comp"><span class="badge">TRAI · DLT</span><strong>Registered calling</strong><span>Guided DLT registration and consent-first call flows out of the box.</span></div>
-      <div class="comp"><span class="badge">Consent</span><strong>Disclosure on every call</strong><span>Agents identify themselves as AI and honour do-not-call requests instantly.</span></div>
-      <div class="comp"><span class="badge">Audit</span><strong>Full call trail</strong><span>Searchable recordings and transcripts for every conversation, exportable anytime.</span></div>
+      <div class="comp">
+        <span class="badge"><span style="font-size:12px">🛡️</span> DPDP</span>
+        <strong>India data residency</strong>
+        <span>Recordings, transcripts, and customer data stay securely on servers in India.</span>
+      </div>
+      <div class="comp">
+        <span class="badge"><span style="font-size:12px">📜</span> TRAI · DLT</span>
+        <strong>Registered calling</strong>
+        <span>Guided DLT registration and consent-first call flows out of the box.</span>
+      </div>
+      <div class="comp">
+        <span class="badge"><span style="font-size:12px">🤝</span> Consent</span>
+        <strong>Disclosure on every call</strong>
+        <span>Agents identify themselves as AI and honour do-not-call requests instantly.</span>
+      </div>
+      <div class="comp">
+        <span class="badge"><span style="font-size:12px">🔍</span> Audit</span>
+        <strong>Full call trail</strong>
+        <span>Searchable recordings and transcripts for every conversation, exportable anytime.</span>
+      </div>
     </div>
   </div>
 </section>
