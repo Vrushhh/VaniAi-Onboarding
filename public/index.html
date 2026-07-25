@@ -123,12 +123,24 @@
     100%{transform:scaleY(1.15)}
   }
 
+  /* Global Background Sound Wave Canvas */
+  .global-wave-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.65;
+  }
+  nav, header, section, footer {
+    position: relative;
+    z-index: 1;
+  }
+
   /* ---------- Hero ---------- */
   .hero{position:relative;padding:84px 0 60px;overflow:hidden}
-  .hero-wave-canvas{
-    position:absolute;bottom:0;left:0;width:100%;height:260px;
-    pointer-events:none;z-index:0;opacity:0.7;
-  }
   .hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
   @media(max-width:960px){.hero-grid{grid-template-columns:1fr;gap:44px}}
   .hero h1{font-size:clamp(40px,5.4vw,66px);font-weight:800}
@@ -431,6 +443,7 @@
 </style>
 </head>
 <body>
+<canvas id="global-wave-canvas" class="global-wave-canvas"></canvas>
 
 <nav>
   <div class="wrap nav-in">
@@ -448,7 +461,6 @@
 </nav>
 
 <header class="hero">
-  <canvas id="hero-wave-canvas" class="hero-wave-canvas"></canvas>
   <div class="wrap hero-grid">
     <div>
       <span class="eyebrow">
@@ -1119,42 +1131,46 @@
     updateCalc();
   })();
 
-  // Continuous Dynamic Sound Wave Canvas Animation Loop
+  // Global Full-Page Continuous Dynamic Pendulum Sine-Wave Animation Engine
   (function() {
-    var canvas = document.getElementById('hero-wave-canvas');
+    var canvas = document.getElementById('global-wave-canvas');
     if (!canvas) return;
     var ctx = canvas.getContext('2d');
     var width, height;
     var step = 0;
 
     function resize() {
-      width = canvas.width = canvas.offsetWidth;
-      height = canvas.height = canvas.offsetHeight;
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
     }
     window.addEventListener('resize', resize);
     resize();
 
     var waveLayers = [
-      { color: 'rgba(24, 90, 58, 0.16)', speed: 0.015, amp: 24, freq: 0.007, phase: 0 },
-      { color: 'rgba(242, 168, 29, 0.14)', speed: 0.022, amp: 30, freq: 0.005, phase: 2 },
-      { color: 'rgba(13, 59, 38, 0.12)', speed: 0.012, amp: 20, freq: 0.009, phase: 4 },
-      { color: 'rgba(139, 170, 155, 0.20)', speed: 0.018, amp: 34, freq: 0.004, phase: 1 }
+      { color: 'rgba(24, 90, 58, 0.08)', speed: 0.008, amp: 45, freq: 0.003, phase: 0, yRatio: 0.35 },
+      { color: 'rgba(242, 168, 29, 0.06)', speed: 0.012, amp: 55, freq: 0.002, phase: 2.2, yRatio: 0.65 },
+      { color: 'rgba(13, 59, 38, 0.05)', speed: 0.006, amp: 35, freq: 0.004, phase: 4.1, yRatio: 0.2 },
+      { color: 'rgba(139, 170, 155, 0.09)', speed: 0.01, amp: 60, freq: 0.0025, phase: 1.5, yRatio: 0.8 }
     ];
 
     function animate() {
       ctx.clearRect(0, 0, width, height);
       step += 1;
 
+      // Pendulum oscillation shift across whole page
+      var pendulum = Math.sin(step * 0.004) * 35;
+
       waveLayers.forEach(function(layer) {
         ctx.beginPath();
         ctx.fillStyle = layer.color;
         
-        var startY = height * 0.5;
+        var baseCenterY = height * layer.yRatio + pendulum;
         ctx.moveTo(0, height);
 
-        for (var x = 0; x <= width; x += 6) {
-          var y = startY + Math.sin(x * layer.freq + step * layer.speed + layer.phase) * layer.amp
-                  + Math.cos(x * layer.freq * 0.5 + step * layer.speed * 0.7) * (layer.amp * 0.45);
+        for (var x = 0; x <= width; x += 8) {
+          var y = baseCenterY 
+                  + Math.sin(x * layer.freq + step * layer.speed + layer.phase) * layer.amp
+                  + Math.cos(x * layer.freq * 0.6 + step * layer.speed * 0.8 + layer.phase) * (layer.amp * 0.5);
           ctx.lineTo(x, y);
         }
 
