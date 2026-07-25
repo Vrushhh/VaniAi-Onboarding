@@ -3,10 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KZUNO - Your brand's voice workforce</title>
-<link rel="icon" type="image/png" id="favicon" href="/logo.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <meta property="og:title" content="KZUNO - Your brand's voice workforce">
 <meta property="og:description" content="Automate customer operations with human-like AI voice agents in 10+ Indian regional languages.">
 <meta property="og:image" content="https://www.kzuno.in/logo.png">
@@ -16,6 +12,9 @@
 <meta name="twitter:description" content="Automate customer operations with human-like AI voice agents in 10+ Indian regional languages.">
 <meta name="twitter:image" content="https://www.kzuno.in/logo.png">
 <link rel="apple-touch-icon" href="/logo.png">
+<link rel="icon" type="image/png" id="favicon" href="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Devanagari:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -73,10 +72,9 @@
     transform: translateY(-1px);
   }
   .logo-img-link img {
-    height: 30px;
+    height: 28px;
     width: auto;
     display: block;
-    mix-blend-mode: multiply;
   }
   .nav-links{
     display:inline-flex;align-items:center;gap:6px;padding:4px 6px;
@@ -137,7 +135,7 @@
   .call-avatar{
     width:38px;height:38px;border-radius:50%;background:var(--green);color:#fff;
     display:flex;align-items:center;justify-content:center;
-    font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:15px;
+    font-family:var(--primary-font);font-weight:700;font-size:15px;
   }
   .call-meta{font-size:13px;line-height:1.35}
   .call-meta strong{display:block;font-size:14px}
@@ -251,7 +249,7 @@
   @media(max-width:760px){.stage{margin-right:0;margin-bottom:30px;min-width:100%}
     .stage::after{content:"↓";right:auto;left:50%;top:auto;bottom:-27px;transform:translateX(-50%)}}
   .stage .st-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--marigold);margin-bottom:8px}
-  .stage strong{font-size:16.5px;display:block;margin-bottom:6px;font-family:'Bricolage Grotesque',sans-serif}
+  .stage strong{font-size:16.5px;display:block;margin-bottom:6px;font-family:var(--primary-font);font-weight:700}
   .stage span{font-size:13.5px;color:rgba(242,241,232,.7)}
   .engine-facts{display:flex;gap:34px;flex-wrap:wrap;margin-top:44px;padding-top:34px;border-top:1px solid rgba(242,241,232,.16)}
   .fact{font-size:14px;color:rgba(242,241,232,.85);display:flex;align-items:center;gap:9px}
@@ -286,102 +284,6 @@
     color:var(--green);background:#EDF4F0;padding:4px 9px;border-radius:6px;display:inline-block;margin-bottom:12px;
   }
 
-  /* ROI & Savings Calculator - Uniform Web Design */
-  .calc-container {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 36px 32px;
-    box-shadow: 0 4px 20px rgba(18, 32, 26, 0.03);
-  }
-  .calc-slider-box {
-    margin-bottom: 32px;
-    text-align: center;
-  }
-  .calc-slider-box label {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--ink);
-    display: block;
-    margin-bottom: 14px;
-    font-family: var(--secondary-font);
-  }
-  .calc-slider-val {
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--green);
-    font-family: var(--primary-font);
-    display: inline-block;
-    margin: 0 4px;
-  }
-  .calc-slider-input {
-    width: 100%;
-    max-width: 640px;
-    height: 8px;
-    border-radius: 4px;
-    outline: none;
-    accent-color: var(--green);
-    cursor: pointer;
-    margin-bottom: 10px;
-    background: #EFECE1;
-  }
-  .calc-slider-ticks {
-    display: flex;
-    justify-content: space-between;
-    max-width: 640px;
-    margin: 0 auto;
-    font-size: 12px;
-    color: var(--ink-soft);
-    font-family: var(--mono);
-  }
-  .calc-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-  }
-  @media(max-width: 820px) { .calc-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media(max-width: 480px) { .calc-grid { grid-template-columns: 1fr; } }
-  .calc-box {
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 20px 16px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    justify-content: center;
-  }
-  .calc-box.highlight {
-    background: #EDF4F0;
-    border: 1px solid #DBE8E1;
-  }
-  .calc-box .label {
-    font-family: var(--mono);
-    font-size: 10.5px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    font-weight: 600;
-  }
-  .calc-box .num {
-    font-family: var(--primary-font);
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--ink);
-  }
-  .calc-box .num.strike {
-    text-decoration: line-through;
-    opacity: 0.55;
-  }
-  .calc-box .num.green {
-    color: var(--green);
-  }
-  .calc-box .num.green-bold {
-    color: var(--green);
-    font-weight: 800;
-  }
-
   /* Final CTA */
   .final{
     text-align:center;padding:110px 28px;
@@ -409,11 +311,12 @@
 <nav>
   <div class="wrap nav-in">
     <a class="logo-img-link" href="#">
-      <img class="logo-img" src="/logo.png" alt="KZUNO" style="height: 32px; width: auto; display: block; opacity: 1;">
+      <img class="logo-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="KZUNO" style="opacity: 0; transition: opacity 0.2s;">
     </a>
     <div class="nav-links">
       <a href="#jobs">Outbound</a>
       <a href="#inbound">Inbound</a>
+      <a href="#how">How it works</a>
       <a href="#trust">Trust</a>
     </div>
     <a class="btn btn-primary nav-cta" href="#cta">Start free</a>
@@ -527,40 +430,29 @@
   </div>
 </section>
 
-<section id="calculator" style="padding-top:0">
-  <div class="wrap">
-    <div class="sec-head" style="max-width: 680px; margin-bottom: 36px;">
-      <span class="eyebrow">ROI &amp; Savings Calculator</span>
-      <h2>Calculate your operational &amp; RTO savings</h2>
-      <p>Drag the slider to see how much your D2C brand saves every month with KZUNO voice agents.</p>
+<section id="collaboration" style="padding-top:0">
+  <div class="wrap split">
+    <div class="col-img" style="display:flex; align-items:center;">
+      <img src="corporate_call_center.png" alt="Humans and AI agents working together in a corporate call center" style="width:100%; border-radius:22px; border: 1px solid var(--line); box-shadow: 0 20px 45px rgba(18,32,26,0.08);">
     </div>
-
-    <div class="calc-container">
-      <div class="calc-slider-box">
-        <label for="roi-slider">Daily Order Volume: <span id="slider-val-display" class="calc-slider-val">250</span> orders/day</label>
-        <input type="range" id="roi-slider" class="calc-slider-input" min="50" max="2000" step="25" value="250">
-        <div class="calc-slider-ticks">
-          <span>50 orders/day</span>
-          <span>1,000 orders/day</span>
-          <span>2,000 orders/day</span>
+    <div>
+      <span class="eyebrow">Hybrid Workforce</span>
+      <h2 style="font-size:clamp(30px,3.6vw,44px)">A voice workforce that works with your human team.</h2>
+      <p style="color:var(--ink-soft);font-size:17px;margin-top:14px;margin-bottom:24px;">KZUNO isn't here to replace your team—it's here to empower them. Our AI handling repetitive level-1 calls allows your corporate customer support team to focus on high-value, complex human relationships.</p>
+      <div class="inbound-list">
+        <div class="in-item">
+          <div class="ic">👥</div>
+          <div>
+            <strong>Co-pilot Mode</strong>
+            <span>Your human agents get a live, real-time transcript of the AI's conversation before taking over.</span>
+          </div>
         </div>
-      </div>
-      <div class="calc-grid">
-        <div class="calc-box">
-          <span class="label">Monthly Calls</span>
-          <span class="num" id="calc-monthly-calls">7,500</span>
-        </div>
-        <div class="calc-box">
-          <span class="label">Human Call Center</span>
-          <span class="num strike" id="calc-human-cost">₹1,12,500</span>
-        </div>
-        <div class="calc-box highlight">
-          <span class="label">KZUNO Voice AI</span>
-          <span class="num green" id="calc-kzuno-cost">₹15,000</span>
-        </div>
-        <div class="calc-box highlight">
-          <span class="label">Monthly Savings</span>
-          <span class="num green-bold" id="calc-monthly-savings">₹97,500</span>
+        <div class="in-item">
+          <div class="ic">⇄</div>
+          <div>
+            <strong>Instant Human Handoff</strong>
+            <span>When a call gets complex, the AI smoothly transfers the line to a corporate agent in under a second.</span>
+          </div>
         </div>
       </div>
     </div>
@@ -610,6 +502,30 @@
   }
 </style>
 
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Self-serve</span>
+      <h2>Live before lunch. No demos-with-sales required.</h2>
+      <p>Sign up, build, and launch on your own — the way you'd expect from a modern tool, not an enterprise contract.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <h3>Create your agent</h3>
+        <p>Pick a ready-made job pack — order confirmation, lead calls, support line — then add your brand name, script tweaks, and languages.</p>
+      </div>
+      <div class="step">
+        <h3>Test on your own phone</h3>
+        <p>Trigger a call to yourself in one click. Talk to your agent, hear the voice, and refine the flow until it sounds right.</p>
+      </div>
+      <div class="step">
+        <h3>Go live on your numbers</h3>
+        <p>Connect your store or CRM, upload a calling list or forward your support line, and watch outcomes land in your dashboard.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="trust" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head">
@@ -639,7 +555,7 @@
 <footer>
   <div class="wrap foot-in">
     <a class="logo-img-link" href="#">
-      <img class="logo-img" src="/logo.png" alt="KZUNO" style="height: 26px; width: auto; display: block; opacity: 1;">
+      <img class="logo-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="KZUNO" style="opacity: 0; transition: opacity 0.2s; height: 22px;">
     </a>
     <div class="foot-links">
       <a href="#">Pricing</a><a href="#">Docs</a><a href="#">Privacy</a><a href="#">DPDP &amp; Security</a><a href="mailto:hello@kzuno.in">hello@kzuno.in</a>
@@ -1036,33 +952,7 @@
         el.src = '/logo.png';
         el.style.opacity = 1;
       });
-  // Dynamic ROI & RTO Savings Calculator
-  (function() {
-    var slider = document.getElementById('roi-slider');
-    if (!slider) return;
-    var displayVal = document.getElementById('slider-val-display');
-    var callsEl = document.getElementById('calc-monthly-calls');
-    var humanEl = document.getElementById('calc-human-cost');
-    var kzunoEl = document.getElementById('calc-kzuno-cost');
-    var savingsEl = document.getElementById('calc-monthly-savings');
-
-    function updateCalc() {
-      var dailyOrders = parseInt(slider.value, 10);
-      var monthlyCalls = dailyOrders * 30;
-      var humanCost = Math.round(monthlyCalls * 15);
-      var kzunoCost = Math.round(monthlyCalls * 2);
-      var savings = humanCost - kzunoCost;
-
-      displayVal.textContent = dailyOrders.toLocaleString('en-IN');
-      callsEl.textContent = monthlyCalls.toLocaleString('en-IN');
-      humanEl.textContent = '₹' + humanCost.toLocaleString('en-IN');
-      kzunoEl.textContent = '₹' + kzunoCost.toLocaleString('en-IN');
-      savingsEl.textContent = '₹' + savings.toLocaleString('en-IN');
-    }
-
-    slider.addEventListener('input', updateCalc);
-    updateCalc();
-  })();
+    };
   })();
 })();
 </script>
