@@ -284,6 +284,102 @@
     color:var(--green);background:#EDF4F0;padding:4px 9px;border-radius:6px;display:inline-block;margin-bottom:12px;
   }
 
+  /* ROI & Savings Calculator - Uniform Web Design */
+  .calc-container {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 36px 32px;
+    box-shadow: 0 4px 20px rgba(18, 32, 26, 0.03);
+  }
+  .calc-slider-box {
+    margin-bottom: 32px;
+    text-align: center;
+  }
+  .calc-slider-box label {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 14px;
+    font-family: var(--secondary-font);
+  }
+  .calc-slider-val {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--green);
+    font-family: var(--primary-font);
+    display: inline-block;
+    margin: 0 4px;
+  }
+  .calc-slider-input {
+    width: 100%;
+    max-width: 640px;
+    height: 8px;
+    border-radius: 4px;
+    outline: none;
+    accent-color: var(--green);
+    cursor: pointer;
+    margin-bottom: 10px;
+    background: #EFECE1;
+  }
+  .calc-slider-ticks {
+    display: flex;
+    justify-content: space-between;
+    max-width: 640px;
+    margin: 0 auto;
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-family: var(--mono);
+  }
+  .calc-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  @media(max-width: 820px) { .calc-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media(max-width: 480px) { .calc-grid { grid-template-columns: 1fr; } }
+  .calc-box {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px 16px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    justify-content: center;
+  }
+  .calc-box.highlight {
+    background: #EDF4F0;
+    border: 1px solid #DBE8E1;
+  }
+  .calc-box .label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+  .calc-box .num {
+    font-family: var(--primary-font);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .calc-box .num.strike {
+    text-decoration: line-through;
+    opacity: 0.55;
+  }
+  .calc-box .num.green {
+    color: var(--green);
+  }
+  .calc-box .num.green-bold {
+    color: var(--green);
+    font-weight: 800;
+  }
+
   /* Final CTA */
   .final{
     text-align:center;padding:110px 28px;
@@ -501,6 +597,46 @@
     }
   }
 </style>
+
+<section id="calculator" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head" style="max-width: 680px; margin-bottom: 36px;">
+      <span class="eyebrow">ROI &amp; Savings Calculator</span>
+      <h2>Calculate your operational &amp; RTO savings</h2>
+      <p>Drag the slider to see how much your D2C brand saves every month with KZUNO voice agents.</p>
+    </div>
+
+    <div class="calc-container">
+      <div class="calc-slider-box">
+        <label for="roi-slider">Daily Order Volume: <span id="slider-val-display" class="calc-slider-val">250</span> orders/day</label>
+        <input type="range" id="roi-slider" class="calc-slider-input" min="50" max="2000" step="25" value="250">
+        <div class="calc-slider-ticks">
+          <span>50 orders/day</span>
+          <span>1,000 orders/day</span>
+          <span>2,000 orders/day</span>
+        </div>
+      </div>
+      <div class="calc-grid">
+        <div class="calc-box">
+          <span class="label">Monthly Calls</span>
+          <span class="num" id="calc-monthly-calls">7,500</span>
+        </div>
+        <div class="calc-box">
+          <span class="label">Human Call Center</span>
+          <span class="num strike" id="calc-human-cost">₹1,12,500</span>
+        </div>
+        <div class="calc-box highlight">
+          <span class="label">KZUNO Voice AI</span>
+          <span class="num green" id="calc-kzuno-cost">₹15,000</span>
+        </div>
+        <div class="calc-box highlight">
+          <span class="label">Monthly Savings</span>
+          <span class="num green-bold" id="calc-monthly-savings">₹97,500</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section id="trust" style="padding-top:0">
   <div class="wrap">
@@ -929,6 +1065,34 @@
         el.style.opacity = 1;
       });
     };
+  })();
+
+  // Dynamic ROI & RTO Savings Calculator Script
+  (function() {
+    var slider = document.getElementById('roi-slider');
+    if (!slider) return;
+    var displayVal = document.getElementById('slider-val-display');
+    var callsEl = document.getElementById('calc-monthly-calls');
+    var humanEl = document.getElementById('calc-human-cost');
+    var kzunoEl = document.getElementById('calc-kzuno-cost');
+    var savingsEl = document.getElementById('calc-monthly-savings');
+
+    function updateCalc() {
+      var dailyOrders = parseInt(slider.value, 10);
+      var monthlyCalls = dailyOrders * 30;
+      var humanCost = Math.round(monthlyCalls * 15);
+      var kzunoCost = Math.round(monthlyCalls * 2);
+      var savings = humanCost - kzunoCost;
+
+      displayVal.textContent = dailyOrders.toLocaleString('en-IN');
+      callsEl.textContent = monthlyCalls.toLocaleString('en-IN');
+      humanEl.textContent = '₹' + humanCost.toLocaleString('en-IN');
+      kzunoEl.textContent = '₹' + kzunoCost.toLocaleString('en-IN');
+      savingsEl.textContent = '₹' + savings.toLocaleString('en-IN');
+    }
+
+    slider.addEventListener('input', updateCalc);
+    updateCalc();
   })();
 })();
 </script>
