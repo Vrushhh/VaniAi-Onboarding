@@ -284,6 +284,71 @@
     color:var(--green);background:#EDF4F0;padding:4px 9px;border-radius:6px;display:inline-block;margin-bottom:12px;
   }
 
+  /* ---------- Language Pill Tabs on Call Card ---------- */
+  .lang-tabs {
+    display: flex; gap: 6px; padding: 10px 16px; background: #FAF9F5;
+    border-bottom: 1px solid var(--line); overflow-x: auto; scrollbar-width: none;
+  }
+  .lang-tabs::-webkit-scrollbar { display: none; }
+  .lang-tab {
+    padding: 4px 12px; border-radius: 999px; border: 1px solid var(--line);
+    background: #FFFFFF; font-size: 12px; font-weight: 600; color: var(--ink-soft);
+    cursor: pointer; transition: all 0.2s ease; flex: none; font-family: var(--primary-font);
+  }
+  .lang-tab:hover { border-color: var(--green); color: var(--green); }
+  .lang-tab.active { background: var(--green); color: #FFFFFF; border-color: var(--green); }
+
+  /* ---------- Audio Sample Button on Job Cards ---------- */
+  .audio-line {
+    display: flex; flex-direction: column; gap: 8px; position: relative;
+  }
+  .play-sample-btn {
+    display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px;
+    background: #FFFFFF; border: 1px solid var(--line); border-radius: 999px;
+    font-size: 11.5px; font-weight: 600; color: var(--green); cursor: pointer;
+    transition: all 0.2s ease; align-self: flex-start; font-family: var(--primary-font);
+  }
+  .play-sample-btn:hover { background: #EDF4F0; border-color: var(--green); transform: translateY(-1px); }
+  .play-sample-btn.playing { background: var(--green); color: #FFFFFF; border-color: var(--green); }
+  .mini-wave { display: inline-flex; align-items: center; gap: 2px; height: 10px; opacity: 0; transition: opacity 0.2s ease; }
+  .play-sample-btn.playing .mini-wave { opacity: 1; }
+  .mini-wave i { width: 2px; background: currentColor; height: 4px; border-radius: 1px; }
+  .play-sample-btn.playing .mini-wave i { animation: miniWave 0.8s ease-in-out infinite; }
+  .mini-wave i:nth-child(2) { animation-delay: 0.15s; }
+  .mini-wave i:nth-child(3) { animation-delay: 0.3s; }
+  .mini-wave i:nth-child(4) { animation-delay: 0.45s; }
+  @keyframes miniWave { 0%, 100% { height: 3px; } 50% { height: 10px; } }
+
+  /* ---------- Calculator Section ---------- */
+  .calc-card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 24px;
+    padding: 44px 40px; box-shadow: 0 16px 40px rgba(18, 32, 26, 0.05); margin-top: 20px;
+  }
+  .calc-header { text-align: center; max-width: 580px; margin: 0 auto 36px; }
+  .calc-header h2 { font-size: clamp(26px, 3.2vw, 36px); font-weight: 700; margin-bottom: 10px; }
+  .calc-header p { color: var(--ink-soft); font-size: 16px; }
+  .calc-slider-box { max-width: 600px; margin: 0 auto 40px; text-align: center; }
+  .calc-slider-box label { font-family: var(--primary-font); font-weight: 600; font-size: 15px; display: block; margin-bottom: 12px; }
+  .calc-slider-val { font-size: 32px; font-weight: 700; color: var(--green); font-family: var(--primary-font); }
+  .calc-slider-input {
+    width: 100%; -webkit-appearance: none; height: 8px; border-radius: 4px; background: #EFECE1; outline: none; margin: 16px 0;
+  }
+  .calc-slider-input::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%; background: var(--green); cursor: pointer; box-shadow: 0 4px 12px rgba(24, 90, 58, 0.3); transition: transform 0.15s ease;
+  }
+  .calc-slider-input::-webkit-slider-thumb:hover { transform: scale(1.15); }
+  .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; text-align: center; }
+  @media(max-width: 820px) { .calc-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; } }
+  @media(max-width: 480px) { .calc-grid { grid-template-columns: 1fr; } }
+  .calc-box {
+    background: #FBFAF6; border: 1px solid var(--line); border-radius: 16px; padding: 22px 18px;
+    display: flex; flex-direction: column; justify-content: center; gap: 6px;
+  }
+  .calc-box.highlight { background: #EDF4F0; border-color: #BBD6C7; }
+  .calc-box .label { font-size: 12.5px; font-weight: 600; color: var(--ink-soft); font-family: var(--primary-font); text-transform: uppercase; letter-spacing: 0.05em; }
+  .calc-box .num { font-size: 26px; font-weight: 700; color: var(--ink); font-family: var(--primary-font); }
+  .calc-box.highlight .num { color: var(--green); }
+
   /* Final CTA */
   .final{
     text-align:center;padding:110px 28px;
@@ -343,11 +408,17 @@
           <div class="call-meta">
             <strong>Vaani · KZUNO Agent</strong>
             <span>Outbound · +91 98••• ••231</span>
-          </div>
-        </div>
-        <div class="call-status"><span class="pulse"></span>LIVE 00:19</div>
+              <div class="call-status"><span class="pulse"></span>LIVE 00:19</div>
       </div>
-      <div class="call-usecase"><span id="usecase-label">Job: Order confirmation</span><span>hi-IN</span></div>
+      <div class="lang-tabs" role="tablist" aria-label="Select accent and language">
+        <button class="lang-tab active" data-lang="hi-IN" data-label="Order confirmation" data-text="नमस्ते! KZUNO से बात हो रही है। क्या आपका ऑर्डर कल डिलीवरी के लिए कन्फर्म कर दूँ?">Hindi</button>
+        <button class="lang-tab" data-lang="mr-IN" data-label="ऑर्डर संपुष्टीकरण" data-text="नमस्कार! KZUNO वरून बोलतोय. उद्या तुमची डिलिव्हरी नक्की करायची का?">Marathi</button>
+        <button class="lang-tab" data-lang="gu-IN" data-label="ઓર્ડર કન્ફર્મેશન" data-text="નમસ્તે! KZUNO થી વાત કરું છું. કાલે ડિલિવરી ઓકે છે?">Gujarati</button>
+        <button class="lang-tab" data-lang="ta-IN" data-label="ஆர்டர் உறுதிப்படுத்தல்" data-text="வணக்கம்! KZUNO-விலிருந்து பேசுகிறேன். நாளை டெலிவரி செய்யலாமா?">Tamil</button>
+        <button class="lang-tab" data-lang="bn-IN" data-label="অর্ডার নিশ্চিতকরণ" data-text="নমস্কার! KZUNO থেকে বলছি। কাল ডেলিভারি করা কি ঠিক হবে?">Bengali</button>
+        <button class="lang-tab" data-lang="en-IN" data-label="Order confirmation" data-text="Hi there! Calling from KZUNO to confirm your order delivery for tomorrow.">English</button>
+      </div>
+      <div class="call-usecase"><span id="usecase-label">Job: Order confirmation</span><span id="usecase-lang">hi-IN</span></div>
       <div class="transcript" id="transcript" aria-live="polite"></div>
       <div class="call-foot">
         <div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -378,30 +449,123 @@
         <span class="tag">Orders</span>
         <h3>Order confirmation</h3>
         <p>Verify COD and prepaid orders within minutes of checkout. Cut RTO before it ships.</p>
-        <div class="line">"आपका ऑर्डर कन्फर्म करना है — कल डिलीवरी ठीक रहेगी?"</div>
+        <div class="line audio-line">
+          <button class="play-sample-btn" data-sample-text="आपका ऑर्डर कन्फर्म करना है — कल डिलीवरी ठीक रहेगी?" data-sample-lang="hi-IN">
+            <svg class="play-icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <span class="btn-lbl">Play audio</span>
+            <div class="mini-wave"><i></i><i></i><i></i><i></i></div>
+          </button>
+          <div class="line-text">"आपका ऑर्डर कन्फर्म करना है — कल डिलीवरी ठीक रहेगी?"</div>
+        </div>
       </div>
       <div class="job">
         <span class="tag">Sales</span>
         <h3>Lead qualification</h3>
         <p>Call every new lead while it's warm. Ask your qualifying questions, score, and route to your team.</p>
-        <div class="line">"आप कितने बजट में देख रहे हैं — मैं सही ऑप्शन बताती हूँ।"</div>
+        <div class="line audio-line">
+          <button class="play-sample-btn" data-sample-text="आप कितने बजट में देख रहे हैं — मैं सही ऑप्शन बताती हूँ।" data-sample-lang="hi-IN">
+            <svg class="play-icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <span class="btn-lbl">Play audio</span>
+            <div class="mini-wave"><i></i><i></i><i></i><i></i></div>
+          </button>
+          <div class="line-text">"आप कितने बजट में देख रहे हैं — मैं सही ऑप्शन बताती हूँ।"</div>
+        </div>
       </div>
       <div class="job">
         <span class="tag">Retention</span>
         <h3>Win-back &amp; renewals</h3>
         <p>Reach lapsed customers and expiring subscriptions with a personal call, not another ignored SMS.</p>
-        <div class="line">"आपका प्लान इस हफ़्ते ख़त्म हो रहा है — रिन्यू कर दूँ?"</div>
+        <div class="line audio-line">
+          <button class="play-sample-btn" data-sample-text="आपका प्लान इस हफ़्ते ख़त्म हो रहा है — रिन्यू कर दूँ?" data-sample-lang="hi-IN">
+            <svg class="play-icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <span class="btn-lbl">Play audio</span>
+            <div class="mini-wave"><i></i><i></i><i></i><i></i></div>
+          </button>
+          <div class="line-text">"आपका प्लान इस हफ़्ते ख़त्म हो रहा है — रिन्यू कर दूँ?"</div>
+        </div>
       </div>
       <div class="job">
         <span class="tag">Collections</span>
         <h3>Payment follow-up</h3>
         <p>Polite, consistent EMI and invoice reminders that keep relationships intact — and money moving.</p>
-        <div class="line">"आपकी EMI कल ड्यू है — अभी लिंक भेज दूँ?"</div>
+        <div class="line audio-line">
+          <button class="play-sample-btn" data-sample-text="आपकी EMI कल ड्यू है — अभी लिंक भेज दूँ?" data-sample-lang="hi-IN">
+            <svg class="play-icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <span class="btn-lbl">Play audio</span>
+            <div class="mini-wave"><i></i><i></i><i></i><i></i></div>
+          </button>
+          <div class="line-text">"आपकी EMI कल ड्यू है — अभी लिंक भेज दूँ?"</div>
+        </div>
       </div>
       <div class="job">
         <span class="tag">Voice of customer</span>
         <h3>Feedback &amp; NPS</h3>
         <p>Post-delivery calls that customers actually answer. Structured feedback lands in your dashboard.</p>
+        <div class="line audio-line">
+          <button class="play-sample-btn" data-sample-text="डिलीवरी कैसी रही? एक से दस में कितने नंबर देंगे?" data-sample-lang="hi-IN">
+            <svg class="play-icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <span class="btn-lbl">Play audio</span>
+            <div class="mini-wave"><i></i><i></i><i></i><i></i></div>
+          </button>
+          <div class="line-text">"डिलीवरी कैसी रही? एक से दस में कितने नंबर देंगे?"</div>
+        </div>
+      </div>
+      <div class="job">
+        <span class="tag">Logistics</span>
+        <h3>Delivery coordination</h3>
+        <p>Confirm addresses, reschedule attempts, and reduce failed deliveries before the courier gives up.</p>
+        <div class="line audio-line">
+          <button class="play-sample-btn" data-sample-text="डिलीवरी बॉय पहुँच नहीं पाया — नया टाइम बता दीजिए।" data-sample-lang="hi-IN">
+            <svg class="play-icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <span class="btn-lbl">Play audio</span>
+            <div class="mini-wave"><i></i><i></i><i></i><i></i></div>
+          </button>
+          <div class="line-text">"डिलीवरी बॉय पहुँच नहीं पाया — नया टाइम बता दीजिए।"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Calculator Section -->
+<section id="calculator" style="padding-top:0">
+  <div class="wrap">
+    <div class="calc-card">
+      <div class="calc-header">
+        <span class="eyebrow">ROI &amp; Savings Calculator</span>
+        <h2>Calculate your operational &amp; RTO savings</h2>
+        <p>Drag the slider to see how much your D2C brand saves every month with KZUNO voice agents.</p>
+      </div>
+      <div class="calc-slider-box">
+        <label for="roi-slider">Daily Order Volume: <span id="slider-val-display" class="calc-slider-val">250</span> orders/day</label>
+        <input type="range" id="roi-slider" class="calc-slider-input" min="50" max="2000" step="25" value="250">
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--ink-soft);font-family:var(--mono)">
+          <span>50 orders/day</span>
+          <span>1,000 orders/day</span>
+          <span>2,000 orders/day</span>
+        </div>
+      </div>
+      <div class="calc-grid">
+        <div class="calc-box">
+          <span class="label">Monthly Calls</span>
+          <span class="num" id="calc-monthly-calls">7,500</span>
+        </div>
+        <div class="calc-box">
+          <span class="label">Human Call Center</span>
+          <span class="num" id="calc-human-cost" style="text-decoration:line-through;opacity:0.6">₹1,12,500</span>
+        </div>
+        <div class="calc-box highlight">
+          <span class="label">KZUNO Voice AI</span>
+          <span class="num" id="calc-kzuno-cost">₹15,000</span>
+        </div>
+        <div class="calc-box highlight">
+          <span class="label">Monthly Savings</span>
+          <span class="num" id="calc-monthly-savings" style="color:var(--green)">₹97,500</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> Structured feedback lands in your dashboard.</p>
         <div class="line">"डिलीवरी कैसी रही? एक से दस में कितने नंबर देंगे?"</div>
       </div>
       <div class="job">
@@ -948,11 +1112,98 @@
       }
     };
     img.onerror = function() {
-      document.querySelectorAll('.logo-img').forEach(function(el) {
-        el.src = '/logo.png';
-        el.style.opacity = 1;
+  // D2C ROI & RTO Savings Calculator
+  (function() {
+    var slider = document.getElementById('roi-slider');
+    if (!slider) return;
+    var displayVal = document.getElementById('slider-val-display');
+    var callsEl = document.getElementById('calc-monthly-calls');
+    var humanEl = document.getElementById('calc-human-cost');
+    var kzunoEl = document.getElementById('calc-kzuno-cost');
+    var savingsEl = document.getElementById('calc-monthly-savings');
+
+    function updateCalc() {
+      var dailyOrders = parseInt(slider.value, 10);
+      var monthlyCalls = dailyOrders * 30;
+      var humanCost = Math.round(monthlyCalls * 15);
+      var kzunoCost = Math.round(monthlyCalls * 2);
+      var savings = humanCost - kzunoCost;
+
+      displayVal.textContent = dailyOrders.toLocaleString('en-IN');
+      callsEl.textContent = monthlyCalls.toLocaleString('en-IN');
+      humanEl.textContent = '₹' + humanCost.toLocaleString('en-IN');
+      kzunoEl.textContent = '₹' + kzunoCost.toLocaleString('en-IN');
+      savingsEl.textContent = '₹' + savings.toLocaleString('en-IN');
+    }
+
+    slider.addEventListener('input', updateCalc);
+    updateCalc();
+  })();
+
+  // Multilingual Accent Switcher
+  (function() {
+    var tabs = document.querySelectorAll('.lang-tab');
+    var usecaseLang = document.getElementById('usecase-lang');
+    var transcriptEl = document.getElementById('transcript');
+    if (!tabs.length || !transcriptEl) return;
+
+    tabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        tabs.forEach(function(t) { t.classList.remove('active'); });
+        tab.classList.add('active');
+
+        var lang = tab.getAttribute('data-lang');
+        var text = tab.getAttribute('data-text');
+        if (usecaseLang) usecaseLang.textContent = lang;
+
+        transcriptEl.innerHTML = '<div class="bubble agent" style="opacity:1; transform:none;"><span class="who">Vaani (' + lang + ')</span>' + text + '</div>';
       });
-    };
+    });
+  })();
+
+  // Audio Sample Soundboard Player
+  (function() {
+    var sampleBtns = document.querySelectorAll('.play-sample-btn');
+
+    sampleBtns.forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var isPlaying = btn.classList.contains('playing');
+
+        sampleBtns.forEach(function(b) {
+          b.classList.remove('playing');
+          b.querySelector('.btn-lbl').textContent = 'Play audio';
+        });
+
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+        }
+
+        if (isPlaying) return;
+
+        btn.classList.add('playing');
+        btn.querySelector('.btn-lbl').textContent = 'Playing…';
+
+        var text = btn.getAttribute('data-sample-text');
+        var lang = btn.getAttribute('data-sample-lang') || 'hi-IN';
+
+        if ('speechSynthesis' in window) {
+          var utter = new SpeechSynthesisUtterance(text);
+          utter.lang = lang;
+          utter.rate = 0.95;
+          utter.onend = utter.onerror = function() {
+            btn.classList.remove('playing');
+            btn.querySelector('.btn-lbl').textContent = 'Play audio';
+          };
+          window.speechSynthesis.speak(utter);
+        } else {
+          setTimeout(function() {
+            btn.classList.remove('playing');
+            btn.querySelector('.btn-lbl').textContent = 'Play audio';
+          }, 3000);
+        }
+      });
+    });
   })();
 })();
 </script>
