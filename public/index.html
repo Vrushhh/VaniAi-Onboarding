@@ -42,10 +42,10 @@
     line-height:1.55;
     -webkit-font-smoothing:antialiased;
   }
-  h1,h2,h3{font-family:var(--primary-font);line-height:1.08;letter-spacing:-0.02em}
-  h1{font-weight:700}
-  h2{font-weight:600}
-  h3{font-weight:500}
+  h1,h2,h3{font-family:var(--primary-font);line-height:1.14;letter-spacing:-0.025em}
+  h1{font-weight:800;font-size:clamp(38px,4.8vw,48px)}
+  h2{font-weight:600;font-size:clamp(26px,3.2vw,32px)}
+  h3{font-weight:500;font-size:24px}
   a{color:inherit;text-decoration:none}
   .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
   .eyebrow{
@@ -242,8 +242,8 @@
   /* ---------- Sections ---------- */
   section{padding:96px 0}
   .sec-head{max-width:640px;margin-bottom:52px}
-  .sec-head h2{font-size:clamp(30px,3.6vw,44px);font-weight:700}
-  .sec-head p{color:var(--ink-soft);font-size:17px;margin-top:14px}
+  .sec-head h2{font-family:var(--primary-font);font-size:clamp(26px,3.2vw,32px);font-weight:600;line-height:1.25;letter-spacing:-0.02em}
+  .sec-head p{font-family:var(--secondary-font);color:var(--ink-soft);font-size:16px;font-weight:400;line-height:1.6;margin-top:14px}
 
   /* Jobs grid */
   .jobs{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
@@ -265,8 +265,8 @@
     letter-spacing:.15em;text-transform:uppercase;color:#407554;
     display:inline-block;
   }
-  .job h3{font-size:21px;font-weight:700;color:#16241C;line-height:1.2}
-  .job p{font-size:14.5px;line-height:1.55;color:#4A5B51;flex:1}
+  .job h3{font-family:var(--primary-font);font-size:24px;font-weight:600;color:#16241C;line-height:1.25}
+  .job p{font-family:var(--secondary-font);font-size:14px;font-weight:500;line-height:1.55;color:#4A5B51;flex:1}
   .job .line{
     font-family:var(--dev);font-size:13.5px;line-height:1.5;color:#1F2E25;
     background:#EFECE1;border-left:3.5px solid #E69500;
