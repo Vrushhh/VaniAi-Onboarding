@@ -33,6 +33,27 @@ app.get("/debug-logs", (req, res) => {
   res.send((global.debugLogs || []).join("\n"));
 });
 
+/* ── Google OAuth / Gmail Sign-In Redirect ──────────────────────────── */
+app.get("/auth/google", (_req, res) => {
+  const clientId = process.env.GOOGLE_CLIENT_ID;
+  const redirectUri = process.env.PUBLIC_BASE_URL
+    ? `${process.env.PUBLIC_BASE_URL}/auth/google/callback`
+    : "https://www.kzuno.in/auth/google/callback";
+
+  if (clientId) {
+    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?` +
+      `response_type=code` +
+      `&client_id=${encodeURIComponent(clientId)}` +
+      `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+      `&scope=${encodeURIComponent("email profile")}` +
+      `&prompt=select_account`;
+    return res.redirect(googleAuthUrl);
+  }
+
+  // Generic Google Sign-In redirect fallback
+  res.redirect("https://accounts.google.com/AccountChooser?service=lso");
+});
+
 /* ── Live Call Transcripts API & UI ─────────────────────────────────── */
 app.get("/api/transcripts", (_req, res) => {
   res.json(getAllCalls());
