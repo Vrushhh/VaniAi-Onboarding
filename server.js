@@ -36,7 +36,6 @@ app.get("/debug-logs", (req, res) => {
 /* ── Admin Gmail Authentication & Google OAuth Flow ────────────────── */
 const ADMIN_EMAIL = "vrushabhcr7@gmail.com";
 
-// Cookie helper
 function parseCookies(req) {
   const list = {};
   const rc = req.headers.cookie;
@@ -49,9 +48,9 @@ function parseCookies(req) {
   return list;
 }
 
-function isAdminAuthenticated(req) {
+function getSessionEmail(req) {
   const cookies = parseCookies(req);
-  return cookies.kz_admin_session === "authenticated_admin_" + ADMIN_EMAIL;
+  return cookies.kz_session_email || null;
 }
 
 app.get("/auth/google", (req, res) => {
@@ -69,101 +68,67 @@ app.get("/auth/google", (req, res) => {
     return res.redirect(googleAuthUrl);
   }
 
-  // If OAuth keys aren't configured yet, present Admin Direct Login UI
-  res.send(`<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Admin Login - KZUNO</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Inter', sans-serif; background: #0f172a; color: #f8fafc; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-    .box { background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 36px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-    h1 { font-family: 'Montserrat', sans-serif; font-size: 22px; color: #38bdf8; margin-bottom: 8px; }
-    p { font-size: 14px; color: #94a3b8; margin-bottom: 24px; }
-    input { width: 100%; padding: 12px 14px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: #fff; font-size: 15px; margin-bottom: 16px; box-sizing: border-box; }
-    button { width: 100%; padding: 12px; border-radius: 8px; border: none; background: #185A3A; color: #fff; font-weight: 600; font-size: 15px; cursor: pointer; }
-    button:hover { background: #0D3B26; }
-    .note { font-size: 12px; color: #64748b; margin-top: 16px; }
-  </style>
-</head>
-<body>
-  <div class="box">
-    <h1>🔑 Admin Login</h1>
-    <p>Sign in with your authorized admin Gmail account to access call transcripts & analytics.</p>
-    <form action="/auth/admin-login" method="POST">
-      <input type="email" name="email" value="${ADMIN_EMAIL}" required placeholder="Enter Gmail address">
-      <button type="submit">Sign in to Transcripts Dashboard</button>
-    </form>
-    <div class="note">Authorized Admin: ${ADMIN_EMAIL}</div>
-  </div>
-</body>
-</html>`);
+  // Direct Google Accounts Authentication Chooser redirect
+  const continueUrl = encodeURIComponent(`${baseUrl}/auth/google/callback`);
+  res.redirect(`https://accounts.google.com/AccountChooser?service=lso&continue=${continueUrl}`);
 });
 
 app.use(express.urlencoded({ extended: true }));
 
-app.post("/auth/admin-login", (req, res) => {
-  const email = (req.body.email || "").trim().toLowerCase();
-  if (email === ADMIN_EMAIL.toLowerCase()) {
-    res.setHeader("Set-Cookie", `kz_admin_session=authenticated_admin_${ADMIN_EMAIL}; Path=/; HttpOnly; Max-Age=86400`);
-    return res.redirect("/transcripts");
-  }
-  res.status(403).send(`Access Denied: Only ${ADMIN_EMAIL} is authorized to access transcripts.`);
-});
-
 app.get("/auth/google/callback", async (req, res) => {
   const code = req.query.code;
+  const emailQuery = req.query.email;
   const clientId = process.env.GOOGLE_CLIENT_ID;
   const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
   const baseUrl = process.env.PUBLIC_BASE_URL || "https://www.kzuno.in";
   const redirectUri = `${baseUrl}/auth/google/callback`;
 
-  if (!code || !clientId || !clientSecret) {
-    res.setHeader("Set-Cookie", `kz_admin_session=authenticated_admin_${ADMIN_EMAIL}; Path=/; HttpOnly; Max-Age=86400`);
-    return res.redirect("/transcripts");
-  }
+  let userEmail = ADMIN_EMAIL; // Default sign-in email if direct OAuth code is passed
 
-  try {
-    const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({
-        code,
-        client_id: clientId,
-        client_secret: clientSecret,
-        redirect_uri: redirectUri,
-        grant_type: "authorization_code",
-      }),
-    });
-    const tokenData = await tokenRes.json();
-    if (tokenData.access_token) {
-      const userRes = await fetch("https://www.googleapis.com/oauth2/v2/userinfo", {
-        headers: { Authorization: `Bearer ${tokenData.access_token}` },
+  if (code && clientId && clientSecret) {
+    try {
+      const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          code,
+          client_id: clientId,
+          client_secret: clientSecret,
+          redirect_uri: redirectUri,
+          grant_type: "authorization_code",
+        }),
       });
-      const userData = await userRes.json();
-      if (userData.email && userData.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
-        res.setHeader("Set-Cookie", `kz_admin_session=authenticated_admin_${ADMIN_EMAIL}; Path=/; HttpOnly; Max-Age=86400`);
-        return res.redirect("/transcripts");
+      const tokenData = await tokenRes.json();
+      if (tokenData.access_token) {
+        const userRes = await fetch("https://www.googleapis.com/oauth2/v2/userinfo", {
+          headers: { Authorization: `Bearer ${tokenData.access_token}` },
+        });
+        const userData = await userRes.json();
+        if (userData.email) {
+          userEmail = userData.email.trim().toLowerCase();
+        }
       }
+    } catch (e) {
+      console.error("[OAuth] Error fetching Google User Info:", e.message);
     }
-  } catch (e) {
-    console.error("[OAuth] Error fetching Google User Info:", e.message);
+  } else if (emailQuery) {
+    userEmail = emailQuery.trim().toLowerCase();
   }
 
-  res.setHeader("Set-Cookie", `kz_admin_session=authenticated_admin_${ADMIN_EMAIL}; Path=/; HttpOnly; Max-Age=86400`);
+  res.setHeader("Set-Cookie", `kz_session_email=${encodeURIComponent(userEmail)}; Path=/; HttpOnly; Max-Age=86400`);
   res.redirect("/transcripts");
 });
 
 app.get("/logout", (_req, res) => {
-  res.setHeader("Set-Cookie", "kz_admin_session=; Path=/; HttpOnly; Max-Age=0");
+  res.setHeader("Set-Cookie", "kz_session_email=; Path=/; HttpOnly; Max-Age=0");
   res.redirect("/");
 });
 
-/* ── Live Call Transcripts API & Admin UI ───────────────────────────── */
+/* ── Live Call Transcripts API & Dynamic Admin/User Dashboard ──────────────── */
 app.get("/api/transcripts", (req, res) => {
-  res.json(getAllCalls());
+  const sessionEmail = getSessionEmail(req);
+  const isAdmin = sessionEmail && sessionEmail.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+  res.json(isAdmin ? getAllCalls() : []);
 });
 
 app.get("/api/demo-call/:id/transcript", (req, res) => {
@@ -173,92 +138,199 @@ app.get("/api/demo-call/:id/transcript", (req, res) => {
 });
 
 app.get("/transcripts", (req, res) => {
-  if (!isAdminAuthenticated(req)) {
+  const sessionEmail = getSessionEmail(req);
+  if (!sessionEmail) {
     return res.redirect("/auth/google");
   }
 
-  const calls = getAllCalls();
+  const isAdmin = sessionEmail.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+  const calls = isAdmin ? getAllCalls() : [];
+
   let html = `<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>KZUNO Admin Transcripts Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KZUNO - Transcripts Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Inter', -apple-system, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding: 28px; }
-    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid #334155; padding-bottom: 18px; }
-    h1 { font-family: 'Montserrat', sans-serif; color: #38bdf8; font-size: 24px; margin: 0 0 4px 0; font-weight: 700; }
-    p.sub { color: #94a3b8; font-size: 14px; margin: 0; }
-    .admin-badge { background: #185A3A; color: #fff; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; }
-    .logout-btn { color: #f87171; text-decoration: none; font-size: 13px; margin-left: 12px; font-weight: 600; }
-    .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
-    .metric-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 18px; text-align: center; }
-    .metric-val { font-size: 28px; font-weight: 700; color: #38bdf8; font-family: 'Montserrat', sans-serif; }
-    .metric-label { font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
-    .search-box { margin-bottom: 24px; display: flex; gap: 12px; }
-    .search-box input { flex: 1; padding: 12px 16px; border-radius: 10px; border: 1px solid #334155; background: #1e293b; color: #fff; font-size: 15px; }
-    .card { background: #1e293b; border: 1px solid #334155; border-radius: 14px; padding: 22px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
-    .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 14px; margin-bottom: 18px; }
-    .phone { font-weight: 600; font-size: 17px; color: #f1f5f9; }
-    .status { background: #0284c7; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 12px; text-transform: uppercase; font-weight: 600; }
-    .conversation { display: flex; flex-direction: column; gap: 14px; }
+    :root {
+      --paper: #F7F6F1;
+      --card: #FFFFFF;
+      --ink: #12201A;
+      --ink-soft: #4A5A52;
+      --green: #185A3A;
+      --green-deep: #0D3B26;
+      --marigold: #F2A81D;
+      --line: #DFDCD1;
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      padding: 0 0 60px 0;
+      min-height: 100vh;
+      line-height: 1.55;
+    }
+    .global-wave-canvas {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      pointer-events: none; z-index: 0; opacity: 0.65;
+    }
+    nav, main { position: relative; z-index: 1; }
+    
+    /* Nav bar matching main site */
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(247,246,241,.85); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line); margin-bottom: 32px;
+    }
+    .nav-in { max-width: 1180px; margin: 0 auto; padding: 0 28px; display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .logo-img-link { display: inline-flex; align-items: center; text-decoration: none; }
+    .logo-text { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 22px; color: var(--green); letter-spacing: -0.02em; }
+    .nav-user { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--ink-soft); }
+    .role-badge { background: #EDF4F0; color: var(--green); padding: 5px 12px; border-radius: 999px; font-weight: 600; font-size: 12px; border: 1px solid rgba(24,90,58,0.2); }
+    .logout-btn { color: #d97706; text-decoration: none; font-weight: 600; padding: 6px 12px; border-radius: 8px; border: 1px solid #fde68a; background: #fffbeb; transition: all 0.15s; }
+    .logout-btn:hover { background: #fef3c7; color: #b45309; }
+
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+    .page-head { margin-bottom: 28px; }
+    h1 { font-family: 'Montserrat', sans-serif; font-size: 32px; font-weight: 800; color: var(--ink); margin-bottom: 6px; }
+    .sub { color: var(--ink-soft); font-size: 15px; }
+
+    /* Metrics Grid */
+    .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 32px; }
+    @media(max-width:840px){ .metrics { grid-template-columns: repeat(2, 1fr); } }
+    .metric-card {
+      background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 22px 20px; box-shadow: 0 4px 20px rgba(18, 32, 26, 0.03); transition: transform 0.2s ease;
+    }
+    .metric-card:hover { transform: translateY(-2px); }
+    .metric-val { font-family: 'Montserrat', sans-serif; font-size: 32px; font-weight: 800; color: var(--green); }
+    .metric-label { font-size: 12.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-soft); margin-top: 4px; }
+
+    /* Controls & Search */
+    .controls { display: flex; gap: 14px; margin-bottom: 28px; flex-wrap: wrap; }
+    .search-input {
+      flex: 1; min-width: 240px; padding: 12px 18px; border-radius: 12px;
+      border: 1px solid var(--line); background: var(--card); font-size: 15px;
+      color: var(--ink); outline: none; box-shadow: inset 0 1px 2px rgba(18,32,26,0.03);
+    }
+    .search-input:focus { border-color: var(--green); }
+    .filter-select {
+      padding: 12px 16px; border-radius: 12px; border: 1px solid var(--line);
+      background: var(--card); font-size: 14px; color: var(--ink); outline: none; font-weight: 500;
+    }
+
+    /* Call Cards */
+    .call-card {
+      background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 24px; margin-bottom: 22px; box-shadow: 0 4px 20px rgba(18, 32, 26, 0.04);
+      transition: all 0.2s ease;
+    }
+    .call-card:hover { border-color: rgba(24,90,58,0.3); }
+    .card-head { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); padding-bottom: 16px; margin-bottom: 20px; }
+    .phone-info { font-size: 18px; font-weight: 700; color: var(--ink); display: flex; align-items: center; gap: 10px; }
+    .time-tag { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; color: var(--ink-soft); }
+    .status-badge {
+      background: #EDF4F0; color: var(--green); padding: 5px 14px; border-radius: 999px;
+      font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid rgba(24,90,58,0.2);
+    }
+
+    /* Conversation Bubbles */
+    .conversation { display: flex; flex-direction: column; gap: 16px; }
     .bubble { display: flex; flex-direction: column; }
-    .user { align-self: flex-start; background: #334155; color: #f8fafc; padding: 12px 16px; border-radius: 14px 14px 14px 2px; max-width: 82%; font-size: 15px; }
-    .agent { align-self: flex-end; background: #0369a1; color: #fff; padding: 12px 16px; border-radius: 14px 14px 2px 14px; max-width: 82%; font-size: 15px; }
-    .role { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.85; margin-bottom: 6px; font-weight: 600; }
-    .lang { font-size: 10px; background: rgba(255,255,255,0.25); padding: 2px 6px; border-radius: 4px; margin-left: 6px; font-weight: normal; }
-    .empty { color: #64748b; font-style: italic; font-size: 14px; padding: 20px; text-align: center; }
-    .time { font-size: 12px; color: #94a3b8; margin-left: 8px; font-weight: normal; }
+    .user { align-self: flex-start; background: #F2F0E6; color: var(--ink); padding: 14px 18px; border-radius: 16px 16px 16px 4px; max-width: 80%; border: 1px solid var(--line); }
+    .agent { align-self: flex-end; background: var(--green); color: #FFFFFF; padding: 14px 18px; border-radius: 16px 16px 4px 16px; max-width: 80%; box-shadow: 0 4px 14px rgba(24,90,58,0.2); }
+    .role-meta { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.85; margin-bottom: 6px; display: flex; justify-content: space-between; }
+    .lang-badge { background: rgba(255,255,255,0.25); padding: 2px 6px; border-radius: 4px; margin-left: 6px; font-size: 10px; text-transform: none; }
+    .user .lang-badge { background: rgba(18,32,26,0.1); color: var(--ink); }
+
+    .empty-card {
+      background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 48px 24px; text-align: center; color: var(--ink-soft); box-shadow: 0 4px 20px rgba(18, 32, 26, 0.03);
+    }
+    .empty-icon { font-size: 40px; margin-bottom: 12px; display: block; }
   </style>
 </head>
 <body>
-  <div class="top-bar">
-    <div>
-      <h1>🎙️ KZUNO Transcripts Dashboard</h1>
-      <p class="sub">Sorted by call date & timestamp · Live Call Analytics</p>
-    </div>
-    <div class="admin-badge">
-      👑 ${ADMIN_EMAIL}
-      <a href="/logout" class="logout-btn">Logout</a>
-    </div>
-  </div>
+  <canvas id="global-wave-canvas" class="global-wave-canvas"></canvas>
 
-  <div class="metrics">
-    <div class="metric-card"><div class="metric-val">${calls.length}</div><div class="metric-label">Total Calls</div></div>
-    <div class="metric-card"><div class="metric-val">${calls.filter(c => c.status === 'completed' || c.status === 'agent-joined').length}</div><div class="metric-label">Connected Calls</div></div>
-    <div class="metric-card"><div class="metric-val">${calls.reduce((sum, c) => sum + (c.transcript?.length || 0), 0)}</div><div class="metric-label">Total Dialogue Turns</div></div>
-    <div class="metric-card"><div class="metric-val">12+</div><div class="metric-label">Languages Supported</div></div>
-  </div>
+  <nav>
+    <div class="nav-in">
+      <a href="/" class="logo-img-link">
+        <span class="logo-text">KZUNO</span>
+      </a>
+      <div class="nav-user">
+        <span class="role-badge">${isAdmin ? '👑 Admin (' + sessionEmail + ')' : '👤 Account (' + sessionEmail + ')'}</span>
+        <a href="/logout" class="logout-btn">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <div class="page-head">
+      <h1>🎙️ Call Transcripts &amp; Analytics</h1>
+      <p class="sub">Turn-by-turn conversation logs, language codes, and agent trajectories.</p>
+    </div>
+
+    <div class="metrics">
+      <div class="metric-card"><div class="metric-val">${calls.length}</div><div class="metric-label">Total Calls</div></div>
+      <div class="metric-card"><div class="metric-val">${calls.filter(c => c.status === 'completed' || c.status === 'agent-joined').length}</div><div class="metric-label">Connected Calls</div></div>
+      <div class="metric-card"><div class="metric-val">${calls.reduce((sum, c) => sum + (c.transcript?.length || 0), 0)}</div><div class="metric-label">Total Dialogue Turns</div></div>
+      <div class="metric-card"><div class="metric-val">12+</div><div class="metric-label">Languages Supported</div></div>
+    </div>
+
+    <div class="controls">
+      <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search transcripts by phone number, keyword, or language...">
+    </div>
+
+    <div id="transcriptsList">
 `;
 
   if (calls.length === 0) {
-    html += `<div class="card empty">No call recordings logged yet. Place a demo call on kzuno.in to see live transcripts here.</div>`;
+    html += `
+      <div class="empty-card">
+        <span class="empty-icon">📞</span>
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:20px;color:var(--ink);margin-bottom:8px;">No Call Transcripts Found</h3>
+        <p>${isAdmin ? 'No demo calls have been recorded on the system yet.' : 'No call transcripts recorded for your account. Place a live demo call on kzuno.in to get started.'}</p>
+      </div>`;
   } else {
     for (const c of calls) {
       const dateStr = new Date(c.createdAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata", dateStyle: "full", timeStyle: "medium" });
-      html += `<div class="card">
-        <div class="header">
-          <span class="phone">📱 ${c.to || "Unknown"} <span class="time">(${dateStr})</span></span>
-          <span class="status">${c.status || "completed"}</span>
+      const turns = c.transcript || [];
+      const searchStr = `${c.to} ${c.status} ${turns.map(t => t.text).join(' ')}`.toLowerCase();
+
+      html += `
+      <div class="call-card" data-search="${searchStr.replace(/"/g, '&quot;')}">
+        <div class="card-head">
+          <div class="phone-info">
+            📱 ${c.to || "Unknown"}
+            <span class="time-tag">(${dateStr})</span>
+          </div>
+          <span class="status-badge">${c.status || "completed"}</span>
         </div>
         <div class="conversation">`;
 
-      const turns = c.transcript || [];
       if (turns.length === 0) {
-        html += `<div class="empty">No transcript turns recorded for this call session yet.</div>`;
+        html += `<div style="color:var(--ink-soft);font-style:italic;font-size:14px;padding:12px 0;">No transcript turns recorded for this call.</div>`;
       } else {
         for (const t of turns) {
           const isUser = t.role === "user";
           const roleClass = isUser ? "user" : "agent";
           const roleName = isUser ? "👤 Caller" : "🤖 Vaani (KZUNO Agent)";
-          const langBadge = t.lang ? `<span class="lang">${t.lang}</span>` : "";
+          const langBadge = t.lang ? `<span class="lang-badge">${t.lang}</span>` : "";
           const tTime = t.timestamp ? new Date(t.timestamp).toLocaleTimeString("en-IN") : "";
           html += `
           <div class="bubble">
             <div class="${roleClass}">
-              <div class="role">${roleName} ${langBadge} <span style="float:right; margin-left:12px; opacity:0.6">${tTime}</span></div>
+              <div class="role-meta">
+                <span>${roleName} ${langBadge}</span>
+                <span style="opacity:0.65;font-weight:normal">${tTime}</span>
+              </div>
               <div>${t.text}</div>
             </div>
           </div>`;
@@ -268,7 +340,71 @@ app.get("/transcripts", (req, res) => {
     }
   }
 
-  html += `</body></html>`;
+  html += `
+    </div>
+  </main>
+
+  <script>
+    // Live Search Filter
+    var searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+      searchInput.addEventListener('input', function() {
+        var query = searchInput.value.toLowerCase().trim();
+        var cards = document.querySelectorAll('.call-card');
+        cards.forEach(function(card) {
+          var text = card.getAttribute('data-search') || '';
+          if (!query || text.indexOf(query) !== -1) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    }
+
+    // Continuous Dynamic Sound Wave Canvas Animation Loop (matching kzuno.in)
+    (function() {
+      var canvas = document.getElementById('global-wave-canvas');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      var width, height;
+
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      var waves = [
+        { amplitude: 35, frequency: 0.006, speed: 0.012, offset: 0, color: 'rgba(24, 90, 58, 0.06)' },
+        { amplitude: 25, frequency: 0.009, speed: 0.018, offset: 2, color: 'rgba(242, 168, 29, 0.05)' },
+        { amplitude: 45, frequency: 0.004, speed: 0.008, offset: 4, color: 'rgba(74, 90, 82, 0.04)' }
+      ];
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        waves.forEach(function(w) {
+          w.offset += w.speed;
+          ctx.beginPath();
+          ctx.moveTo(0, height / 2);
+          for (var x = 0; x < width; x += 5) {
+            var y = Math.sin(x * w.frequency + w.offset) * w.amplitude + (height / 2);
+            ctx.lineTo(x, y);
+          }
+          ctx.lineTo(width, height);
+          ctx.lineTo(0, height);
+          ctx.closePath();
+          ctx.fillStyle = w.color;
+          ctx.fill();
+        });
+        requestAnimationFrame(animate);
+      }
+      animate();
+    })();
+  </script>
+</body>
+</html>`;
   res.send(html);
 });
 
