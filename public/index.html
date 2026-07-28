@@ -1964,13 +1964,19 @@
       position: fixed;
       top: 0;
       left: 0;
+      right: 0;
+      bottom: 0;
       width: 100vw;
       height: 100vh;
       background: var(--paper);
       z-index: 999999;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
       animation: splashFadeOut 0.6s cubic-bezier(0.16, 1, 0.3, 1) 2s forwards;
       will-change: opacity, transform;
     }
@@ -2252,8 +2258,8 @@
           </div>
           <h3>Order confirmation</h3>
           <p>Verify COD and prepaid orders within minutes of checkout. Cut RTO before it ships.</p>
-          <div class="line">"Aapka order confirm karna hai — kal delivery thik rahegi?"</div>
-          <button class="job-audio-btn" onclick="triggerJobAudio(this, 'Order confirmation', 'Aapka order confirm karna hai — kal delivery thik rahegi?')">
+          <div class="line">"Hi there! Calling to confirm your order #4821. Will tomorrow afternoon be convenient for delivery?"</div>
+          <button class="job-audio-btn" onclick="triggerJobAudio(this, 'Order confirmation', 'Hi there! Calling to confirm your order #4821. Will tomorrow afternoon be convenient for delivery?')">
             <span>▶</span> Listen Sample <div class="job-audio-bars"><span></span><span></span><span></span></div>
           </button>
         </div>
@@ -2272,8 +2278,8 @@
           </div>
           <h3>Lead qualification</h3>
           <p>Call every new lead while it's warm. Ask your qualifying questions, score, and route to your team.</p>
-          <div class="line">"Aap kitne budget me dekh rahe hain — main sahi option batati hoon."</div>
-          <button class="job-audio-btn" onclick="triggerJobAudio(this, 'Lead qualification', 'Aap kitne budget me dekh rahe hain — main sahi option batati hoon.')">
+          <div class="line">"Hello! Thanks for reaching out. What is your monthly order volume so I can suggest the best plan for you?"</div>
+          <button class="job-audio-btn" onclick="triggerJobAudio(this, 'Lead qualification', 'Hello! Thanks for reaching out. What is your monthly order volume so I can suggest the best plan for you?')">
             <span>▶</span> Listen Sample <div class="job-audio-bars"><span></span><span></span><span></span></div>
           </button>
         </div>
@@ -2293,8 +2299,8 @@
           </div>
           <h3>Win-back &amp; renewals</h3>
           <p>Reach lapsed customers and expiring subscriptions with a personal call, not another ignored SMS.</p>
-          <div class="line">"Aapka plan is hafte khatam ho raha hai — renew kar doon?"</div>
-          <button class="job-audio-btn" onclick="triggerJobAudio(this, 'Win-back & renewals', 'Aapka plan is hafte khatam ho raha hai — renew kar doon?')">
+          <div class="line">"Hi! Your subscription is expiring this weekend. Would you like me to renew your plan today with a 20% discount?"</div>
+          <button class="job-audio-btn" onclick="triggerJobAudio(this, 'Win-back & renewals', 'Hi! Your subscription is expiring this weekend. Would you like me to renew your plan today with a 20 percent discount?')">
             <span>▶</span> Listen Sample <div class="job-audio-bars"><span></span><span></span><span></span></div>
           </button>
         </div>
@@ -2314,8 +2320,8 @@
           </div>
           <h3>Payment follow-up</h3>
           <p>Polite, consistent EMI and invoice reminders that keep relationships intact — and money moving.</p>
-          <div class="line">"Aapki EMI kal due hai — abhi link bhej doon?"</div>
-          <button class="job-audio-btn" onclick="triggerJobAudio(this, 'Payment follow-up', 'Aapki EMI kal due hai — abhi link bhej doon?')">
+          <div class="line">"Hello! A quick friendly reminder that your monthly invoice is due. Should I send an instant payment link to your phone?"</div>
+          <button class="job-audio-btn" onclick="triggerJobAudio(this, 'Payment follow-up', 'Hello! A quick friendly reminder that your monthly invoice is due. Should I send an instant payment link to your phone?')">
             <span>▶</span> Listen Sample <div class="job-audio-bars"><span></span><span></span><span></span></div>
           </button>
         </div>
@@ -2335,8 +2341,8 @@
           </div>
           <h3>Feedback &amp; NPS</h3>
           <p>Post-delivery calls that customers actually answer. Structured feedback lands in your dashboard.</p>
-          <div class="line">"Delivery kaisi rahi? Ek se das me kitne number denge?"</div>
-          <button class="job-audio-btn" onclick="triggerJobAudio(this, 'Feedback & NPS', 'Delivery kaisi rahi? Ek se das me kitne number denge?')">
+          <div class="line">"Hi! Hope you received your order safely! How would you rate our delivery service on a scale of 1 to 10?"</div>
+          <button class="job-audio-btn" onclick="triggerJobAudio(this, 'Feedback & NPS', 'Hi! Hope you received your order safely! How would you rate our delivery service on a scale of 1 to 10?')">
             <span>▶</span> Listen Sample <div class="job-audio-bars"><span></span><span></span><span></span></div>
           </button>
         </div>
@@ -2357,8 +2363,8 @@
           </div>
           <h3>Delivery coordination</h3>
           <p>Confirm addresses, reschedule attempts, and reduce failed deliveries before the courier gives up.</p>
-          <div class="line">"Delivery boy pahunch nahi paya — naya time bata dijiye."</div>
-          <button class="job-audio-btn" onclick="triggerJobAudio(this, 'Delivery coordination', 'Delivery boy pahunch nahi paya — naya time bata dijiye.')">
+          <div class="line">"Hello! Your courier driver is at your location. Should I update a new delivery time for you?"</div>
+          <button class="job-audio-btn" onclick="triggerJobAudio(this, 'Delivery coordination', 'Hello! Your courier driver is at your location. Should I update a new delivery time for you?')">
             <span>▶</span> Listen Sample <div class="job-audio-bars"><span></span><span></span><span></span></div>
           </button>
         </div>
@@ -2388,7 +2394,7 @@
             <strong>FAQ answering</strong>
             <span>Trained on your policies, sizing, and product details.</span>
           </div>
-          <button class="job-audio-btn" style="margin-top:0; padding: 6px 12px; font-size: 11.5px;" onclick="event.stopPropagation(); triggerJobAudio(this, 'FAQ Answering', 'Humari return policy 7 din tak valid hai. Product pristine condition me hona chahiye.')">
+          <button class="job-audio-btn" style="margin-top:0; padding: 6px 12px; font-size: 11.5px;" onclick="event.stopPropagation(); triggerJobAudio(this, 'FAQ Answering', 'Hello! Our return policy is valid for 7 days post delivery. Items must be unused and in original packaging.')">
             <span>▶</span> Listen Demo <div class="job-audio-bars"><span></span><span></span><span></span></div>
           </button>
         </div>
@@ -2408,7 +2414,7 @@
             <strong>Order status</strong>
             <span>Live tracking lookups from your store or 3PL, read out on the call.</span>
           </div>
-          <button class="job-audio-btn" style="margin-top:0; padding: 6px 12px; font-size: 11.5px;" onclick="event.stopPropagation(); triggerJobAudio(this, 'Order Status', 'Aapka order BlueDart courier ke saath out for delivery hai. Aaj shaam 6 baje tak mil jayega.')">
+          <button class="job-audio-btn" style="margin-top:0; padding: 6px 12px; font-size: 11.5px;" onclick="event.stopPropagation(); triggerJobAudio(this, 'Order Status', 'Your order is out for delivery with BlueDart courier. It is expected to arrive today by 6:00 PM.')">
             <span>▶</span> Listen Demo <div class="job-audio-bars"><span></span><span></span><span></span></div>
           </button>
         </div>
@@ -2427,7 +2433,7 @@
             <strong>Returns &amp; exchanges</strong>
             <span>Initiates the return, books the pickup, confirms by WhatsApp.</span>
           </div>
-          <button class="job-audio-btn" style="margin-top:0; padding: 6px 12px; font-size: 11.5px;" onclick="event.stopPropagation(); triggerJobAudio(this, 'Returns & Exchanges', 'Main aapka size exchange request process kar rahi hoon. Pickup kal subah 10 baje scheduled hai.')">
+          <button class="job-audio-btn" style="margin-top:0; padding: 6px 12px; font-size: 11.5px;" onclick="event.stopPropagation(); triggerJobAudio(this, 'Returns & Exchanges', 'Your size exchange request is confirmed. Our courier partner will pick up the item tomorrow at 10:00 AM.')">
             <span>▶</span> Listen Demo <div class="job-audio-bars"><span></span><span></span><span></span></div>
           </button>
         </div>
@@ -2445,7 +2451,7 @@
             <strong>Smart transfer</strong>
             <span>Escalates to a human with the transcript and customer history attached.</span>
           </div>
-          <button class="job-audio-btn" style="margin-top:0; padding: 6px 12px; font-size: 11.5px;" onclick="event.stopPropagation(); triggerJobAudio(this, 'Smart Transfer', 'Main aapki call humare senior support specialist ko transfer kar rahi hoon. Ek second hold kijiye.')">
+          <button class="job-audio-btn" style="margin-top:0; padding: 6px 12px; font-size: 11.5px;" onclick="event.stopPropagation(); triggerJobAudio(this, 'Smart Transfer', 'Sure thing! Transferring your call to our senior support specialist along with your complete chat transcript. Please hold.')">
             <span>▶</span> Listen Demo <div class="job-audio-bars"><span></span><span></span><span></span></div>
           </button>
         </div>
@@ -3423,9 +3429,25 @@
           window.speechSynthesis.cancel();
           var cleanText = text.replace(/["']/g, '');
           var utterance = new SpeechSynthesisUtterance(cleanText);
-          utterance.lang = 'hi-IN';
-          utterance.rate = 0.95;
-          utterance.pitch = 1.0;
+
+          // Find optimal Indian English accent voice (en-IN)
+          var voices = window.speechSynthesis.getVoices();
+          var indianEnglishVoice = voices.find(function (v) {
+            return v.lang === 'en-IN' && (v.name.includes('Google') || v.name.includes('India') || v.name.includes('Rishi') || v.name.includes('Veena') || v.name.includes('Heera') || v.name.includes('Kalpana'));
+          }) || voices.find(function (v) {
+            return v.lang === 'en-IN';
+          }) || voices.find(function (v) {
+            return v.lang === 'hi-IN';
+          });
+
+          if (indianEnglishVoice) {
+            utterance.voice = indianEnglishVoice;
+            utterance.lang = 'en-IN';
+          } else {
+            utterance.lang = 'en-IN';
+          }
+          utterance.rate = 0.94; // Clear, natural Indian English speech cadence
+          utterance.pitch = 1.02; // Warm Indian English tone
 
           utterance.onend = function () {
             btn.classList.remove('playing');
