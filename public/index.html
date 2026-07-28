@@ -2089,6 +2089,87 @@
       }
     }
 
+    /* ---------- Interbrand-Style Signature Scroll Animations ---------- */
+    /* 1. Interbrand Bottom Floating Scroll Pill [ ↓ ] */
+    .interbrand-scroll-down-btn {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(223, 220, 209, 0.8);
+      box-shadow: 0 6px 20px rgba(18, 32, 26, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .interbrand-scroll-down-btn:hover {
+      background: var(--green);
+      color: #FFFFFF;
+      transform: translateX(-50%) translateY(-3px) scale(1.08);
+      box-shadow: 0 10px 24px rgba(24, 90, 58, 0.24);
+    }
+
+    .interbrand-scroll-down-btn svg {
+      width: 18px;
+      height: 18px;
+      animation: interbrandBounce 2s infinite ease-in-out;
+    }
+
+    @keyframes interbrandBounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(4px); }
+      60% { transform: translateY(2px); }
+    }
+
+    /* 2. Interbrand Kinetic Word-Fill Text Reveal */
+    .interbrand-reveal-text {
+      font-size: clamp(26px, 3.5vw, 44px);
+      font-family: var(--primary-font);
+      font-weight: 600;
+      line-height: 1.18;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin: 24px 0 28px 0;
+    }
+
+    .interbrand-word {
+      display: inline-block;
+      opacity: 0.18;
+      transform: translateY(6px);
+      transition: opacity 0.35s ease, color 0.35s ease, transform 0.35s ease;
+      margin-right: 0.24em;
+    }
+
+    .interbrand-word.highlight {
+      opacity: 1;
+      color: var(--green);
+      transform: translateY(0);
+    }
+
+    /* 3. Interbrand Staggered Parallax Entrance for Cards */
+    .interbrand-reveal {
+      opacity: 0;
+      transform: translateY(36px) scale(0.97);
+      transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform, opacity;
+    }
+
+    .interbrand-reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
     @keyframes splashFadeOut {
       0% {
         opacity: 1;
@@ -2119,6 +2200,14 @@
 
   <!-- Top Scroll Progress Bar -->
   <div id="scroll-progress-bar"></div>
+
+  <!-- Interbrand Floating Scroll Down Button [ ↓ ] -->
+  <button class="interbrand-scroll-down-btn" id="interbrand-scroll-btn" title="Scroll to next section" aria-label="Scroll down">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="5" x2="12" y2="19"></line>
+      <polyline points="19 12 12 19 5 12"></polyline>
+    </svg>
+  </button>
 
   <!-- ---------- 2-Second Animated KZUNO Logo Splash Intro Screen ---------- -->
   <div id="kzuno-splash" class="kzuno-splash-screen" aria-hidden="true">
@@ -2238,7 +2327,20 @@
     <div class="wrap">
       <div class="sec-head">
         <span class="eyebrow">Outbound</span>
-        <h2>One workforce. Every outbound job on your list.</h2>
+        <div class="interbrand-reveal-text" id="interbrand-headline">
+          <span class="interbrand-word">We</span>
+          <span class="interbrand-word">don't</span>
+          <span class="interbrand-word">just</span>
+          <span class="interbrand-word">automate</span>
+          <span class="interbrand-word">calls.</span>
+          <span class="interbrand-word">We</span>
+          <span class="interbrand-word">build</span>
+          <span class="interbrand-word">your</span>
+          <span class="interbrand-word">iconic</span>
+          <span class="interbrand-word">AI</span>
+          <span class="interbrand-word">voice</span>
+          <span class="interbrand-word">workforce.</span>
+        </div>
         <p>Each agent runs a job you'd otherwise staff a calling team for — from the first order confirmation to the
           last payment nudge.</p>
       </div>
@@ -2376,7 +2478,16 @@
     <div class="wrap split">
       <div>
         <span class="eyebrow">Inbound</span>
-        <h2 style="font-size:clamp(30px,3.6vw,44px)">And when customers call you, someone always answers.</h2>
+        <div class="interbrand-reveal-text">
+          <span class="interbrand-word">And</span>
+          <span class="interbrand-word">when</span>
+          <span class="interbrand-word">customers</span>
+          <span class="interbrand-word">call</span>
+          <span class="interbrand-word">you,</span>
+          <span class="interbrand-word">someone</span>
+          <span class="interbrand-word">always</span>
+          <span class="interbrand-word">answers.</span>
+        </div>
         <p style="color:var(--ink-soft);font-size:17px;margin-top:14px">The same agents pick up your support line —
           24×7, in the caller's language, with your catalogue and policies loaded. Anything they can't resolve is
           transferred to your team with full context.</p>
@@ -2463,7 +2574,14 @@
     <div class="wrap">
       <div class="sec-head" style="max-width: 680px; margin-bottom: 36px;">
         <span class="eyebrow">ROI &amp; Savings Calculator</span>
-        <h2>Calculate your operational &amp; RTO savings</h2>
+        <div class="interbrand-reveal-text">
+          <span class="interbrand-word">Calculate</span>
+          <span class="interbrand-word">your</span>
+          <span class="interbrand-word">operational</span>
+          <span class="interbrand-word">&amp;</span>
+          <span class="interbrand-word">RTO</span>
+          <span class="interbrand-word">savings.</span>
+        </div>
         <p>Drag the slider to see how much your D2C brand saves every month with KZUNO voice agents.</p>
       </div>
 
@@ -2507,7 +2625,20 @@
       <!-- Header -->
       <div class="sec-head" style="max-width: 860px; margin-bottom: 44px;">
         <span class="eyebrow">ONBOARDING &amp; MEET THE TEAM</span>
-        <h2>We sit with you, understand your business, and build it with you.</h2>
+        <div class="interbrand-reveal-text">
+          <span class="interbrand-word">We</span>
+          <span class="interbrand-word">sit</span>
+          <span class="interbrand-word">with</span>
+          <span class="interbrand-word">you,</span>
+          <span class="interbrand-word">understand</span>
+          <span class="interbrand-word">your</span>
+          <span class="interbrand-word">business,</span>
+          <span class="interbrand-word">and</span>
+          <span class="interbrand-word">build</span>
+          <span class="interbrand-word">it</span>
+          <span class="interbrand-word">with</span>
+          <span class="interbrand-word">you.</span>
+        </div>
         <p style="color:var(--ink-soft); font-size:17px; margin-top:14px; line-height:1.6;">
           Every D2C brand's calls sound different — your order flow, your objections, your tone. Founded by IIM Shillong
           alumni with backgrounds at PwC, Infosys, and Shiprocket, we combine enterprise engineering precision with real
@@ -2619,9 +2750,11 @@
               style="font-family: var(--mono); font-size: 11.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 4px;">
               🎓 FOUNDED AT IIM SHILLONG
             </div>
-            <h3 style="font-family: var(--primary-font); font-size: 26px; font-weight: 800; color: var(--ink);">
-              Meet the Team
-            </h3>
+            <div class="interbrand-reveal-text" style="font-size: clamp(24px, 3vw, 32px); margin: 0;">
+              <span class="interbrand-word">Meet</span>
+              <span class="interbrand-word">the</span>
+              <span class="interbrand-word">Team</span>
+            </div>
           </div>
           <a class="btn btn-primary" href="#cta" style="padding: 11px 22px; font-size: 14px;">Talk to a Founder →</a>
         </div>
@@ -3643,6 +3776,84 @@
             card.style.boxShadow = '0 6px 20px rgba(18, 32, 26, 0.03)';
           });
         });
+      })();
+
+      /* ---------- Interbrand Bi-Directional Kinetic Scroll Engine ---------- */
+      (function () {
+        var revealContainers = document.querySelectorAll('.interbrand-reveal-text');
+
+        function updateBiDirectionalWordHighlights() {
+          var windowHeight = window.innerHeight;
+
+          revealContainers.forEach(function (container) {
+            var words = container.querySelectorAll('.interbrand-word');
+            if (!words.length) return;
+
+            var rect = container.getBoundingClientRect();
+            var elementCenter = rect.top + rect.height * 0.5;
+            var startBound = windowHeight * 0.88;
+            var endBound = windowHeight * 0.25;
+
+            var progress = (startBound - elementCenter) / (startBound - endBound);
+            progress = Math.max(0, Math.min(1, progress));
+
+            var activeCount = Math.floor(progress * words.length * 1.15);
+
+            words.forEach(function (word, idx) {
+              if (idx < activeCount) {
+                word.classList.add('highlight');
+              } else {
+                word.classList.remove('highlight');
+              }
+            });
+          });
+        }
+
+        // Bi-directional card reveal observer (resets when scrolling up past elements)
+        if ('IntersectionObserver' in window) {
+          var revealObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+              } else {
+                if (entry.boundingClientRect.top > 0) {
+                  entry.target.classList.remove('is-visible');
+                }
+              }
+            });
+          }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+
+          var elementsToReveal = document.querySelectorAll('.job, .in-item, .team-card, .onboarding-step-card, .comp, .stage');
+          elementsToReveal.forEach(function (el, i) {
+            el.classList.add('interbrand-reveal');
+            el.style.transitionDelay = (i % 3 * 0.08) + 's';
+            revealObserver.observe(el);
+          });
+        }
+
+        // 3. Interbrand Scroll Down Button Click Handler
+        var scrollBtn = document.getElementById('interbrand-scroll-btn');
+        if (scrollBtn) {
+          var sections = ['#overview', '#jobs', '#inbound', '#calculator', '#onboarding', '#team', '#cta'];
+          scrollBtn.addEventListener('click', function () {
+            var scrollPos = window.scrollY;
+            for (var i = 0; i < sections.length; i++) {
+              var sec = document.querySelector(sections[i]);
+              if (sec) {
+                var top = sec.offsetTop - 80;
+                if (top > scrollPos + 50) {
+                  window.scrollTo({ top: top, behavior: 'smooth' });
+                  return;
+                }
+              }
+            }
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+          });
+        }
+
+        window.addEventListener('scroll', updateBiDirectionalWordHighlights, { passive: true });
+        window.addEventListener('resize', updateBiDirectionalWordHighlights, { passive: true });
+        updateBiDirectionalWordHighlights();
       })();
 
       /* ---------- 2-Second Logo Splash Intro Script ---------- */
