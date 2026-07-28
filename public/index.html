@@ -106,6 +106,19 @@
     opacity: 0.55;
   }
 
+  /* ---------- Top Scroll Progress Bar ---------- */
+  #scroll-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3.5px;
+    background: linear-gradient(90deg, var(--green), var(--marigold), #00A88F);
+    z-index: 99999;
+    width: 0%;
+    transition: width 0.08s ease-out;
+    box-shadow: 0 0 12px rgba(24, 90, 58, 0.6);
+  }
+
   /* ---------- Nav ---------- */
   nav{
     position:sticky;top:0;z-index:50;
@@ -1043,6 +1056,9 @@
 </style>
 </head>
 <body>
+
+<!-- Top Scroll Progress Bar -->
+<div id="scroll-progress-bar"></div>
 
 <!-- ---------- 2-Second Animated KZUNO Logo Splash Intro Screen ---------- -->
 <div id="kzuno-splash" class="kzuno-splash-screen" aria-hidden="true">
@@ -2023,6 +2039,56 @@
       if (e.target.closest && e.target.closest(interactiveSelector)) {
         document.body.classList.remove('cursor-hover');
       }
+    });
+  })();
+
+  /* ---------- Interactive Top Scroll Progress Bar Script ---------- */
+  (function() {
+    var progressBar = document.getElementById('scroll-progress-bar');
+    if (!progressBar) return;
+    window.addEventListener('scroll', function() {
+      var totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalScroll > 0) {
+        var progress = (window.scrollY / totalScroll) * 100;
+        progressBar.style.width = Math.min(100, Math.max(0, progress)) + '%';
+      }
+    }, { passive: true });
+  })();
+
+  /* ---------- Dynamic 3D Tilt Cursor Tracking Effect for Cards ---------- */
+  (function() {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    var tiltSelector = '.team-card, .onboarding-step-card, .job, .call-card, .comp, .stage, .calc-container';
+    document.querySelectorAll(tiltSelector).forEach(function(card) {
+      card.addEventListener('mousemove', function(e) {
+        var rect = card.getBoundingClientRect();
+        var x = e.clientX - rect.left - rect.width / 2;
+        var y = e.clientY - rect.top - rect.height / 2;
+        var tiltX = (y / (rect.height / 2)) * -6;
+        var tiltY = (x / (rect.width / 2)) * 6;
+        card.style.transform = 'perspective(1000px) rotateX(' + tiltX + 'deg) rotateY(' + tiltY + 'deg) translateY(-5px)';
+        card.style.transition = 'transform 0.1s ease-out';
+      });
+      card.addEventListener('mouseleave', function() {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+        card.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+      });
+    });
+  })();
+
+  /* ---------- Interactive Onboarding Workflow Step Highlighting ---------- */
+  (function() {
+    var stepCards = document.querySelectorAll('.onboarding-step-card');
+    stepCards.forEach(function(card, idx) {
+      card.addEventListener('mouseenter', function() {
+        stepCards.forEach(function(c) { c.style.borderColor = 'var(--line)'; c.style.boxShadow = '0 6px 20px rgba(18, 32, 26, 0.03)'; });
+        card.style.borderColor = 'var(--green)';
+        card.style.boxShadow = '0 12px 32px rgba(24, 90, 58, 0.16)';
+      });
+      card.addEventListener('mouseleave', function() {
+        card.style.borderColor = 'var(--line)';
+        card.style.boxShadow = '0 6px 20px rgba(18, 32, 26, 0.03)';
+      });
     });
   })();
 
