@@ -823,6 +823,91 @@
       display: inline-block;
     }
 
+    /* Outbound Job Cards Enhanced Icons & Interactive Audio Player UI */
+    .job-card-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 4px;
+    }
+    .job-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 13px;
+      background: #EDF4F0;
+      border: 1.5px solid #DBE8E1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 2px 6px rgba(24, 90, 58, 0.06);
+    }
+    .job-icon-box svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--green);
+      transition: stroke 0.25s ease, transform 0.25s ease;
+    }
+    .job:hover .job-icon-box {
+      background: var(--green);
+      border-color: var(--green-deep);
+      box-shadow: 0 6px 16px rgba(24, 90, 58, 0.25);
+      transform: scale(1.08);
+    }
+    .job:hover .job-icon-box svg {
+      stroke: #FFFFFF;
+    }
+    .job-audio-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: #EDF4F0;
+      border: 1px solid #DBE8E1;
+      color: var(--green);
+      font-family: var(--primary-font);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+      align-self: flex-start;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .job-audio-btn:hover {
+      background: var(--green);
+      color: #FFFFFF;
+      border-color: var(--green-deep);
+      box-shadow: 0 4px 14px rgba(24, 90, 58, 0.22);
+      transform: translateY(-1px);
+    }
+    .job-audio-btn.playing {
+      background: var(--green-deep);
+      color: var(--marigold);
+      border-color: var(--marigold);
+    }
+    .job-audio-bars {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 10px;
+    }
+    .job-audio-bars span {
+      width: 2px;
+      height: 3px;
+      background: currentColor;
+      border-radius: 1px;
+    }
+    .job-audio-btn.playing .job-audio-bars span {
+      animation: jobWave 0.8s ease-in-out infinite alternate;
+    }
+    .job-audio-btn.playing .job-audio-bars span:nth-child(1) { animation-delay: 0.1s; }
+    .job-audio-btn.playing .job-audio-bars span:nth-child(2) { animation-delay: 0.3s; }
+    .job-audio-btn.playing .job-audio-bars span:nth-child(3) { animation-delay: 0.2s; }
+    @keyframes jobWave { 0% { height: 3px; } 100% { height: 10px; } }
+
     .job h3 {
       font-size: 21px;
       font-weight: 700;
@@ -2115,41 +2200,130 @@
           last payment nudge.</p>
       </div>
       <div class="jobs">
+        <!-- 01: Order Confirmation -->
         <div class="job">
-          <span class="tag">Orders</span>
+          <div class="job-card-top-row">
+            <div class="job-icon-box" title="Order Confirmation Icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+                <path d="m3.3 7 8.7 5 8.7-5"/>
+                <path d="M12 22V12"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+            </div>
+            <span class="tag">Orders</span>
+          </div>
           <h3>Order confirmation</h3>
           <p>Verify COD and prepaid orders within minutes of checkout. Cut RTO before it ships.</p>
           <div class="line">"Aapka order confirm karna hai — kal delivery thik rahegi?"</div>
+          <button class="job-audio-btn" onclick="triggerJobAudio(this, 'Order confirmation', 'Aapka order confirm karna hai — kal delivery thik rahegi?')">
+            <span>▶</span> Listen Sample <div class="job-audio-bars"><span></span><span></span><span></span></div>
+          </button>
         </div>
+
+        <!-- 02: Lead Qualification -->
         <div class="job">
-          <span class="tag">Sales</span>
+          <div class="job-card-top-row">
+            <div class="job-icon-box" title="Lead Qualification Icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <circle cx="12" cy="12" r="6"/>
+                <circle cx="12" cy="12" r="2" fill="currentColor"/>
+              </svg>
+            </div>
+            <span class="tag">Sales</span>
+          </div>
           <h3>Lead qualification</h3>
           <p>Call every new lead while it's warm. Ask your qualifying questions, score, and route to your team.</p>
           <div class="line">"Aap kitne budget me dekh rahe hain — main sahi option batati hoon."</div>
+          <button class="job-audio-btn" onclick="triggerJobAudio(this, 'Lead qualification', 'Aap kitne budget me dekh rahe hain — main sahi option batati hoon.')">
+            <span>▶</span> Listen Sample <div class="job-audio-bars"><span></span><span></span><span></span></div>
+          </button>
         </div>
+
+        <!-- 03: Win-back & Renewals -->
         <div class="job">
-          <span class="tag">Retention</span>
+          <div class="job-card-top-row">
+            <div class="job-icon-box" title="Win-back & Renewals Icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 12a9 9 0 0 1 15-6.7L21 8"/>
+                <path d="M21 3v5h-5"/>
+                <path d="M21 12a9 9 0 0 1-15 6.7L3 16"/>
+                <path d="M3 21v-5h5"/>
+              </svg>
+            </div>
+            <span class="tag">Retention</span>
+          </div>
           <h3>Win-back &amp; renewals</h3>
           <p>Reach lapsed customers and expiring subscriptions with a personal call, not another ignored SMS.</p>
           <div class="line">"Aapka plan is hafte khatam ho raha hai — renew kar doon?"</div>
+          <button class="job-audio-btn" onclick="triggerJobAudio(this, 'Win-back & renewals', 'Aapka plan is hafte khatam ho raha hai — renew kar doon?')">
+            <span>▶</span> Listen Sample <div class="job-audio-bars"><span></span><span></span><span></span></div>
+          </button>
         </div>
+
+        <!-- 04: Payment Follow-up -->
         <div class="job">
-          <span class="tag">Collections</span>
+          <div class="job-card-top-row">
+            <div class="job-icon-box" title="Payment Follow-up Icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="14" x="2" y="5" rx="3"/>
+                <line x1="2" x2="22" y1="10" y2="10"/>
+                <line x1="6" x2="10" y1="15" y2="15"/>
+                <line x1="14" x2="18" y1="15" y2="15"/>
+              </svg>
+            </div>
+            <span class="tag">Collections</span>
+          </div>
           <h3>Payment follow-up</h3>
           <p>Polite, consistent EMI and invoice reminders that keep relationships intact — and money moving.</p>
           <div class="line">"Aapki EMI kal due hai — abhi link bhej doon?"</div>
+          <button class="job-audio-btn" onclick="triggerJobAudio(this, 'Payment follow-up', 'Aapki EMI kal due hai — abhi link bhej doon?')">
+            <span>▶</span> Listen Sample <div class="job-audio-bars"><span></span><span></span><span></span></div>
+          </button>
         </div>
+
+        <!-- 05: Feedback & NPS -->
         <div class="job">
-          <span class="tag">Voice of customer</span>
+          <div class="job-card-top-row">
+            <div class="job-icon-box" title="Feedback & NPS Icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>
+                <path d="M8 12h.01"/>
+                <path d="M12 12h.01"/>
+                <path d="M16 12h.01"/>
+              </svg>
+            </div>
+            <span class="tag">Voice of customer</span>
+          </div>
           <h3>Feedback &amp; NPS</h3>
           <p>Post-delivery calls that customers actually answer. Structured feedback lands in your dashboard.</p>
           <div class="line">"Delivery kaisi rahi? Ek se das me kitne number denge?"</div>
+          <button class="job-audio-btn" onclick="triggerJobAudio(this, 'Feedback & NPS', 'Delivery kaisi rahi? Ek se das me kitne number denge?')">
+            <span>▶</span> Listen Sample <div class="job-audio-bars"><span></span><span></span><span></span></div>
+          </button>
         </div>
+
+        <!-- 06: Delivery Coordination -->
         <div class="job">
-          <span class="tag">Logistics</span>
+          <div class="job-card-top-row">
+            <div class="job-icon-box" title="Delivery Coordination Icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/>
+                <path d="M15 18H9"/>
+                <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/>
+                <circle cx="6.5" cy="17.5" r="2.5"/>
+                <circle cx="16.5" cy="17.5" r="2.5"/>
+              </svg>
+            </div>
+            <span class="tag">Logistics</span>
+          </div>
           <h3>Delivery coordination</h3>
           <p>Confirm addresses, reschedule attempts, and reduce failed deliveries before the courier gives up.</p>
           <div class="line">"Delivery boy pahunch nahi paya — naya time bata dijiye."</div>
+          <button class="job-audio-btn" onclick="triggerJobAudio(this, 'Delivery coordination', 'Delivery boy pahunch nahi paya — naya time bata dijiye.')">
+            <span>▶</span> Listen Sample <div class="job-audio-bars"><span></span><span></span><span></span></div>
+          </button>
         </div>
       </div>
     </div>
@@ -3129,6 +3303,56 @@
         slider.addEventListener('input', updateCalc);
         updateCalc();
       })();
+
+      /* ---------- Interactive Job Card Audio Sample Player ---------- */
+      window.triggerJobAudio = function (btn, title, text) {
+        // Toggle active states
+        var allBtns = document.querySelectorAll('.job-audio-btn');
+        allBtns.forEach(function (b) {
+          if (b !== btn) {
+            b.classList.remove('playing');
+            b.querySelector('span').textContent = '▶';
+          }
+        });
+
+        var isPlaying = btn.classList.contains('playing');
+        if (isPlaying) {
+          btn.classList.remove('playing');
+          btn.querySelector('span').textContent = '▶';
+          if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+          }
+          return;
+        }
+
+        btn.classList.add('playing');
+        btn.querySelector('span').textContent = '◼';
+
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          var cleanText = text.replace(/["']/g, '');
+          var utterance = new SpeechSynthesisUtterance(cleanText);
+          utterance.lang = 'hi-IN';
+          utterance.rate = 0.95;
+          utterance.pitch = 1.0;
+
+          utterance.onend = function () {
+            btn.classList.remove('playing');
+            btn.querySelector('span').textContent = '▶';
+          };
+          utterance.onerror = function () {
+            btn.classList.remove('playing');
+            btn.querySelector('span').textContent = '▶';
+          };
+
+          window.speechSynthesis.speak(utterance);
+        } else {
+          setTimeout(function () {
+            btn.classList.remove('playing');
+            btn.querySelector('span').textContent = '▶';
+          }, 3500);
+        }
+      };
 
       // Global Full-Page Continuous Dynamic Pendulum Sine-Wave Animation Engine
       (function () {
