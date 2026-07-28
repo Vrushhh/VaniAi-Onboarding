@@ -55,6 +55,46 @@
   .eyebrow::before{content:"";width:22px;height:1px;background:var(--green)}
   :focus-visible{outline:2px solid var(--green);outline-offset:3px;border-radius:4px}
 
+  /* ---------- Brand Green Custom Cursor Follower ---------- */
+  @media (pointer: fine) {
+    .cursor-dot, .cursor-ring {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      border-radius: 50%;
+      z-index: 99999;
+      opacity: 0;
+      transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1), height 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
+      will-change: transform;
+    }
+    .cursor-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--green);
+      box-shadow: 0 0 12px rgba(24, 90, 58, 0.65);
+    }
+    .cursor-ring {
+      width: 34px;
+      height: 34px;
+      border: 1.5px solid rgba(24, 90, 58, 0.45);
+      background: rgba(24, 90, 58, 0.05);
+      box-shadow: 0 0 18px rgba(24, 90, 58, 0.12);
+    }
+    body.cursor-hover .cursor-ring {
+      width: 52px;
+      height: 52px;
+      border-color: var(--green);
+      background: rgba(24, 90, 58, 0.12);
+      box-shadow: 0 0 24px rgba(24, 90, 58, 0.25);
+    }
+    body.cursor-hover .cursor-dot {
+      width: 10px;
+      height: 10px;
+      background: var(--green-deep);
+    }
+  }
+
   /* ---------- Nav ---------- */
   nav{
     position:sticky;top:0;z-index:50;
@@ -471,6 +511,8 @@
 </style>
 </head>
 <body>
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
 <canvas id="global-wave-canvas" class="global-wave-canvas"></canvas>
 
 <nav>
@@ -1178,6 +1220,55 @@
       requestAnimationFrame(animate);
     }
     animate();
+  })();
+
+  /* ---------- Brand Green Custom Cursor Follower Script ---------- */
+  (function() {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    var dot = document.getElementById('cursor-dot');
+    var ring = document.getElementById('cursor-ring');
+    if (!dot || !ring) return;
+
+    var mouseX = -100, mouseY = -100;
+    var ringX = -100, ringY = -100;
+    var isVisible = false;
+
+    window.addEventListener('mousemove', function(e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      if (!isVisible) {
+        isVisible = true;
+        dot.style.opacity = '1';
+        ring.style.opacity = '1';
+      }
+      dot.style.transform = 'translate3d(' + mouseX + 'px, ' + mouseY + 'px, 0) translate(-50%, -50%)';
+    });
+
+    window.addEventListener('mouseleave', function() {
+      dot.style.opacity = '0';
+      ring.style.opacity = '0';
+      isVisible = false;
+    });
+
+    function renderRing() {
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+      ring.style.transform = 'translate3d(' + ringX + 'px, ' + ringY + 'px, 0) translate(-50%, -50%)';
+      requestAnimationFrame(renderRing);
+    }
+    requestAnimationFrame(renderRing);
+
+    var interactiveSelector = 'a, button, input, select, textarea, label, [data-demo], .card, .step, .comp, .btn, .stage, .calc-container, .logo-img-link';
+    document.addEventListener('mouseover', function(e) {
+      if (e.target.closest && e.target.closest(interactiveSelector)) {
+        document.body.classList.add('cursor-hover');
+      }
+    });
+    document.addEventListener('mouseout', function(e) {
+      if (e.target.closest && e.target.closest(interactiveSelector)) {
+        document.body.classList.remove('cursor-hover');
+      }
+    });
   })();
 })();
 </script>
