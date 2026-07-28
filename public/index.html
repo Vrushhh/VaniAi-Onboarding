@@ -95,26 +95,39 @@
     }
   }
 
+  .global-wave-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.55;
+  }
+
   /* ---------- Nav ---------- */
   nav{
     position:sticky;top:0;z-index:50;
-    background:rgba(247,246,241,.85);backdrop-filter:blur(10px);
+    background:rgba(247,246,241,.92);backdrop-filter:blur(12px);
     border-bottom:1px solid var(--line);
   }
-  .nav-in{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:72px}
   .logo-img-link {
     display: inline-flex;
     align-items: center;
-    height: 38px;
+    height: 46px;
     transition: transform 0.2s ease;
   }
   .logo-img-link:hover {
     transform: translateY(-1px);
   }
   .logo-img-link img {
-    height: 28px;
-    width: auto;
-    display: block;
+    height: 46px !important;
+    max-height: 48px !important;
+    width: auto !important;
+    display: block !important;
+    object-fit: contain;
   }
   .nav-links{
     display:inline-flex;align-items:center;gap:6px;padding:4px 6px;
@@ -488,6 +501,275 @@
     font-weight: 800;
   }
 
+  /* ---------- Reference Image Matching 4-Step Onboarding Workflow ---------- */
+  .onboarding-steps-container {
+    position: relative;
+    margin-bottom: 56px;
+  }
+  .onboarding-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+    position: relative;
+  }
+  .onboarding-step-card {
+    background: #FFFFFF;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: 32px 24px 28px;
+    box-shadow: 0 4px 20px rgba(18, 32, 26, 0.03);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    position: relative;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .onboarding-step-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--green);
+    box-shadow: 0 16px 36px rgba(24, 90, 58, 0.12);
+  }
+  .onboarding-step-card .num {
+    position: absolute;
+    top: 22px;
+    left: 24px;
+    font-family: var(--mono);
+    font-size: 13.5px;
+    font-weight: 800;
+    color: var(--green);
+    letter-spacing: 0.05em;
+  }
+  .onboarding-icon-circle {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: #EAF3EE;
+    border: 1px solid #D5E5DC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 4px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+  .onboarding-step-card:hover .onboarding-icon-circle {
+    transform: scale(1.1);
+    background: var(--green);
+    border-color: var(--green);
+  }
+  .onboarding-icon-circle svg {
+    width: 32px;
+    height: 32px;
+    stroke: var(--green);
+    fill: none;
+    transition: stroke 0.3s ease;
+  }
+  .onboarding-step-card:hover .onboarding-icon-circle svg {
+    stroke: #FFFFFF;
+  }
+  .onboarding-step-card h3 {
+    font-family: var(--primary-font);
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--ink);
+    line-height: 1.25;
+    margin-bottom: 2px;
+  }
+  .onboarding-step-divider {
+    width: 28px;
+    height: 2.5px;
+    background: var(--green);
+    border-radius: 999px;
+    margin: 0 auto;
+    opacity: 0.85;
+  }
+  .onboarding-step-card p {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .onboarding-step-tagline {
+    font-family: var(--primary-font);
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--green);
+    line-height: 1.45;
+    margin-top: 4px;
+  }
+  .step-arrow-connector {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -15px;
+    z-index: 10;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--green);
+    border: 2.5px solid #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(24, 90, 58, 0.25);
+  }
+  .step-arrow-connector svg {
+    width: 14px;
+    height: 14px;
+    stroke: #FFFFFF;
+    stroke-width: 2.5;
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 26px;
+  }
+  .team-card {
+    background: #FFFFFF;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: 30px 24px 26px;
+    box-shadow: 0 6px 20px rgba(18, 32, 26, 0.03);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    gap: 10px;
+    position: relative;
+    cursor: pointer;
+    height: 100%;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .team-card:hover {
+    transform: translateY(-6px) scale(1.015);
+    border-color: rgba(24, 90, 58, 0.4);
+    box-shadow: 0 16px 36px rgba(24, 90, 58, 0.12);
+  }
+  .team-card-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+  .team-photo-wrap {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin-bottom: 6px;
+  }
+  .team-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center 15%;
+    border: 3.5px solid #FFFFFF;
+    outline: 2.5px solid var(--green);
+    box-shadow: 0 8px 24px rgba(24, 90, 58, 0.18);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), outline-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .team-card:hover .team-photo {
+    transform: scale(1.08);
+    outline-color: var(--marigold);
+    box-shadow: 0 12px 30px rgba(242, 168, 29, 0.3);
+  }
+  .team-name {
+    font-family: var(--primary-font);
+    font-size: 21px;
+    font-weight: 800;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+  .team-badges-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    width: 100%;
+    min-height: 112px;
+  }
+  .team-role {
+    font-family: var(--secondary-font);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--green);
+    background: rgba(24, 90, 58, 0.07);
+    border: 1px solid rgba(24, 90, 58, 0.18);
+    padding: 5px 14px;
+    border-radius: 999px;
+  }
+  .team-college {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    background: #F4F3ED;
+    border: 1px solid #E4E1D5;
+    padding: 4px 14px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card-previously-at-box {
+    width: 100%;
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid #EFECE3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .card-previously-at-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-previously-at-label::before, .card-previously-at-label::after {
+    content: "";
+    width: 24px;
+    height: 1px;
+    background: rgba(24, 90, 58, 0.25);
+  }
+  .card-logos-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .card-logo-divider {
+    width: 1px;
+    height: 22px;
+    background: #E5E2D8;
+  }
+  .team-pedigree-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    opacity: 0.85;
+    margin-top: 2px;
+  }
+  .step-item p {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
   /* Final CTA */
   .final{
     text-align:center;padding:110px 28px;
@@ -654,14 +936,133 @@
     }
   }
 
-  @media (prefers-reduced-motion: reduce){
-    *,*::before,*::after{animation:none !important;transition:none !important}
-    .bubble{opacity:1;transform:none}
-    html{scroll-behavior:auto}
+  /* ---------- 2-Second KZUNO Animated Logo Splash Intro Screen ---------- */
+  .kzuno-splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--paper);
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: splashFadeOut 0.6s cubic-bezier(0.16, 1, 0.3, 1) 2s forwards;
+    will-change: opacity, transform;
+  }
+  .kzuno-splash-screen.splash-fade-out {
+    opacity: 0;
+    transform: scale(1.04);
+    pointer-events: none;
+    visibility: hidden;
+    display: none !important;
+  }
+  .splash-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+  .splash-logo-wrap {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    animation: splashPop 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .splash-logo-img {
+    max-width: 720px;
+    width: 92vw;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 12px 32px rgba(24, 90, 58, 0.16));
+    animation: splashPulse 1.8s ease-in-out infinite alternate;
+  }
+
+  .splash-wave-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    height: 28px;
+    margin-top: 12px;
+  }
+  .splash-wave-bars span {
+    width: 5px;
+    background: var(--green);
+    border-radius: 3px;
+    animation: splashWave 0.9s ease-in-out infinite alternate;
+  }
+  .splash-wave-bars span:nth-child(1) { height: 10px; animation-delay: 0.1s; }
+  .splash-wave-bars span:nth-child(2) { height: 24px; animation-delay: 0.3s; }
+  .splash-wave-bars span:nth-child(3) { height: 14px; animation-delay: 0.2s; }
+  .splash-wave-bars span:nth-child(4) { height: 28px; animation-delay: 0.4s; }
+  .splash-wave-bars span:nth-child(5) { height: 12px; animation-delay: 0.15s; }
+
+  @keyframes splashPop {
+    0% { opacity: 0; transform: scale(0.82) translateY(12px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  @keyframes splashPulse {
+    0% { transform: scale(1); filter: drop-shadow(0 8px 20px rgba(24, 90, 58, 0.12)); }
+    100% { transform: scale(1.03); filter: drop-shadow(0 14px 32px rgba(24, 90, 58, 0.22)); }
+  }
+  @keyframes splashWave {
+    0% { transform: scaleY(0.3); }
+    100% { transform: scaleY(1); }
+  }
+  @keyframes splashFadeOut {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+      visibility: visible;
+      pointer-events: auto;
+    }
+    99% {
+      opacity: 0;
+      transform: scale(1.05);
+      visibility: visible;
+      pointer-events: none;
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.05);
+      visibility: hidden;
+      pointer-events: none;
+      display: none !important;
+    }
   }
 </style>
 </head>
 <body>
+
+<!-- ---------- 2-Second Animated KZUNO Logo Splash Intro Screen ---------- -->
+<div id="kzuno-splash" class="kzuno-splash-screen" aria-hidden="true">
+  <div class="splash-content">
+    <div class="splash-logo-wrap">
+      
+      <img src="/images/kzuno_splash_logo.png" alt="KZUNO Logo" class="splash-logo-img">
+
+      <div class="splash-wave-bars">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+  setTimeout(function() {
+    var splash = document.getElementById('kzuno-splash');
+    if (splash) {
+      splash.classList.add('splash-fade-out');
+      splash.style.display = 'none';
+      splash.style.pointerEvents = 'none';
+    }
+  }, 2300);
+</script>
+
 <div class="cursor-dot" id="cursor-dot"></div>
 <div class="cursor-ring" id="cursor-ring"></div>
 <canvas id="global-wave-canvas" class="global-wave-canvas"></canvas>
@@ -669,7 +1070,7 @@
 <nav>
   <div class="wrap nav-in">
     <a class="logo-img-link" href="#">
-      <img class="logo-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="KZUNO" style="opacity: 0; transition: opacity 0.2s;">
+      <img class="logo-img" src="/images/kzuno_splash_logo.png" alt="KZUNO" style="height: 38px; width: auto; display: block;">
     </a>
     <div class="nav-links">
       <a href="#jobs">Outbound</a>
@@ -691,9 +1092,9 @@
           <span class="vbar"></span>
           <span class="vbar"></span>
         </span>
-        Voice AI for Indian D2C brands
+        VOICE AI FOR INDIAN D2C BRANDS
       </span>
-      <h1>The <em>AI Voice Workforce</em>,<br>for Modern<br>Businesses.</h1>
+      <h1>The <em>AI Voice<br>Workforce</em>,<br>for Modern<br>Businesses.</h1>
       <p class="lede">KZUNO handles inbound calls, outbound calls, lead qualification, customer support and order confirmations in 12+ Indian languages, so your team can focus on growing the business.</p>
       <div class="hero-cta">
         <button class="btn btn-primary" data-demo>Get a demo call</button>
@@ -839,45 +1240,247 @@
 
 <section id="onboarding" style="padding-top:0">
   <div class="wrap">
-    <div class="sec-head" style="max-width: 820px; margin-bottom: 40px;">
-      <span class="eyebrow">Not just a tool — a setup that fits your business</span>
+    
+    <!-- Header -->
+    <div class="sec-head" style="max-width: 860px; margin-bottom: 44px;">
+      <span class="eyebrow">ONBOARDING &amp; MEET THE TEAM</span>
       <h2>We sit with you, understand your business, and build it with you.</h2>
-      <p style="color:var(--ink-soft); font-size:17px; margin-top:14px; margin-bottom: 24px; line-height:1.6;">Every D2C brand's calls sound different — your order flow, your objections, your tone. Before we hand you a template, we'll get on a call, walk through how your customers actually behave, and shape the first agent around that. No generic script.</p>
-      <a class="btn btn-primary" href="#cta" style="padding: 13px 26px;">Book a 20-min business call</a>
+      <p style="color:var(--ink-soft); font-size:17px; margin-top:14px; line-height:1.6;">
+        Every D2C brand's calls sound different — your order flow, your objections, your tone. Founded by IIM Shillong alumni with backgrounds at PwC, Infosys, and Shiprocket, we combine enterprise engineering precision with real D2C brand operations to shape agents around your customers.
+      </p>
     </div>
-    <div class="steps steps-four" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; counter-reset: step;">
-      <div class="step">
-        <h3>Understand your business</h3>
-        <p style="margin-top:8px;">Your products, order flow, customer language, and where calls are dropping today.</p>
-      </div>
-      <div class="step">
-        <h3>Map the right use case</h3>
-        <p style="margin-top:8px;">COD confirmation, cart recovery, support, or all three — prioritised to your funnel.</p>
-      </div>
-      <div class="step">
-        <h3>Build it together</h3>
-        <p style="margin-top:8px;">We configure the first agent with you on the call, in your brand's voice.</p>
-      </div>
-      <div class="step">
-        <h3>You launch, we stay close</h3>
-        <p style="margin-top:8px;">Go live on your numbers, with us watching the first batch of calls with you.</p>
+
+    <!-- 1. TOP BLOCK: How We Build Your Agent (Horizontal 4-Step Grid 1 2 3 4) -->
+    <div style="margin-bottom: 56px;">
+      <h3 style="font-family: var(--primary-font); font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 22px; display: flex; align-items: center; gap: 8px;">
+        🚀 How we build your agent
+      </h3>
+      <div class="onboarding-steps-grid">
+        
+        <!-- Step 01 -->
+        <div class="onboarding-step-card">
+          <span class="num">01</span>
+          <div class="onboarding-icon-circle">
+            <svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="M21 21l-5.2-5.2"/><path d="M7 11v-2"/><path d="M10 11V7"/><path d="M13 11v-4"/></svg>
+          </div>
+          <h3>Understand<br>your business</h3>
+          <div class="onboarding-step-divider"></div>
+          <p>We deep dive into your products, order flow, customer language, and where calls are dropping today.</p>
+          
+          <div class="step-arrow-connector">
+            <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+
+        <!-- Step 02 -->
+        <div class="onboarding-step-card">
+          <span class="num">02</span>
+          <div class="onboarding-icon-circle">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M19 5l-4 4"/></svg>
+          </div>
+          <h3>Map the right<br>use case</h3>
+          <div class="onboarding-step-divider"></div>
+          <p>We identify the highest-impact use case — COD confirmation, cart recovery, support, or all three — prioritised for your funnel.</p>
+
+          <div class="step-arrow-connector">
+            <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+
+        <!-- Step 03 -->
+        <div class="onboarding-step-card">
+          <span class="num">03</span>
+          <div class="onboarding-icon-circle">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          </div>
+          <h3>Build it<br>together</h3>
+          <div class="onboarding-step-divider"></div>
+          <p>We configure your first voice agent with you on the call, in your brand's voice, and aligned to your workflow.</p>
+
+          <div class="step-arrow-connector">
+            <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+
+        <!-- Step 04 -->
+        <div class="onboarding-step-card">
+          <span class="num">04</span>
+          <div class="onboarding-icon-circle">
+            <svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-5 5"/><path d="M14 9h4v4"/></svg>
+          </div>
+          <h3>We see you<br>increase sales</h3>
+          <div class="onboarding-step-divider"></div>
+          <p>We go live, monitor performance, optimise continuously, and help you convert more calls into revenue.</p>
+          <div class="onboarding-step-tagline">More conversions. More sales.<br>Measurable growth.</div>
+        </div>
+
       </div>
     </div>
+
+    <!-- 2. BOTTOM BLOCK: Meet the Team (Horizontal 3-Column Grid with Photos & Pedigree) -->
+    <div>
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+        <div>
+          <div style="font-family: var(--mono); font-size: 11.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 4px;">
+            🎓 FOUNDED AT IIM SHILLONG
+          </div>
+          <h3 style="font-family: var(--primary-font); font-size: 26px; font-weight: 800; color: var(--ink);">
+            Meet the Team
+          </h3>
+        </div>
+        <a class="btn btn-primary" href="#cta" style="padding: 11px 22px; font-size: 14px;">Talk to a Founder →</a>
+      </div>
+
+      <div class="team-grid">
+        
+        <!-- Founder 1: H A Prasad -->
+        <div class="team-card">
+          <div class="team-card-top">
+            <div class="team-photo-wrap">
+              <img class="team-photo" src="/images/ha_prasad.png" alt="H A Prasad">
+            </div>
+            <div class="team-name">H A Prasad</div>
+            <div class="team-badges-container">
+              <div class="team-role">Business &amp; Tech</div>
+              <div class="team-college">🎓 IIM Shillong</div>
+              <div class="team-college">⚙️ NIT Rourkela</div>
+            </div>
+          </div>
+          
+          <!-- Embedded Logo Block -->
+          <div class="card-previously-at-box">
+            <div class="card-previously-at-label">PREVIOUSLY AT</div>
+            
+            <div class="card-logos-row">
+              <!-- PwC (Matching Image 2) -->
+              <div title="PwC">
+                <svg width="74" height="26" viewBox="0 0 95 34" fill="none">
+                  <path d="M44 3H78L62 12H28Z" fill="#EB4400"/>
+                  <path d="M60 12H94L78 21H44Z" fill="#EB4400"/>
+                  <text x="0" y="26" font-family="'Georgia', serif" font-size="24" font-weight="900" fill="#000000" letter-spacing="-0.03em">pwc</text>
+                </svg>
+              </div>
+
+              <div class="card-logo-divider"></div>
+
+              <!-- Birla Opus -->
+              <div title="Birla Opus">
+                <svg width="78" height="26" viewBox="0 0 100 34" fill="none">
+                  <text x="8" y="9" font-family="'Montserrat', sans-serif" font-size="7.5" font-weight="800" fill="#12201A" letter-spacing="0.08em">BIRLA</text>
+                  <text x="0" y="24" font-family="'Montserrat', sans-serif" font-size="17" font-weight="900" fill="#12201A" letter-spacing="-0.02em">opus</text>
+                  <circle cx="66" cy="10" r="3.5" fill="#00A88F"/>
+                  <circle cx="74" cy="16" r="3.5" fill="#6B2C91"/>
+                  <circle cx="68" cy="22" r="3" fill="#F37023"/>
+                </svg>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Founder 2: Vrushabh Gamare -->
+        <div class="team-card">
+          <div class="team-card-top">
+            <div class="team-photo-wrap">
+              <img class="team-photo" src="/images/vrushabh.png" alt="Vrushabh Gamare">
+            </div>
+            <div class="team-name">Vrushabh Gamare</div>
+            <div class="team-badges-container">
+              <div class="team-role">Business &amp; Tech</div>
+              <div class="team-college">🎓 IIM Shillong</div>
+            </div>
+          </div>
+
+          <!-- Embedded Logo Block -->
+          <div class="card-previously-at-box">
+            <div class="card-previously-at-label">PREVIOUSLY AT</div>
+            
+            <div class="card-logos-row">
+              <!-- Infosys (Matching Image 3) -->
+              <div title="Infosys">
+                <svg width="74" height="24" viewBox="0 0 95 32" fill="none">
+                  <text x="0" y="22" font-family="'Montserrat', sans-serif" font-size="21" font-weight="600" fill="#007CC3" letter-spacing="-0.03em">Infosys</text>
+                </svg>
+              </div>
+
+              <div class="card-logo-divider"></div>
+
+              <!-- BT Group -->
+              <div title="BT Group">
+                <svg width="72" height="24" viewBox="0 0 95 32" fill="none">
+                  <text x="0" y="18" font-family="'Inter', sans-serif" font-size="15" font-weight="900" fill="#12201A" letter-spacing="-0.02em">BT Group</text>
+                  <rect x="0" y="22" width="11" height="2.2" fill="#552483"/>
+                  <rect x="11" y="22" width="11" height="2.2" fill="#00A0D6"/>
+                  <rect x="22" y="22" width="11" height="2.2" fill="#68A51D"/>
+                  <rect x="33" y="22" width="11" height="2.2" fill="#FFC600"/>
+                  <rect x="44" y="22" width="11" height="2.2" fill="#E4002B"/>
+                </svg>
+              </div>
+
+              <div class="card-logo-divider"></div>
+
+              <!-- PwC (Matching Image 2) -->
+              <div title="PwC">
+                <svg width="66" height="24" viewBox="0 0 85 32" fill="none">
+                  <path d="M38 2H68L54 10H24Z" fill="#EB4400"/>
+                  <path d="M52 10H82L68 18H38Z" fill="#EB4400"/>
+                  <text x="0" y="22" font-family="'Georgia', serif" font-size="21" font-weight="900" fill="#000000" letter-spacing="-0.03em">pwc</text>
+                </svg>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Founder 3: Kashvi Khandelwal -->
+        <div class="team-card">
+          <div class="team-card-top">
+            <div class="team-photo-wrap">
+              <img class="team-photo" src="/images/kashvi.png" alt="Kashvi">
+            </div>
+            <div class="team-name">Kashvi</div>
+            <div class="team-badges-container">
+              <div class="team-role">Creatives &amp; Marketing</div>
+              <div class="team-college">🎓 IIM Shillong</div>
+            </div>
+          </div>
+
+          <!-- Embedded Logo Block -->
+          <div class="card-previously-at-box">
+            <div class="card-previously-at-label">PREVIOUSLY AT</div>
+            
+            <div class="card-logos-row">
+              <!-- Shiprocket (Matching Image 4) -->
+              <div title="Shiprocket">
+                <svg width="102" height="26" viewBox="0 0 140 34" fill="none">
+                  <path d="M3 5C3 3.5 4.5 2.5 6 3.5L18 11.5C19.5 12.5 19.5 14.5 18 15.5L6 23.5C4.5 24.5 3 23.5 3 22Z" stroke="#5B21B6" stroke-width="2.5" fill="none"/>
+                  <path d="M7 8C7 6.8 8.2 6 9.2 6.8L16.5 12C17.5 12.8 17.5 14.2 16.5 15L9.2 20.2C8.2 21 7 20.2 7 19Z" stroke="#5B21B6" stroke-width="2" fill="none"/>
+                  <path d="M10.5 10.5L14.5 13.5L10.5 16.5Z" fill="#10B981"/>
+                  <text x="26" y="21" font-family="'Inter', sans-serif" font-size="16" font-weight="800" fill="#2D2D2D" letter-spacing="-0.03em">Shiprocket</text>
+                </svg>
+              </div>
+
+              <div class="card-logo-divider"></div>
+
+              <!-- Tata Consumer Products -->
+              <div title="Tata Consumer Products">
+                <svg width="105" height="26" viewBox="0 0 145 34" fill="none">
+                  <path d="M8 2C13 2 16 5 16 9C16 13 13 16 8 16C3 16 0 13 0 9C0 5 3 2 8 2Z" fill="#00529B" opacity="0.12"/>
+                  <text x="0" y="15" font-family="'Montserrat', sans-serif" font-size="15" font-weight="900" fill="#00529B" letter-spacing="0.1em">TATA</text>
+                  <text x="0" y="26" font-family="'Inter', sans-serif" font-size="8" font-weight="700" fill="#00529B" letter-spacing="0.06em">CONSUMER PRODUCTS</text>
+                </svg>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
   </div>
 </section>
-
-<style>
-  @media(max-width: 1024px) {
-    .steps-four {
-      grid-template-columns: repeat(2, 1fr) !important;
-    }
-  }
-  @media(max-width: 600px) {
-    .steps-four {
-      grid-template-columns: 1fr !important;
-    }
-  }
-</style>
 
 <section class="final" id="cta">
   <span class="eyebrow" style="justify-content:center;display:inline-flex">Get started</span>
@@ -892,7 +1495,7 @@
 <footer>
   <div class="wrap foot-in">
     <a class="logo-img-link" href="#">
-      <img class="logo-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="KZUNO" style="opacity: 0; transition: opacity 0.2s; height: 22px;">
+      <img class="logo-img" src="/images/kzuno_splash_logo.png" alt="KZUNO" style="height: 26px; width: auto; opacity: 1;">
     </a>
     <div class="foot-links">
       <a href="#">Pricing</a><a href="#">Docs</a><a href="#">Privacy</a><a href="#">DPDP &amp; Security</a><a href="mailto:hello@kzuno.in">hello@kzuno.in</a>
@@ -1336,27 +1939,29 @@
     resize();
 
     var waveLayers = [
-      { color: 'rgba(24, 90, 58, 0.08)', speed: 0.008, amp: 45, freq: 0.003, phase: 0, yRatio: 0.35 },
-      { color: 'rgba(242, 168, 29, 0.06)', speed: 0.012, amp: 55, freq: 0.002, phase: 2.2, yRatio: 0.65 },
-      { color: 'rgba(13, 59, 38, 0.05)', speed: 0.006, amp: 35, freq: 0.004, phase: 4.1, yRatio: 0.2 },
-      { color: 'rgba(139, 170, 155, 0.09)', speed: 0.01, amp: 60, freq: 0.0025, phase: 1.5, yRatio: 0.8 }
+      { color: 'rgba(24, 90, 58, 0.035)', stroke: 'rgba(24, 90, 58, 0.14)', speed: 0.028, amp: 55, freq: 0.003, phase: 0, yRatio: 0.35, width: 1.5 },
+      { color: 'rgba(242, 168, 29, 0.025)', stroke: 'rgba(242, 168, 29, 0.12)', speed: 0.042, amp: 65, freq: 0.002, phase: 2.2, yRatio: 0.55, width: 1.5 },
+      { color: 'rgba(13, 59, 38, 0.030)', stroke: 'rgba(13, 59, 38, 0.12)', speed: 0.022, amp: 45, freq: 0.004, phase: 4.1, yRatio: 0.25, width: 2 },
+      { color: 'rgba(24, 90, 58, 0.025)', stroke: 'rgba(24, 90, 58, 0.10)', speed: 0.035, amp: 70, freq: 0.0025, phase: 1.5, yRatio: 0.75, width: 1.5 }
     ];
 
     function animate() {
       ctx.clearRect(0, 0, width, height);
-      step += 1;
+      step += 2.5;
 
       // Pendulum oscillation shift across whole page
-      var pendulum = Math.sin(step * 0.004) * 35;
+      var pendulum = Math.sin(step * 0.008) * 45;
 
       waveLayers.forEach(function(layer) {
         ctx.beginPath();
         ctx.fillStyle = layer.color;
+        ctx.strokeStyle = layer.stroke;
+        ctx.lineWidth = layer.width || 2;
         
         var baseCenterY = height * layer.yRatio + pendulum;
         ctx.moveTo(0, height);
 
-        for (var x = 0; x <= width; x += 8) {
+        for (var x = 0; x <= width; x += 6) {
           var y = baseCenterY 
                   + Math.sin(x * layer.freq + step * layer.speed + layer.phase) * layer.amp
                   + Math.cos(x * layer.freq * 0.6 + step * layer.speed * 0.8 + layer.phase) * (layer.amp * 0.5);
@@ -1366,6 +1971,7 @@
         ctx.lineTo(width, height);
         ctx.closePath();
         ctx.fill();
+        ctx.stroke();
       });
 
       requestAnimationFrame(animate);
@@ -1421,7 +2027,20 @@
       }
     });
   })();
-})();
+
+    /* ---------- 2-Second Logo Splash Intro Script ---------- */
+    (function() {
+      var splash = document.getElementById('kzuno-splash');
+      if (splash) {
+        setTimeout(function() {
+          splash.classList.add('splash-fade-out');
+          setTimeout(function() {
+            splash.style.display = 'none';
+          }, 500);
+        }, 2000);
+      }
+    })();
+  })();
 </script>
 </body>
 </html>
