@@ -503,6 +503,157 @@
   .foot-links{display:flex;gap:22px;font-size:13.5px;color:var(--ink-soft)}
   .foot-links a:hover{color:var(--ink)}
 
+  /* ---------- Comprehensive Mobile Spacing & Layout Optimization ---------- */
+  @media (max-width: 768px) {
+    .wrap { padding: 0 20px; }
+    
+    /* Nav */
+    .nav-in { height: 62px; padding: 0 16px; }
+    .logo-img-link img { height: 25px; }
+    .nav-cta { padding: 8px 14px; font-size: 13px; }
+
+    /* Hero Spacing */
+    .hero { padding: 44px 0 36px; }
+    .hero h1 {
+      font-size: clamp(29px, 8.5vw, 40px);
+      line-height: 1.16;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .hero p.lede {
+      font-size: 15px;
+      line-height: 1.6;
+      margin: 16px 0 24px;
+      color: #384A41;
+    }
+    .hero-cta {
+      flex-direction: column !important;
+      align-items: stretch !important;
+      width: 100% !important;
+      gap: 12px !important;
+    }
+    .hero-cta .btn {
+      width: 100% !important;
+      justify-content: center !important;
+      padding: 14px 20px !important;
+      font-size: 15px !important;
+      font-weight: 700 !important;
+      box-sizing: border-box !important;
+    }
+    .hero-note {
+      text-align: center;
+      margin-top: 14px;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    /* Sections */
+    section { padding: 56px 0; }
+    .sec-head { margin-bottom: 32px; }
+    .sec-head h2 { font-size: clamp(26px, 7vw, 36px); line-height: 1.15; }
+    .sec-head p { font-size: 15px; line-height: 1.55; }
+
+    /* Cards & Containers */
+    .call-card {
+      margin-top: 28px;
+      border-radius: 18px;
+      box-shadow: 0 12px 36px rgba(18, 32, 26, 0.08);
+    }
+    .calc-container {
+      padding: 24px 18px;
+      border-radius: 20px;
+    }
+    .calc-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 10px;
+    }
+    .calc-box {
+      padding: 14px 10px;
+    }
+    .calc-box .num {
+      font-size: 18px;
+    }
+
+    /* Outbound Section - 2-Column Windows View on Mobile (3x2) */
+    .jobs {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 12px !important;
+    }
+    .job {
+      padding: 16px 14px !important;
+      border-radius: 16px !important;
+      gap: 10px !important;
+    }
+    .job .tag {
+      font-size: 10px !important;
+    }
+    .job h3 {
+      font-size: 15.5px !important;
+      line-height: 1.25 !important;
+    }
+    .job p {
+      font-size: 13px !important;
+      line-height: 1.45 !important;
+    }
+    .job .line {
+      font-size: 12px !important;
+      padding: 9px 11px !important;
+      margin-top: 2px !important;
+    }
+
+    /* Inbound Section - 2x2 Grid on Mobile */
+    .inbound-list {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 12px !important;
+    }
+    .in-item {
+      flex-direction: column !important;
+      gap: 10px !important;
+      padding: 16px 14px !important;
+      border-radius: 16px !important;
+    }
+    .in-item .ic {
+      width: 32px !important;
+      height: 32px !important;
+      font-size: 15px !important;
+      border-radius: 8px !important;
+    }
+    .in-item strong {
+      font-size: 14.5px !important;
+      margin-bottom: 4px !important;
+      line-height: 1.25 !important;
+    }
+    .in-item span {
+      font-size: 12.5px !important;
+      line-height: 1.4 !important;
+    }
+
+    /* Engine Pipeline */
+    .engine {
+      padding: 40px 20px;
+      border-radius: 22px;
+      margin: 0 10px;
+    }
+
+    /* Final CTA & Footer */
+    .final { padding: 64px 20px; }
+    .final h2 { font-size: clamp(28px, 7.5vw, 40px); }
+    .final p { font-size: 15px; }
+    
+    footer { padding: 32px 0; }
+    .foot-in {
+      flex-direction: column;
+      text-align: center;
+      gap: 20px;
+    }
+    .foot-links {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce){
     *,*::before,*::after{animation:none !important;transition:none !important}
     .bubble{opacity:1;transform:none}
