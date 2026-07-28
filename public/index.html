@@ -128,6 +128,87 @@
       opacity: 0.55;
     }
 
+    /* ---------- Minimalist ChatGPT-Style 5-Line Vertical Scroll Tracker ---------- */
+    .chatgpt-scroll-tracker {
+      position: fixed;
+      right: 22px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+      padding: 12px 6px;
+      pointer-events: auto;
+      background: rgba(247, 246, 241, 0.4);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(223, 220, 209, 0.5);
+      border-radius: 999px;
+      box-shadow: 0 4px 16px rgba(18, 32, 26, 0.05);
+    }
+    .scroll-tick-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      cursor: pointer;
+      padding: 3px 0;
+    }
+    .scroll-tick-line {
+      width: 14px;
+      height: 2.5px;
+      background: rgba(18, 32, 26, 0.28);
+      border-radius: 2px;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .scroll-tick-wrap:hover .scroll-tick-line {
+      width: 22px;
+      background: var(--green);
+      box-shadow: 0 0 8px rgba(24, 90, 58, 0.45);
+    }
+    .scroll-tick-wrap.active .scroll-tick-line {
+      width: 28px;
+      height: 3.5px;
+      background: var(--green);
+      box-shadow: 0 0 14px rgba(24, 90, 58, 0.75);
+    }
+    .scroll-tick-label {
+      position: absolute;
+      right: 34px;
+      white-space: nowrap;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: #FFFFFF;
+      background: var(--green-deep);
+      padding: 5px 11px;
+      border-radius: 6px;
+      box-shadow: 0 4px 14px rgba(18, 32, 26, 0.25);
+      opacity: 0;
+      transform: translateX(8px);
+      pointer-events: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .scroll-tick-label::after {
+      content: "";
+      position: absolute;
+      right: -4px;
+      top: 50%;
+      transform: translateY(-50%) rotate(45deg);
+      width: 6px;
+      height: 6px;
+      background: var(--green-deep);
+    }
+    .scroll-tick-wrap:hover .scroll-tick-label {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    @media(max-width: 768px) {
+      .chatgpt-scroll-tracker { display: none; }
+    }
+
     /* ---------- Top Scroll Progress Bar ---------- */
     #scroll-progress-bar {
       position: fixed;
@@ -1938,6 +2019,9 @@
 
   <canvas id="global-wave-canvas" class="global-wave-canvas"></canvas>
 
+  <!-- ---------- Minimalist ChatGPT-Style Vertical Scroll Tracker ---------- -->
+  <aside class="chatgpt-scroll-tracker" id="scroll-tracker" aria-label="Page Section Tracker"></aside>
+
   <nav>
     <div class="wrap nav-in">
       <a class="logo-img-link" href="#">
@@ -1948,7 +2032,7 @@
         <a href="#jobs">Outbound</a>
         <a href="#inbound">Inbound</a>
         <a href="#calculator">ROI &amp; Savings</a>
-        <a href="#trust">Trust</a>
+        <a href="#team">Team</a>
       </div>
       <a class="btn btn-primary nav-cta" href="/auth/google"
         style="display:inline-flex;align-items:center;gap:7px;"><svg width="15" height="15" viewBox="0 0 24 24"
@@ -2256,7 +2340,7 @@
       </div>
 
       <!-- 2. BOTTOM BLOCK: Meet the Team (Horizontal 3-Column Grid with Photos & Pedigree) -->
-      <div>
+      <div id="team" style="scroll-margin-top: 90px;">
         <div
           style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
           <div>
@@ -3134,6 +3218,78 @@
             card.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
           });
         });
+      })();
+
+      /* ---------- Minimalist ChatGPT-Style 5-Line Vertical Scroll Tracker Script ---------- */
+      (function () {
+        var trackerContainer = document.getElementById('scroll-tracker');
+        if (!trackerContainer) return;
+
+        var sections = [
+          { id: 'hero', label: '01 / Top' },
+          { id: 'jobs', label: '02 / Use Cases' },
+          { id: 'calculator', label: '03 / ROI Calculator' },
+          { id: 'team', label: '04 / Meet the Team' },
+          { id: 'cta', label: '05 / Get Started' }
+        ];
+
+        var tickElements = [];
+
+        sections.forEach(function(secObj, idx) {
+          var wrap = document.createElement('div');
+          wrap.className = 'scroll-tick-wrap';
+          wrap.setAttribute('data-target-id', secObj.id);
+
+          var line = document.createElement('div');
+          line.className = 'scroll-tick-line';
+          wrap.appendChild(line);
+
+          var label = document.createElement('div');
+          label.className = 'scroll-tick-label';
+          label.textContent = secObj.label;
+          wrap.appendChild(label);
+
+          wrap.addEventListener('click', function () {
+            var targetEl = document.getElementById(secObj.id);
+            if (targetEl) {
+              targetEl.scrollIntoView({ behavior: 'smooth' });
+            }
+          });
+
+          trackerContainer.appendChild(wrap);
+          tickElements.push({ wrap: wrap, id: secObj.id });
+        });
+
+        function updateActiveTick() {
+          var scrollPos = window.scrollY + 220;
+          var isAtBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 70);
+          var activeIdx = 0;
+
+          if (isAtBottom) {
+            activeIdx = tickElements.length - 1;
+          } else {
+            tickElements.forEach(function (item, idx) {
+              var el = document.getElementById(item.id);
+              if (el) {
+                var top = el.offsetTop;
+                if (scrollPos >= top - 150) {
+                  activeIdx = idx;
+                }
+              }
+            });
+          }
+
+          tickElements.forEach(function (item, idx) {
+            if (idx === activeIdx) {
+              item.wrap.classList.add('active');
+            } else {
+              item.wrap.classList.remove('active');
+            }
+          });
+        }
+
+        window.addEventListener('scroll', updateActiveTick, { passive: true });
+        updateActiveTick();
       })();
 
       /* ---------- Interactive Onboarding Workflow Step Highlighting ---------- */
