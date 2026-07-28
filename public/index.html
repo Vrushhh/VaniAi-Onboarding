@@ -3261,22 +3261,22 @@
         });
 
         function updateActiveTick() {
-          var scrollPos = window.scrollY + 220;
-          var isAtBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 70);
+          var totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+          if (totalScroll <= 0) return;
+
+          var scrollRatio = window.scrollY / totalScroll;
           var activeIdx = 0;
 
-          if (isAtBottom) {
-            activeIdx = tickElements.length - 1;
+          if (scrollRatio >= 0.85) {
+            activeIdx = 4; // 05 / Get Started (Bottom)
+          } else if (scrollRatio >= 0.62) {
+            activeIdx = 3; // 04 / Meet the Team
+          } else if (scrollRatio >= 0.38) {
+            activeIdx = 2; // 03 / ROI Calculator
+          } else if (scrollRatio >= 0.18) {
+            activeIdx = 1; // 02 / Use Cases
           } else {
-            tickElements.forEach(function (item, idx) {
-              var el = document.getElementById(item.id);
-              if (el) {
-                var top = el.offsetTop;
-                if (scrollPos >= top - 150) {
-                  activeIdx = idx;
-                }
-              }
-            });
+            activeIdx = 0; // 01 / Top
           }
 
           tickElements.forEach(function (item, idx) {
