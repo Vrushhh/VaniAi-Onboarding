@@ -412,7 +412,7 @@
     /* ---------- Hero ---------- */
     .hero {
       position: relative;
-      padding: 84px 0 60px;
+      padding: 72px 0 54px;
       overflow: hidden
     }
 
@@ -420,9 +420,10 @@
       position: relative;
       z-index: 1;
       display: grid;
-      grid-template-columns: 1.05fr .95fr;
-      gap: 56px;
-      align-items: center
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 36px;
+      align-items: center;
+      min-height: 480px;
     }
 
     @media(max-width:960px) {
@@ -433,37 +434,42 @@
     }
 
     .hero h1 {
-      font-size: clamp(38px, 4.8vw, 58px);
+      font-size: clamp(40px, 4.6vw, 62px);
       font-weight: 800;
-      line-height: 1.14;
+      line-height: 1.08;
       letter-spacing: -0.025em;
-      max-width: 560px;
+      color: var(--ink);
+      max-width: 580px;
     }
 
-    .hero h1 em {
-      font-style: normal;
+    .hero h1 em,
+    .hero h1 .green-accent {
+      font-style: normal !important;
       color: var(--green);
-      position: relative;
-      display: inline;
     }
 
-    .hero h1 em::after {
+    .hero h1 .underline-accent {
+      position: relative;
+      display: inline-block;
+    }
+
+    .hero h1 .underline-accent::after {
       content: "";
       position: absolute;
       left: 0;
       right: 0;
-      bottom: 4px;
-      height: 9px;
-      background: rgba(242, 168, 29, .4);
+      bottom: 6px;
+      height: 10px;
+      background: rgba(242, 168, 29, 0.45);
       z-index: -1;
-      border-radius: 3px;
+      border-radius: 4px;
     }
 
     .hero p.lede {
       font-size: 17.5px;
       line-height: 1.6;
       color: var(--ink-soft);
-      margin: 20px 0 30px;
+      margin: 22px 0 32px;
       max-width: 540px;
     }
 
@@ -478,7 +484,7 @@
       font-family: var(--mono);
       font-size: 12.5px;
       color: var(--ink-soft);
-      margin-top: 16px
+      margin-top: 20px
     }
 
     /* ---------- Live call card (signature) ---------- */
@@ -2146,14 +2152,18 @@
     .interbrand-word {
       display: inline-block;
       opacity: 0.18;
+      color: var(--ink);
       transform: translateY(6px);
       transition: opacity 0.35s ease, color 0.35s ease, transform 0.35s ease;
       margin-right: 0.24em;
     }
 
+    .interbrand-word.green-word {
+      color: var(--green);
+    }
+
     .interbrand-word.highlight {
       opacity: 1;
-      color: var(--green);
       transform: translateY(0);
     }
 
@@ -2284,14 +2294,14 @@
           </span>
           VOICE AI FOR INDIAN D2C BRANDS
         </span>
-        <h1>The <em>AI Voice<br>Workforce</em>,<br>for Modern<br>Businesses.</h1>
+        <h1>The <span class="green-accent">AI Voice</span> <span class="green-accent underline-accent">Workforce,</span><br>for Modern<br>Businesses.</h1>
         <p class="lede">KZUNO handles inbound calls, outbound calls, lead qualification, customer support and order
           confirmations in 12+ Indian languages, so your team can focus on growing the business.</p>
         <div class="hero-cta">
           <button class="btn btn-primary" data-demo>Get a demo call</button>
           <a class="btn btn-ghost" href="#jobs">Build your agent</a>
         </div>
-        <p class="hero-note">24*7 Agent · DLT &amp; TRAI Compliant · Instant Setup</p>
+        <p class="hero-note">24×7 Agent · DLT &amp; TRAI Compliant · Instant Setup</p>
       </div>
 
       <div class="call-card" role="img"
@@ -2338,10 +2348,10 @@
           <span class="interbrand-word">We</span>
           <span class="interbrand-word">build</span>
           <span class="interbrand-word">your</span>
-          <span class="interbrand-word">iconic</span>
-          <span class="interbrand-word">AI</span>
-          <span class="interbrand-word">voice</span>
-          <span class="interbrand-word">workforce.</span>
+          <span class="interbrand-word green-word">iconic</span>
+          <span class="interbrand-word green-word">AI</span>
+          <span class="interbrand-word green-word">voice</span>
+          <span class="interbrand-word green-word">workforce.</span>
         </div>
         <p>Each agent runs a job you'd otherwise staff a calling team for — from the first order confirmation to the
           last payment nudge.</p>
@@ -2918,9 +2928,20 @@
 
   <section class="final" id="cta">
     <span class="eyebrow" style="justify-content:center;display:inline-flex">Get started</span>
-    <h2>Give your brand a voice that <span>never misses a call.</span></h2>
+    <div class="interbrand-reveal-text" style="text-align: center; max-width: 880px; margin: 20px auto 28px; font-size: clamp(34px, 4.2vw, 54px); font-weight: 800; line-height: 1.12; letter-spacing: -0.025em;">
+      <span class="interbrand-word">Give</span>
+      <span class="interbrand-word">your</span>
+      <span class="interbrand-word">brand</span>
+      <span class="interbrand-word">a</span>
+      <span class="interbrand-word">voice</span><br>
+      <span class="interbrand-word">that</span>
+      <span class="interbrand-word green-word">never</span>
+      <span class="interbrand-word green-word">misses</span>
+      <span class="interbrand-word green-word">a</span>
+      <span class="interbrand-word green-word">call.</span>
+    </div>
     <p>Create an agent, call your own phone, and hear it for yourself — free, in the next five minutes.</p>
-    <div class="hero-cta">
+    <div class="hero-cta" style="justify-content: center;">
       <button class="btn btn-primary" data-demo>Get a live demo call now</button>
       <a class="btn btn-ghost" href="#">Talk to a founder</a>
     </div>
@@ -3786,6 +3807,7 @@
 
         function updateBiDirectionalWordHighlights() {
           var windowHeight = window.innerHeight;
+          var isAtBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 80);
 
           revealContainers.forEach(function (container) {
             var words = container.querySelectorAll('.interbrand-word');
@@ -3794,12 +3816,16 @@
             var rect = container.getBoundingClientRect();
             var elementCenter = rect.top + rect.height * 0.5;
             var startBound = windowHeight * 0.88;
-            var endBound = windowHeight * 0.25;
+            var endBound = windowHeight * 0.45;
 
             var progress = (startBound - elementCenter) / (startBound - endBound);
             progress = Math.max(0, Math.min(1, progress));
 
-            var activeCount = Math.floor(progress * words.length * 1.15);
+            if (isAtBottom && rect.top < windowHeight) {
+              progress = 1;
+            }
+
+            var activeCount = Math.ceil(progress * words.length * 1.25);
 
             words.forEach(function (word, idx) {
               if (idx < activeCount) {
@@ -3825,7 +3851,7 @@
             });
           }, { threshold: 0.15, rootMargin: '0px 0px -100px 0px' });
 
-          var elementsToReveal = document.querySelectorAll('.job, .in-item, .team-card, .onboarding-step-card, .comp, .stage');
+          var elementsToReveal = document.querySelectorAll('.job, .in-item, .team-card, .onboarding-step-card, .comp, .stage, .final');
           elementsToReveal.forEach(function (el, i) {
             el.classList.add('interbrand-reveal');
             el.style.transitionDelay = (i % 3 * 0.22) + 's';
@@ -3856,6 +3882,62 @@
         window.addEventListener('scroll', updateBiDirectionalWordHighlights, { passive: true });
         window.addEventListener('resize', updateBiDirectionalWordHighlights, { passive: true });
         updateBiDirectionalWordHighlights();
+      })();
+
+      /* ---------- Hero Soundwave Canvas Animation Engine ---------- */
+      (function () {
+        var canvas = document.getElementById('hero-soundwave-canvas');
+        if (!canvas) return;
+        var ctx = canvas.getContext('2d');
+
+        function resize() {
+          canvas.width = (canvas.offsetWidth || 500) * (window.devicePixelRatio || 1);
+          canvas.height = (canvas.offsetHeight || 340) * (window.devicePixelRatio || 1);
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        var step = 0;
+        function draw() {
+          step += 0.035;
+          var w = canvas.width;
+          var h = canvas.height;
+          var centerY = h / 2;
+
+          ctx.clearRect(0, 0, w, h);
+
+          var barCount = 76;
+          var barSpacing = w / barCount;
+          var barWidth = barSpacing * 0.46;
+
+          for (var i = 0; i < barCount; i++) {
+            var x = i * barSpacing + barSpacing / 2;
+            var distFromCenter = Math.abs(i - barCount / 2) / (barCount / 2);
+            var centerFactor = Math.pow(Math.cos(distFromCenter * Math.PI * 0.46), 1.6);
+
+            var amp = Math.sin(step + i * 0.16) * Math.cos(step * 0.5 + i * 0.11) * (h * 0.38) * centerFactor;
+            amp = Math.max(6, Math.abs(amp));
+
+            var grad = ctx.createLinearGradient(x, centerY - amp, x, centerY + amp);
+            grad.addColorStop(0, 'rgba(24, 90, 58, 0.08)');
+            grad.addColorStop(0.3, 'rgba(24, 90, 58, 0.82)');
+            grad.addColorStop(0.5, 'rgba(13, 59, 38, 0.98)');
+            grad.addColorStop(0.7, 'rgba(24, 90, 58, 0.82)');
+            grad.addColorStop(1, 'rgba(24, 90, 58, 0.08)');
+
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            if (ctx.roundRect) {
+              ctx.roundRect(x - barWidth / 2, centerY - amp, barWidth, amp * 2, barWidth / 2);
+            } else {
+              ctx.rect(x - barWidth / 2, centerY - amp, barWidth, amp * 2);
+            }
+            ctx.fill();
+          }
+
+          requestAnimationFrame(draw);
+        }
+        draw();
       })();
 
       /* ---------- 2-Second Logo Splash Intro Script ---------- */
