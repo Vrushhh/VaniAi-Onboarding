@@ -2160,14 +2160,16 @@
     /* 3. Interbrand Staggered Parallax Entrance for Cards */
     .interbrand-reveal {
       opacity: 0;
-      transform: translateY(36px) scale(0.97);
-      transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: transform, opacity;
+      transform: translateY(64px) scale(0.95);
+      filter: blur(6px);
+      transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1), filter 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform, opacity, filter;
     }
 
     .interbrand-reveal.is-visible {
       opacity: 1;
       transform: translateY(0) scale(1);
+      filter: blur(0);
     }
 
     @keyframes splashFadeOut {
@@ -3821,12 +3823,12 @@
                 }
               }
             });
-          }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+          }, { threshold: 0.15, rootMargin: '0px 0px -100px 0px' });
 
           var elementsToReveal = document.querySelectorAll('.job, .in-item, .team-card, .onboarding-step-card, .comp, .stage');
           elementsToReveal.forEach(function (el, i) {
             el.classList.add('interbrand-reveal');
-            el.style.transitionDelay = (i % 3 * 0.08) + 's';
+            el.style.transitionDelay = (i % 3 * 0.22) + 's';
             revealObserver.observe(el);
           });
         }
