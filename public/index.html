@@ -147,6 +147,7 @@
       border-radius: 999px;
       box-shadow: 0 4px 16px rgba(18, 32, 26, 0.05);
     }
+
     .scroll-tick-wrap {
       position: relative;
       display: flex;
@@ -155,6 +156,7 @@
       cursor: pointer;
       padding: 3px 0;
     }
+
     .scroll-tick-line {
       width: 14px;
       height: 2.5px;
@@ -162,17 +164,20 @@
       border-radius: 2px;
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
+
     .scroll-tick-wrap:hover .scroll-tick-line {
       width: 22px;
       background: var(--green);
       box-shadow: 0 0 8px rgba(24, 90, 58, 0.45);
     }
+
     .scroll-tick-wrap.active .scroll-tick-line {
       width: 28px;
       height: 3.5px;
       background: var(--green);
       box-shadow: 0 0 14px rgba(24, 90, 58, 0.75);
     }
+
     .scroll-tick-label {
       position: absolute;
       right: 34px;
@@ -191,6 +196,7 @@
       pointer-events: none;
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
+
     .scroll-tick-label::after {
       content: "";
       position: absolute;
@@ -201,12 +207,16 @@
       height: 6px;
       background: var(--green-deep);
     }
+
     .scroll-tick-wrap:hover .scroll-tick-label {
       opacity: 1;
       transform: translateX(0);
     }
+
     @media(max-width: 768px) {
-      .chatgpt-scroll-tracker { display: none; }
+      .chatgpt-scroll-tracker {
+        display: none;
+      }
     }
 
     /* ---------- Top Scroll Progress Bar ---------- */
@@ -837,6 +847,7 @@
       width: 100%;
       margin-bottom: 4px;
     }
+
     .job-icon-box {
       width: 44px;
       height: 44px;
@@ -850,21 +861,25 @@
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       box-shadow: 0 2px 6px rgba(24, 90, 58, 0.06);
     }
+
     .job-icon-box svg {
       width: 22px;
       height: 22px;
       stroke: var(--green);
       transition: stroke 0.25s ease, transform 0.25s ease;
     }
+
     .job:hover .job-icon-box {
       background: var(--green);
       border-color: var(--green-deep);
       box-shadow: 0 6px 16px rgba(24, 90, 58, 0.25);
       transform: scale(1.08);
     }
+
     .job:hover .job-icon-box svg {
       stroke: #FFFFFF;
     }
+
     .job-audio-btn {
       display: inline-flex;
       align-items: center;
@@ -882,6 +897,7 @@
       align-self: flex-start;
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
+
     .job-audio-btn:hover {
       background: var(--green);
       color: #FFFFFF;
@@ -889,30 +905,52 @@
       box-shadow: 0 4px 14px rgba(24, 90, 58, 0.22);
       transform: translateY(-1px);
     }
+
     .job-audio-btn.playing {
       background: var(--green-deep);
       color: var(--marigold);
       border-color: var(--marigold);
     }
+
     .job-audio-bars {
       display: inline-flex;
       align-items: flex-end;
       gap: 2px;
       height: 10px;
     }
+
     .job-audio-bars span {
       width: 2px;
       height: 3px;
       background: currentColor;
       border-radius: 1px;
     }
+
     .job-audio-btn.playing .job-audio-bars span {
       animation: jobWave 0.8s ease-in-out infinite alternate;
     }
-    .job-audio-btn.playing .job-audio-bars span:nth-child(1) { animation-delay: 0.1s; }
-    .job-audio-btn.playing .job-audio-bars span:nth-child(2) { animation-delay: 0.3s; }
-    .job-audio-btn.playing .job-audio-bars span:nth-child(3) { animation-delay: 0.2s; }
-    @keyframes jobWave { 0% { height: 3px; } 100% { height: 10px; } }
+
+    .job-audio-btn.playing .job-audio-bars span:nth-child(1) {
+      animation-delay: 0.1s;
+    }
+
+    .job-audio-btn.playing .job-audio-bars span:nth-child(2) {
+      animation-delay: 0.3s;
+    }
+
+    .job-audio-btn.playing .job-audio-bars span:nth-child(3) {
+      animation-delay: 0.2s;
+    }
+
+    @keyframes jobWave {
+      0% {
+        height: 3px;
+      }
+
+      100% {
+        height: 10px;
+      }
+    }
 
     .job h3 {
       font-size: 21px;
@@ -2296,9 +2334,22 @@
     }
 
     @keyframes interbrandBounce {
-      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-      40% { transform: translateY(4px); }
-      60% { transform: translateY(2px); }
+
+      0%,
+      20%,
+      50%,
+      80%,
+      100% {
+        transform: translateY(0);
+      }
+
+      40% {
+        transform: translateY(4px);
+      }
+
+      60% {
+        transform: translateY(2px);
+      }
     }
 
     /* 2. Interbrand Kinetic Word-Fill Text Reveal */
@@ -2377,8 +2428,10 @@
   <div id="scroll-progress-bar"></div>
 
   <!-- Interbrand Floating Scroll Down Button [ ↓ ] -->
-  <button class="interbrand-scroll-down-btn" id="interbrand-scroll-btn" title="Scroll to next section" aria-label="Scroll down">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+  <button class="interbrand-scroll-down-btn" id="interbrand-scroll-btn" title="Scroll to next section"
+    aria-label="Scroll down">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+      stroke-linejoin="round">
       <line x1="12" y1="5" x2="12" y2="19"></line>
       <polyline points="19 12 12 19 5 12"></polyline>
     </svg>
@@ -2457,7 +2510,8 @@
           </span>
           VOICE AI FOR INDIAN D2C BRANDS
         </span>
-        <h1>The <span class="green-accent">AI Voice</span> <span class="green-accent underline-accent">Workforce,</span><br>for Modern<br>Businesses.</h1>
+        <h1>The <span class="green-accent">AI Voice</span> <span
+            class="green-accent underline-accent">Workforce,</span><br>for Modern<br>Businesses.</h1>
         <p class="lede">KZUNO handles inbound calls, outbound calls, lead qualification, customer support and order
           confirmations in 12+ Indian languages, so your team can focus on growing the business.</p>
         <div class="hero-cta">
@@ -2516,7 +2570,7 @@
           <span class="interbrand-word green-word">voice</span>
           <span class="interbrand-word green-word">workforce.</span>
         </div>
-        <p>Each agent runs a job you'd otherwise staff a calling team for — from the first order confirmation to the
+        <p>Each agent runs a job you'd otherwise staff a calling team for - from the first order confirmation to the
           last payment nudge.</p>
       </div>
       <div class="jobs">
@@ -2525,18 +2579,21 @@
           <div class="job-card-top-row">
             <div class="job-icon-box" title="Order Confirmation Icon">
               <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
-                <path d="m3.3 7 8.7 5 8.7-5"/>
-                <path d="M12 22V12"/>
-                <path d="m9 12 2 2 4-4"/>
+                <path
+                  d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
+                <path d="m3.3 7 8.7 5 8.7-5" />
+                <path d="M12 22V12" />
+                <path d="m9 12 2 2 4-4" />
               </svg>
             </div>
             <span class="tag">Orders</span>
           </div>
           <h3>Order confirmation</h3>
           <p>Verify COD and prepaid orders within minutes of checkout. Cut RTO before it ships.</p>
-          <div class="line">"Hi there! Calling to confirm your order #4821. Will tomorrow afternoon be convenient for delivery?"</div>
-          <button class="job-audio-btn" onclick="triggerJobAudio(this, 'Order confirmation', 'Hi there! Calling to confirm your order #4821. Will tomorrow afternoon be convenient for delivery?')">
+          <div class="line">"Hi there! Calling to confirm your order #4821. Will tomorrow afternoon be convenient for
+            delivery?"</div>
+          <button class="job-audio-btn"
+            onclick="triggerJobAudio(this, 'Order confirmation', 'Hi there! Calling to confirm your order #4821. Will tomorrow afternoon be convenient for delivery?')">
             <span>▶</span> Listen Sample <div class="job-audio-bars"><span></span><span></span><span></span></div>
           </button>
         </div>
@@ -2546,17 +2603,19 @@
           <div class="job-card-top-row">
             <div class="job-icon-box" title="Lead Qualification Icon">
               <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <circle cx="12" cy="12" r="6"/>
-                <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                <circle cx="12" cy="12" r="10" />
+                <circle cx="12" cy="12" r="6" />
+                <circle cx="12" cy="12" r="2" fill="currentColor" />
               </svg>
             </div>
             <span class="tag">Sales</span>
           </div>
           <h3>Lead qualification</h3>
           <p>Call every new lead while it's warm. Ask your qualifying questions, score, and route to your team.</p>
-          <div class="line">"Hello! Thanks for reaching out. What is your monthly order volume so I can suggest the best plan for you?"</div>
-          <button class="job-audio-btn" onclick="triggerJobAudio(this, 'Lead qualification', 'Hello! Thanks for reaching out. What is your monthly order volume so I can suggest the best plan for you?')">
+          <div class="line">"Hello! Thanks for reaching out. What is your monthly order volume so I can suggest the best
+            plan for you?"</div>
+          <button class="job-audio-btn"
+            onclick="triggerJobAudio(this, 'Lead qualification', 'Hello! Thanks for reaching out. What is your monthly order volume so I can suggest the best plan for you?')">
             <span>▶</span> Listen Sample <div class="job-audio-bars"><span></span><span></span><span></span></div>
           </button>
         </div>
@@ -2566,18 +2625,20 @@
           <div class="job-card-top-row">
             <div class="job-icon-box" title="Win-back & Renewals Icon">
               <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 12a9 9 0 0 1 15-6.7L21 8"/>
-                <path d="M21 3v5h-5"/>
-                <path d="M21 12a9 9 0 0 1-15 6.7L3 16"/>
-                <path d="M3 21v-5h5"/>
+                <path d="M3 12a9 9 0 0 1 15-6.7L21 8" />
+                <path d="M21 3v5h-5" />
+                <path d="M21 12a9 9 0 0 1-15 6.7L3 16" />
+                <path d="M3 21v-5h5" />
               </svg>
             </div>
             <span class="tag">Retention</span>
           </div>
           <h3>Win-back &amp; renewals</h3>
           <p>Reach lapsed customers and expiring subscriptions with a personal call, not another ignored SMS.</p>
-          <div class="line">"Hi! Your subscription is expiring this weekend. Would you like me to renew your plan today with a 20% discount?"</div>
-          <button class="job-audio-btn" onclick="triggerJobAudio(this, 'Win-back & renewals', 'Hi! Your subscription is expiring this weekend. Would you like me to renew your plan today with a 20 percent discount?')">
+          <div class="line">"Hi! Your subscription is expiring this weekend. Would you like me to renew your plan today
+            with a 20% discount?"</div>
+          <button class="job-audio-btn"
+            onclick="triggerJobAudio(this, 'Win-back & renewals', 'Hi! Your subscription is expiring this weekend. Would you like me to renew your plan today with a 20 percent discount?')">
             <span>▶</span> Listen Sample <div class="job-audio-bars"><span></span><span></span><span></span></div>
           </button>
         </div>
@@ -2587,39 +2648,43 @@
           <div class="job-card-top-row">
             <div class="job-icon-box" title="Payment Follow-up Icon">
               <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect width="20" height="14" x="2" y="5" rx="3"/>
-                <line x1="2" x2="22" y1="10" y2="10"/>
-                <line x1="6" x2="10" y1="15" y2="15"/>
-                <line x1="14" x2="18" y1="15" y2="15"/>
+                <rect width="20" height="14" x="2" y="5" rx="3" />
+                <line x1="2" x2="22" y1="10" y2="10" />
+                <line x1="6" x2="10" y1="15" y2="15" />
+                <line x1="14" x2="18" y1="15" y2="15" />
               </svg>
             </div>
             <span class="tag">Collections</span>
           </div>
           <h3>Payment follow-up</h3>
-          <p>Polite, consistent EMI and invoice reminders that keep relationships intact — and money moving.</p>
-          <div class="line">"Hello! A quick friendly reminder that your monthly invoice is due. Should I send an instant payment link to your phone?"</div>
-          <button class="job-audio-btn" onclick="triggerJobAudio(this, 'Payment follow-up', 'Hello! A quick friendly reminder that your monthly invoice is due. Should I send an instant payment link to your phone?')">
+          <p>Polite, consistent EMI and invoice reminders that keep relationships intact - and money moving.</p>
+          <div class="line">"Hello! A quick friendly reminder that your monthly invoice is due. Should I send an instant
+            payment link to your phone?"</div>
+          <button class="job-audio-btn"
+            onclick="triggerJobAudio(this, 'Payment follow-up', 'Hello! A quick friendly reminder that your monthly invoice is due. Should I send an instant payment link to your phone?')">
             <span>▶</span> Listen Sample <div class="job-audio-bars"><span></span><span></span><span></span></div>
           </button>
         </div>
 
-        <!-- 05: Feedback & NPS -->
+        <!-- 05: After-sales Support -->
         <div class="job">
           <div class="job-card-top-row">
-            <div class="job-icon-box" title="Feedback & NPS Icon">
+            <div class="job-icon-box" title="After-sales Support Icon">
               <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>
-                <path d="M8 12h.01"/>
-                <path d="M12 12h.01"/>
-                <path d="M16 12h.01"/>
+                <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+                <path d="M8 12h.01" />
+                <path d="M12 12h.01" />
+                <path d="M16 12h.01" />
               </svg>
             </div>
             <span class="tag">Voice of customer</span>
           </div>
-          <h3>Feedback &amp; NPS</h3>
+          <h3>After-sales support</h3>
           <p>Post-delivery calls that customers actually answer. Structured feedback lands in your dashboard.</p>
-          <div class="line">"Hi! Hope you received your order safely! How would you rate our delivery service on a scale of 1 to 10?"</div>
-          <button class="job-audio-btn" onclick="triggerJobAudio(this, 'Feedback & NPS', 'Hi! Hope you received your order safely! How would you rate our delivery service on a scale of 1 to 10?')">
+          <div class="line">"Hi! Hope you received your order safely! How would you rate our delivery service on a scale
+            of 1 to 10?"</div>
+          <button class="job-audio-btn"
+            onclick="triggerJobAudio(this, 'After-sales Support', 'Hi! Hope you received your order safely! How would you rate our delivery service on a scale of 1 to 10?')">
             <span>▶</span> Listen Sample <div class="job-audio-bars"><span></span><span></span><span></span></div>
           </button>
         </div>
@@ -2629,19 +2694,21 @@
           <div class="job-card-top-row">
             <div class="job-icon-box" title="Delivery Coordination Icon">
               <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/>
-                <path d="M15 18H9"/>
-                <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/>
-                <circle cx="6.5" cy="17.5" r="2.5"/>
-                <circle cx="16.5" cy="17.5" r="2.5"/>
+                <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2" />
+                <path d="M15 18H9" />
+                <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14" />
+                <circle cx="6.5" cy="17.5" r="2.5" />
+                <circle cx="16.5" cy="17.5" r="2.5" />
               </svg>
             </div>
             <span class="tag">Logistics</span>
           </div>
           <h3>Delivery coordination</h3>
           <p>Confirm addresses, reschedule attempts, and reduce failed deliveries before the courier gives up.</p>
-          <div class="line">"Hello! Your courier driver is at your location. Should I update a new delivery time for you?"</div>
-          <button class="job-audio-btn" onclick="triggerJobAudio(this, 'Delivery coordination', 'Hello! Your courier driver is at your location. Should I update a new delivery time for you?')">
+          <div class="line">"Hello! Your courier driver is at your location. Should I update a new delivery time for
+            you?"</div>
+          <button class="job-audio-btn"
+            onclick="triggerJobAudio(this, 'Delivery coordination', 'Hello! Your courier driver is at your location. Should I update a new delivery time for you?')">
             <span>▶</span> Listen Sample <div class="job-audio-bars"><span></span><span></span><span></span></div>
           </button>
         </div>
@@ -2668,19 +2735,21 @@
           transferred to your team with full context.</p>
       </div>
       <div class="inbound-list">
-        <!-- 01: FAQ Answering -->
+        <!-- 01: Customer Enquiry -->
         <div class="in-item">
-          <div class="in-icon-box" title="FAQ Answering Icon">
+          <div class="in-icon-box" title="Customer Enquiry Icon">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2a8 8 0 0 0-8 8c0 3.2 1.9 6 4.7 7.2.4.2.7.6.7 1.1V20a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-1.7c0-.5.3-.9.7-1.1A8 8 0 0 0 12 2Z"/>
-              <path d="M9 22h6"/>
+              <path
+                d="M12 2a8 8 0 0 0-8 8c0 3.2 1.9 6 4.7 7.2.4.2.7.6.7 1.1V20a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-1.7c0-.5.3-.9.7-1.1A8 8 0 0 0 12 2Z" />
+              <path d="M9 22h6" />
             </svg>
           </div>
           <div class="in-item-content">
-            <strong>FAQ answering</strong>
+            <strong>Customer Enquiry</strong>
             <span>Trained on your policies, sizing, and product details.</span>
           </div>
-          <button class="job-audio-btn" style="margin-top:0; padding: 6px 12px; font-size: 11.5px;" onclick="event.stopPropagation(); triggerJobAudio(this, 'FAQ Answering', 'Hello! Our return policy is valid for 7 days post delivery. Items must be unused and in original packaging.')">
+          <button class="job-audio-btn" style="margin-top:0; padding: 6px 12px; font-size: 11.5px;"
+            onclick="event.stopPropagation(); triggerJobAudio(this, 'Customer Enquiry', 'Hello! Our return policy is valid for 7 days post delivery. Items must be unused and in original packaging.')">
             <span>▶</span> Listen Demo <div class="job-audio-bars"><span></span><span></span><span></span></div>
           </button>
         </div>
@@ -2689,18 +2758,20 @@
         <div class="in-item">
           <div class="in-icon-box" title="Order Status Icon">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14"/>
-              <path d="m3.3 7 8.7 5 8.7-5"/>
-              <path d="M12 22V12"/>
-              <circle cx="18" cy="16" r="3"/>
-              <path d="m21 19 1.5 1.5"/>
+              <path
+                d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14" />
+              <path d="m3.3 7 8.7 5 8.7-5" />
+              <path d="M12 22V12" />
+              <circle cx="18" cy="16" r="3" />
+              <path d="m21 19 1.5 1.5" />
             </svg>
           </div>
           <div class="in-item-content">
             <strong>Order status</strong>
             <span>Live tracking lookups from your store or 3PL, read out on the call.</span>
           </div>
-          <button class="job-audio-btn" style="margin-top:0; padding: 6px 12px; font-size: 11.5px;" onclick="event.stopPropagation(); triggerJobAudio(this, 'Order Status', 'Your order is out for delivery with BlueDart courier. It is expected to arrive today by 6:00 PM.')">
+          <button class="job-audio-btn" style="margin-top:0; padding: 6px 12px; font-size: 11.5px;"
+            onclick="event.stopPropagation(); triggerJobAudio(this, 'Order Status', 'Your order is out for delivery with BlueDart courier. It is expected to arrive today by 6:00 PM.')">
             <span>▶</span> Listen Demo <div class="job-audio-bars"><span></span><span></span><span></span></div>
           </button>
         </div>
@@ -2709,17 +2780,18 @@
         <div class="in-item">
           <div class="in-icon-box" title="Returns & Exchanges Icon">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M17 2v4h4"/>
-              <path d="M21 6a9 9 0 0 0-15.5-2L2.5 7"/>
-              <path d="M7 22v-4H3"/>
-              <path d="M3 18a9 9 0 0 0 15.5 2l3-3"/>
+              <path d="M17 2v4h4" />
+              <path d="M21 6a9 9 0 0 0-15.5-2L2.5 7" />
+              <path d="M7 22v-4H3" />
+              <path d="M3 18a9 9 0 0 0 15.5 2l3-3" />
             </svg>
           </div>
           <div class="in-item-content">
             <strong>Returns &amp; exchanges</strong>
             <span>Initiates the return, books the pickup, confirms by WhatsApp.</span>
           </div>
-          <button class="job-audio-btn" style="margin-top:0; padding: 6px 12px; font-size: 11.5px;" onclick="event.stopPropagation(); triggerJobAudio(this, 'Returns & Exchanges', 'Your size exchange request is confirmed. Our courier partner will pick up the item tomorrow at 10:00 AM.')">
+          <button class="job-audio-btn" style="margin-top:0; padding: 6px 12px; font-size: 11.5px;"
+            onclick="event.stopPropagation(); triggerJobAudio(this, 'Returns & Exchanges', 'Your size exchange request is confirmed. Our courier partner will pick up the item tomorrow at 10:00 AM.')">
             <span>▶</span> Listen Demo <div class="job-audio-bars"><span></span><span></span><span></span></div>
           </button>
         </div>
@@ -2728,16 +2800,18 @@
         <div class="in-item">
           <div class="in-icon-box" title="Smart Transfer Icon">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-              <path d="M14 2h8v8"/>
-              <path d="m22 2-7 7"/>
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+              <path d="M14 2h8v8" />
+              <path d="m22 2-7 7" />
             </svg>
           </div>
           <div class="in-item-content">
             <strong>Smart transfer</strong>
             <span>Escalates to a human with the transcript and customer history attached.</span>
           </div>
-          <button class="job-audio-btn" style="margin-top:0; padding: 6px 12px; font-size: 11.5px;" onclick="event.stopPropagation(); triggerJobAudio(this, 'Smart Transfer', 'Sure thing! Transferring your call to our senior support specialist along with your complete chat transcript. Please hold.')">
+          <button class="job-audio-btn" style="margin-top:0; padding: 6px 12px; font-size: 11.5px;"
+            onclick="event.stopPropagation(); triggerJobAudio(this, 'Smart Transfer', 'Sure thing! Transferring your call to our senior support specialist along with your complete chat transcript. Please hold.')">
             <span>▶</span> Listen Demo <div class="job-audio-bars"><span></span><span></span><span></span></div>
           </button>
         </div>
@@ -3091,7 +3165,8 @@
 
   <section class="final" id="cta">
     <span class="eyebrow" style="justify-content:center;display:inline-flex">Get started</span>
-    <div class="interbrand-reveal-text" style="text-align: center; max-width: 880px; margin: 20px auto 28px; font-size: clamp(34px, 4.2vw, 54px); font-weight: 800; line-height: 1.12; letter-spacing: -0.025em;">
+    <div class="interbrand-reveal-text"
+      style="text-align: center; max-width: 880px; margin: 20px auto 28px; font-size: clamp(34px, 4.2vw, 54px); font-weight: 800; line-height: 1.12; letter-spacing: -0.025em;">
       <span class="interbrand-word">Give</span>
       <span class="interbrand-word">your</span>
       <span class="interbrand-word">brand</span>
@@ -3891,7 +3966,7 @@
 
         var tickElements = [];
 
-        sections.forEach(function(secObj, idx) {
+        sections.forEach(function (secObj, idx) {
           var wrap = document.createElement('div');
           wrap.className = 'scroll-tick-wrap';
           wrap.setAttribute('data-target-id', secObj.id);
