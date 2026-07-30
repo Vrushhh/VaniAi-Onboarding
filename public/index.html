@@ -1760,17 +1760,17 @@
     /* ---------- Comprehensive Mobile Spacing & Layout Optimization ---------- */
     @media (max-width: 768px) {
       .wrap {
-        padding: 0 20px;
+        padding: 0 18px;
       }
 
       /* Nav */
       .nav-in {
-        height: 62px;
-        padding: 0 16px;
+        height: 60px;
+        padding: 0 14px;
       }
 
       .logo-img-link img {
-        height: 25px;
+        height: 24px;
       }
 
       .nav-cta {
@@ -1780,41 +1780,47 @@
 
       /* Hero Spacing */
       .hero {
-        padding: 44px 0 36px;
+        padding: 38px 0 32px;
       }
 
       .hero h1 {
-        font-size: clamp(29px, 8.5vw, 40px);
-        line-height: 1.16;
+        font-size: clamp(28px, 6.8vw, 38px);
+        line-height: 1.15;
         letter-spacing: -0.02em;
-        margin-bottom: 16px;
+        margin-bottom: 14px;
       }
 
       .hero p.lede {
         font-size: 15px;
-        line-height: 1.6;
-        margin: 16px 0 24px;
+        line-height: 1.55;
+        margin: 14px 0 20px;
         color: #384A41;
       }
 
       .hero-cta {
-        flex-direction: column !important;
-        align-items: stretch !important;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
         width: 100% !important;
-        gap: 12px !important;
+        gap: 10px !important;
       }
 
       .hero-cta .btn {
-        width: 100% !important;
+        flex: 1 1 auto !important;
+        min-width: 140px !important;
         justify-content: center !important;
-        padding: 14px 20px !important;
-        font-size: 15px !important;
+        padding: 12px 18px !important;
+        font-size: 13.5px !important;
         font-weight: 700 !important;
         box-sizing: border-box !important;
+        text-align: center !important;
+        white-space: nowrap !important;
       }
 
       .hero-note {
-        text-align: center;
+        text-align: left;
         margin-top: 14px;
         font-size: 12px;
         line-height: 1.5;
@@ -1822,32 +1828,33 @@
 
       /* Sections */
       section {
-        padding: 56px 0;
+        padding: 48px 0;
       }
 
       .sec-head {
-        margin-bottom: 32px;
+        margin-bottom: 28px;
       }
 
       .sec-head h2 {
-        font-size: clamp(26px, 7vw, 36px);
-        line-height: 1.15;
+        font-size: clamp(25px, 6.5vw, 34px);
+        line-height: 1.18;
       }
 
       .sec-head p {
-        font-size: 15px;
+        font-size: 14.5px;
         line-height: 1.55;
       }
 
       /* Cards & Containers */
       .call-card {
-        margin-top: 28px;
+        margin-top: 24px;
+        padding: 18px 16px;
         border-radius: 18px;
         box-shadow: 0 12px 36px rgba(18, 32, 26, 0.08);
       }
 
       .calc-container {
-        padding: 24px 18px;
+        padding: 22px 16px;
         border-radius: 20px;
       }
 
@@ -1864,50 +1871,58 @@
         font-size: 18px;
       }
 
-      /* Outbound Section - 2-Column Windows View on Mobile (3x2) */
+      /* 1) Outbound Section - 2-Column Side-by-Side (2x3 Grid) */
       .jobs {
         grid-template-columns: repeat(2, 1fr) !important;
-        gap: 12px !important;
-      }
-
-      .job {
-        padding: 16px 14px !important;
-        border-radius: 16px !important;
         gap: 10px !important;
       }
 
+      .job {
+        padding: 14px 11px !important;
+        border-radius: 14px !important;
+        gap: 8px !important;
+      }
+
       .job .tag {
-        font-size: 10px !important;
+        font-size: 9.5px !important;
+        padding: 3px 6px !important;
       }
 
       .job h3 {
-        font-size: 15.5px !important;
-        line-height: 1.25 !important;
+        font-size: 14.5px !important;
+        line-height: 1.2 !important;
       }
 
       .job p {
-        font-size: 13px !important;
-        line-height: 1.45 !important;
+        font-size: 11.5px !important;
+        line-height: 1.35 !important;
       }
 
       .job .line {
-        font-size: 12px !important;
-        padding: 9px 11px !important;
+        font-size: 11px !important;
+        padding: 8px 9px !important;
         margin-top: 2px !important;
+        border-radius: 8px !important;
       }
 
-      /* Inbound Section - 2x2 Grid on Mobile */
+      .job .btn-listen-sample {
+        padding: 7px 10px !important;
+        font-size: 11px !important;
+      }
+
+      /* 2) Inbound Section - 2x2 Grid */
       .inbound-list {
         display: grid !important;
         grid-template-columns: repeat(2, 1fr) !important;
-        gap: 12px !important;
+        gap: 10px !important;
       }
 
       .in-item {
         flex-direction: column !important;
-        gap: 10px !important;
-        padding: 16px 14px !important;
-        border-radius: 16px !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
+        padding: 14px 11px !important;
+        border-radius: 14px !important;
       }
 
       .in-item .ic {
@@ -1915,37 +1930,185 @@
         height: 32px !important;
         font-size: 15px !important;
         border-radius: 8px !important;
+        flex-shrink: 0 !important;
       }
 
       .in-item strong {
-        font-size: 14.5px !important;
-        margin-bottom: 4px !important;
-        line-height: 1.25 !important;
+        font-size: 13.5px !important;
+        margin-bottom: 2px !important;
+        line-height: 1.2 !important;
       }
 
       .in-item span {
-        font-size: 12.5px !important;
-        line-height: 1.4 !important;
+        font-size: 11.5px !important;
+        line-height: 1.35 !important;
+      }
+
+      /* 3) Onboarding Steps Section - 2x2 Grid */
+      .onboarding-steps-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+      }
+
+      .onboarding-step-card {
+        padding: 16px 10px 14px !important;
+        border-radius: 16px !important;
+      }
+
+      .onboarding-icon-circle {
+        width: 44px !important;
+        height: 44px !important;
+        margin-top: 4px !important;
+        margin-bottom: 2px !important;
+      }
+
+      .onboarding-icon-circle svg {
+        width: 22px !important;
+        height: 22px !important;
+      }
+
+      .onboarding-step-card h3 {
+        font-size: 13.5px !important;
+        margin-bottom: 2px !important;
+        line-height: 1.2 !important;
+      }
+
+      .onboarding-step-card p {
+        font-size: 11px !important;
+        line-height: 1.35 !important;
+      }
+
+      .onboarding-step-tagline {
+        font-size: 10.5px !important;
+      }
+
+      /* Adjust Step Arrows for 2x2 layout on mobile */
+      .step-arrow-connector {
+        width: 22px !important;
+        height: 22px !important;
+      }
+
+      .step-arrow-connector svg {
+        width: 10px !important;
+        height: 10px !important;
+      }
+
+      .step-arrow-1-to-2 {
+        top: 50% !important;
+        right: -11px !important;
+        transform: translateY(-50%) !important;
+      }
+
+      .step-arrow-2-to-3 {
+        top: auto !important;
+        bottom: -11px !important;
+        right: 50% !important;
+        transform: translateX(50%) rotate(90deg) !important;
+      }
+
+      .step-arrow-3-to-4 {
+        top: 50% !important;
+        right: -11px !important;
+        transform: translateY(-50%) !important;
+      }
+
+      /* 4) Meet the Team - 3 Profiles Side-by-Side in 1 Row */
+      .team-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 6px !important;
+      }
+
+      .team-card {
+        padding: 14px 4px 10px !important;
+        border-radius: 14px !important;
+        text-align: center !important;
+      }
+
+      .team-photo-wrap {
+        width: 58px !important;
+        height: 58px !important;
+        margin: 0 auto 6px !important;
+      }
+
+      .team-photo {
+        width: 58px !important;
+        height: 58px !important;
+        border-width: 2px !important;
+        outline-width: 1.5px !important;
+      }
+
+      .team-name {
+        font-size: 11.5px !important;
+        font-weight: 800 !important;
+        line-height: 1.2 !important;
+        margin-bottom: 4px !important;
+        word-break: break-word !important;
+      }
+
+      .team-badges-container {
+        min-height: auto !important;
+        gap: 4px !important;
+      }
+
+      .team-role {
+        font-size: 8.5px !important;
+        padding: 2px 5px !important;
+        line-height: 1.2 !important;
+        border-radius: 6px !important;
+        word-break: break-word !important;
+      }
+
+      .team-college {
+        font-size: 8.5px !important;
+        padding: 2px 4px !important;
+        border-radius: 6px !important;
+        line-height: 1.2 !important;
+      }
+
+      .card-previously-at-box {
+        margin-top: 6px !important;
+        padding: 6px 3px !important;
+      }
+
+      .card-previously-at-label {
+        font-size: 7px !important;
+        margin-bottom: 2px !important;
+      }
+
+      .card-logos-row {
+        gap: 3px !important;
+      }
+
+      .card-logos-row svg,
+      .card-logos-row img {
+        max-height: 13px !important;
+        width: auto !important;
+      }
+
+      .card-logo-divider {
+        height: 10px !important;
       }
 
       /* Engine Pipeline */
       .engine {
-        padding: 40px 20px;
-        border-radius: 22px;
-        margin: 0 10px;
+        padding: 36px 18px;
+        border-radius: 20px;
+        margin: 0;
       }
 
       /* Final CTA & Footer */
       .final {
-        padding: 64px 20px;
+        padding: 56px 18px;
       }
 
-      .final h2 {
-        font-size: clamp(28px, 7.5vw, 40px);
+      .final h2,
+      .final .interbrand-reveal-text {
+        font-size: clamp(26px, 6.5vw, 36px) !important;
+        line-height: 1.2 !important;
       }
 
       .final p {
-        font-size: 15px;
+        font-size: 14.5px;
       }
 
       footer {
