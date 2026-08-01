@@ -215,6 +215,11 @@ app.get("/auth/google/callback", async (req, res) => {
   res.redirect("/transcripts");
 });
 
+app.get("/login", (_req, res) => {
+  const dashboardUrl = process.env.DASHBOARD_URL || "http://localhost:5173/auth";
+  res.redirect(dashboardUrl);
+});
+
 app.get("/logout", (_req, res) => {
   res.setHeader("Set-Cookie", "kz_session_email=; Path=/; HttpOnly; Max-Age=0");
   res.redirect("/");
