@@ -5,6 +5,7 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
+    "build": "cd dashboard_client && npm install && npm run build",
     "start": "node server.js",
     "dev": "node --watch server.js"
   },

@@ -3,3 +3,10 @@ node_modules/
 dev.log
 tunnel.txt
 .DS_Store
+
+# Dashboard client — exclude heavy build artifacts and node_modules
+dashboard_client/node_modules/
+dashboard_client/.output/
+dashboard_client/dist/
+dashboard_client/.wrangler/
+dashboard_client/vite.config.prod.ts

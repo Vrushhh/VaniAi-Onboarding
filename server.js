@@ -14,6 +14,8 @@ import express from "express";
 import http from "node:http";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { spawn } from "node:child_process";
+import fs from "node:fs";
 import { startVobizCall, assertVobizConfigured } from "./lib/vobiz.js";
 import { attachBridge } from "./lib/bridge.js";
 import {
@@ -215,9 +217,106 @@ app.get("/auth/google/callback", async (req, res) => {
   res.redirect("/transcripts");
 });
 
+/* ── HA Control Plane Dashboard Integration ──────────────────────────────────── */
+// In production: spawns the built Nitro node-server on port 3001 and proxies to it.
+// In development: proxies to Vite dev server on port 5173 (run: cd dashboard_client && npm run dev)
+const nitroBuildPath = path.join(__dirname, "dashboard_client/.output/server/index.mjs");
+const DASHBOARD_PORT = parseInt(process.env.DASHBOARD_PORT || "0", 10) ||
+  (fs.existsSync(nitroBuildPath) ? 3001 : 5173);
+const DASHBOARD_TARGET = process.env.DASHBOARD_URL || `http://127.0.0.1:${DASHBOARD_PORT}`;
+
+let dashboardProcess = null;
+
+if (fs.existsSync(nitroBuildPath) && DASHBOARD_PORT === 3001) {
+  console.log(`[KZUNO] Starting HA Control Plane (Nitro) on port 3001…`);
+  dashboardProcess = spawn("node", [nitroBuildPath], {
+    env: { ...process.env, PORT: "3001", HOST: "127.0.0.1" },
+    stdio: ["ignore", "inherit", "inherit"],
+    detached: false,
+  });
+  dashboardProcess.on("error", (err) =>
+    console.error("[Dashboard] Spawn error:", err.message)
+  );
+  dashboardProcess.on("exit", (code) => {
+    if (code !== null && code !== 0)
+      console.error("[Dashboard] Nitro process exited with code", code);
+  });
+} else if (!fs.existsSync(nitroBuildPath)) {
+  console.log(`[KZUNO] No production build found — proxying to Vite dev server at :${DASHBOARD_PORT}`);
+  console.log(`[KZUNO] Run: cd dashboard_client && npm run dev`);
+}
+
+function proxyToDashboard(req, res) {
+  try {
+    const targetUrl = new URL(req.originalUrl || req.url, DASHBOARD_TARGET);
+    const proxyReq = http.request(
+      {
+        hostname: targetUrl.hostname,
+        port: parseInt(targetUrl.port, 10) || DASHBOARD_PORT,
+        path: targetUrl.pathname + targetUrl.search,
+        method: req.method,
+        headers: {
+          ...req.headers,
+          host: `127.0.0.1:${DASHBOARD_PORT}`,
+          "x-forwarded-host": req.headers.host || "localhost",
+          "x-forwarded-proto": req.protocol || "http",
+          "x-forwarded-for": req.ip || "127.0.0.1",
+        },
+      },
+      (proxyRes) => {
+        res.writeHead(proxyRes.statusCode, proxyRes.headers);
+        proxyRes.pipe(res, { end: true });
+      }
+    );
+
+    proxyReq.on("error", (err) => {
+      console.error("[Dashboard Proxy Error]", err.message);
+      if (!res.headersSent) {
+        res.status(502).send(
+          `<html><body style="font-family:sans-serif;padding:40px;background:#0f172a;color:#fff">
+          <h2>🔄 Control Plane starting up…</h2>
+          <p>The dashboard is initialising. Please <a href="${req.originalUrl}" style="color:#7c3aed">refresh</a> in a moment.</p>
+          </body></html>`
+        );
+      }
+    });
+
+    if (req.readable) req.pipe(proxyReq, { end: true });
+    else proxyReq.end();
+  } catch (e) {
+    if (!res.headersSent) res.status(500).send("Proxy configuration error: " + e.message);
+  }
+}
+
+function isDashboardRoute(urlPath) {
+  return (
+    urlPath.startsWith("/auth") ||
+    urlPath.startsWith("/orgs") ||
+    urlPath.startsWith("/onboarding") ||
+    urlPath.startsWith("/admin") ||
+    urlPath.startsWith("/profile") ||
+    urlPath.startsWith("/verify-email") ||
+    urlPath.startsWith("/invite") ||
+    urlPath.startsWith("/reset-password") ||
+    urlPath.startsWith("/assets") ||  // Dashboard static assets
+    urlPath.startsWith("/@vite") ||   // Vite dev HMR
+    urlPath.startsWith("/@id") ||     // Vite dev virtual modules
+    urlPath.startsWith("/@fs") ||     // Vite dev file system
+    urlPath.startsWith("/@tanstack") || // TanStack dev styles
+    urlPath.startsWith("/src/")         // Vite dev source files
+  );
+}
+
+// Middleware: proxy all dashboard routes through to HA's control plane
+app.use((req, res, next) => {
+  if (isDashboardRoute(req.path)) {
+    return proxyToDashboard(req, res);
+  }
+  next();
+});
+
 app.get("/login", (_req, res) => {
-  const dashboardUrl = process.env.DASHBOARD_URL || "http://localhost:5173/auth";
-  res.redirect(dashboardUrl);
+  res.redirect("/auth");
 });
 
 app.get("/logout", (_req, res) => {
