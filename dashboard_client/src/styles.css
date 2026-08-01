@@ -1,0 +1,473 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system definition.
+ *
+ * The @theme inline block maps CSS custom properties to Tailwind utility
+ * classes (e.g. --color-primary -> bg-primary, text-primary).
+ *
+ * The :root and .dark blocks define the actual color values using oklch.
+ * All colors MUST use oklch format.
+ *
+ * To add a new semantic color:
+ * 1. Add the variable to :root (light value) and .dark (dark value)
+ * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ */
+
+@theme inline {
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: calc(var(--radius-lg) + 4px);
+  --radius-2xl: calc(var(--radius-lg) + 8px);
+  --radius-3xl: calc(var(--radius-lg) + 12px);
+  --radius-4xl: calc(var(--radius-lg) + 16px);
+  
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  
+  --color-flow: var(--flow);
+  --color-flow-foreground: var(--flow-foreground);
+  
+  --color-terra: var(--terra);
+  --color-terra-tint: var(--terra-tint);
+  --color-teal: var(--teal);
+  --color-teal-tint: var(--teal-tint);
+  --color-indigo: var(--indigo);
+  --color-indigo-tint: var(--indigo-tint);
+  
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --color-info: var(--info);
+  
+  --font-display: 'Bricolage Grotesque', sans-serif;
+  --font-sans: 'Instrument Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Shell layout tokens */
+  --color-surface-muted: var(--surface-muted);
+  --color-banyan: var(--banyan);
+  --color-banyan-tint: var(--banyan-tint);
+  --color-banyan-hover: var(--banyan-hover);
+  --color-success-tint: var(--success-tint);
+  --color-error-tint: var(--error-tint);
+  --color-warning-tint: var(--warning-tint);
+
+  /* Retain old aliases names if any components reference them directly */
+  --color-turmeric: var(--turmeric);
+  --color-turmeric-tint: var(--turmeric-tint);
+  --color-river: var(--river);
+  --color-tulsi: var(--tulsi);
+  --color-tulsi-tint: var(--tulsi-tint);
+  --color-coral: var(--coral);
+  --color-coral-tint: var(--coral-tint);
+}
+
+:root {
+  /* Banyan Green — PRIMARY */
+  --banyan-50:#E9F2ED; --banyan-100:#CFE5DA; --banyan-200:#A3CDBB; --banyan-300:#6FAE95;
+  --banyan-400:#37886A; --banyan-500:#12704B; --banyan-600:#0B5C3F; --banyan-700:#084A32;
+  --banyan-800:#073C2A; --banyan-900:#052D20;
+
+  /* Monsoon Indigo — DEPTH / dark canvas */
+  --indigo-50:#ECEEF6; --indigo-100:#D6DAEC; --indigo-200:#B0B8D8; --indigo-300:#8590BE;
+  --indigo-400:#5E6B9E; --indigo-500:#414E80; --indigo-600:#33406E; --indigo-700:#28345A;
+  --indigo-800:#1E2846; --indigo-900:#151C33; --indigo-950:#0F1426;
+
+  /* River Teal — FLOW / links / data / woven-line */
+  --teal-50:#E5F3F1; --teal-100:#C6E7E3; --teal-200:#98D2CB; --teal-300:#61B5AC;
+  --teal-400:#369A90; --teal-500:#1F847B; --teal-600:#1A6E67; --teal-700:#155952;
+  --teal-800:#124742; --teal-900:#0E3632;
+
+  /* Terracotta Clay — WARM ACCENT */
+  --terra-50:#F8ECE4; --terra-100:#F0D6C7; --terra-200:#E3B49C; --terra-300:#D28E6C;
+  --terra-400:#C4744C; --terra-500:#B85F38; --terra-600:#A5502D; --terra-700:#874026;
+  --terra-800:#6E3521; --terra-900:#57291A;
+
+  /* Ivory Stone — NEUTRAL field + text */
+  --ivory-50:#F5F2E9; --ivory-100:#EFEBDF; --ivory-200:#E4DED0; --ivory-300:#D5CEBC;
+  --ivory-400:#B8B0A0; --ivory-500:#948C7C; --ivory-600:#6E685B; --ivory-700:#514C42;
+  --ivory-800:#37332C; --ivory-900:#221F1A; --ivory-950:#181611;
+
+  /* Semantic hues (solid / tint). Marigold is the one derived functional hue (caution). */
+  --success:#12704B;  --success-tint:#E9F2ED;
+  --info:#1A6E67;     --info-tint:#E5F3F1;
+  --warning:#CB8A24;  --warning-tint:#FBF0D8;
+  --error:#A93B29;    --error-tint:#F5E0DA;
+
+  /* Elevation — tinted to the ivory/indigo field */
+  --shadow-sm:0 1px 2px rgba(24,22,17,.06);
+  --shadow-md:0 10px 28px rgba(24,22,17,.08),0 2px 6px rgba(24,22,17,.05);
+  --shadow-lg:0 24px 60px rgba(24,22,17,.10);
+
+  /* Radius */
+  --radius-sm:.625rem; --radius-md:.875rem; --radius-lg:1.375rem; --radius-full:9999px;
+
+  /* Motion */
+  --dur-micro:140ms; --dur-standard:200ms; --dur-large:280ms;
+  --ease-standard:cubic-bezier(.4,0,.2,1);
+
+  /* Opacity + z */
+  --op-disabled:.55; --op-scrim:.42;
+  --z-dropdown:1000; --z-sticky:1100; --z-drawer:1200; --z-modal:1300; --z-toast:1400;
+
+  /* Semantic tokens — light ("Daybreak") */
+  --background:var(--ivory-50);
+  --foreground:var(--ivory-950);
+  --card:#FFFFFF;                 --card-foreground:var(--ivory-950);
+  --popover:#FFFFFF;              --popover-foreground:var(--ivory-950);
+  --surface-muted:var(--ivory-100);
+  --primary:var(--banyan-600);    --primary-foreground:#FFFFFF;
+  --secondary:var(--ivory-100);   --secondary-foreground:var(--ivory-950);
+  --muted:var(--ivory-100);       --muted-foreground:var(--ivory-700);
+  --accent:var(--terra-50);       --accent-foreground:var(--terra-600);
+  --flow:var(--teal-600);         --flow-foreground:#FFFFFF;
+  --destructive:var(--error);     --destructive-foreground:#FFFFFF;
+  --border:var(--ivory-300);
+  --input:var(--ivory-300);
+  --ring:var(--banyan-600);
+
+  /* brand aliases repointed to the new palette (keep names; swap values) */
+  --paper:var(--ivory-50); --surface:var(--ivory-100);
+  --ink:var(--ivory-950); --ink-soft:var(--ivory-700); --ink-faint:var(--ivory-500);
+  --banyan:var(--banyan-600); --banyan-hover:var(--banyan-700); --banyan-tint:var(--banyan-50);
+  --teal:var(--teal-600); --teal-hover:var(--teal-700); --teal-tint:var(--teal-50);
+  --terra:var(--terra-500); --terra-hover:var(--terra-600); --terra-tint:var(--terra-50);
+  --indigo:var(--indigo-800); --indigo-tint:var(--indigo-50);
+
+  /* DEPRECATED aliases — repoint so old references don't break, then migrate off */
+  --tulsi:var(--banyan-600); --tulsi-tint:var(--banyan-50);
+  --turmeric:var(--terra-500); --turmeric-tint:var(--terra-50); /* turmeric now = terracotta */
+  --coral:var(--error); --coral-tint:var(--error-tint);
+  --river:var(--teal-600); --river-tint:var(--teal-50);
+
+  /* Sidebar */
+  --sidebar: var(--card);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--secondary);
+  --sidebar-accent-foreground: var(--foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+}
+
+.dark {
+  --background:var(--indigo-950);          /* #0F1426 */
+  --foreground:#ECEBE2;
+  --card:#18203A;                          --card-foreground:#ECEBE2;
+  --popover:#18203A;                       --popover-foreground:#ECEBE2;
+  --surface-muted:var(--indigo-800);       /* #1E2846 */
+  --primary:#4FAE82;                        --primary-foreground:#0F1426;
+  --secondary:var(--indigo-800);           --secondary-foreground:#ECEBE2;
+  --muted:var(--indigo-800);               --muted-foreground:#AEB4C6;
+  --accent:#33241C;                        --accent-foreground:#D98B66;
+  --flow:#4FB3AA;                          --flow-foreground:#0F1426;
+  --destructive:#D07059;                   --destructive-foreground:#160B08;
+  --border:#2C3760;
+  --input:#2C3760;
+  --ring:#4FAE82;
+
+  --paper:var(--indigo-950); --surface:var(--indigo-800);
+  --ink:#ECEBE2; --ink-soft:#AEB4C6; --ink-faint:#7A82A0;
+  --banyan:#4FAE82; --banyan-hover:#6BC49A; --banyan-tint:#173C2C;
+  --teal:#4FB3AA; --teal-hover:#6BC7BF; --teal-tint:#123E3A;
+  --terra:#D98B66; --terra-hover:#E4A585; --terra-tint:#33241C;
+  --indigo:#8590BE; --indigo-tint:#1E2846;
+
+  --success:#5FB88C; --success-tint:#12291F;
+  --info:#4FB3AA;    --info-tint:#123E3A;
+  --warning:#E0A94A; --warning-tint:#33290F;
+  --error:#D07059;   --error-tint:#33150F;
+
+  /* deprecated aliases follow the new values */
+  --tulsi:#4FAE82; --tulsi-tint:#173C2C;
+  --turmeric:#D98B66; --turmeric-tint:#33241C;
+  --coral:#D07059; --coral-tint:#33150F;
+  --river:#4FB3AA; --river-tint:#123E3A;
+
+  --shadow-sm:0 1px 2px rgba(0,0,0,.34);
+  --shadow-md:0 10px 28px rgba(0,0,0,.36);
+  --shadow-lg:0 24px 60px rgba(0,0,0,.46);
+
+  --sidebar: var(--paper-elevated);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--tulsi);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--surface);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--tulsi);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html, body {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    background-color: var(--background);
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, .font-display, .display, .stat-value {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background: var(--banyan-tint);
+    color: var(--banyan);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
+/* Custom premium animations and effects */
+@keyframes voice-wave {
+  0%, 100% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+}
+
+@keyframes gradient-pulse {
+  0%, 100% {
+    opacity: 0.15;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(1.1);
+  }
+}
+
+.animate-voice-wave {
+  animation: voice-wave 1.2s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+.animate-gradient-pulse {
+  animation: gradient-pulse 8s ease-in-out infinite;
+}
+
+/* Glassmorphism card utility */
+.glass-panel {
+  background: color-mix(in oklch, var(--color-card) 75%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid color-mix(in oklch, var(--color-border) 40%, transparent);
+}
+
+.glass-panel-dark {
+  background: rgba(15, 17, 26, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Eyebrow label structural device */
+.eyebrow-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tulsi);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.eyebrow-label::before {
+  content: "";
+  display: inline-block;
+  width: 22px;
+  height: 1px;
+  background-color: var(--tulsi);
+}
+.eyebrow-label-terra {
+  color: var(--terra);
+}
+.eyebrow-label-terra::before {
+  background-color: var(--terra);
+}
+
+/* Pulse dot animators */
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background-color: var(--tulsi);
+  position: relative;
+  display: inline-block;
+}
+.pulse-dot::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 9999px;
+  box-shadow: 0 0 0 0 rgba(11,92,63,.35);
+  animation: pulse-tulsi 2s infinite;
+}
+.pulse-dot-coral {
+  background-color: var(--coral);
+}
+.pulse-dot-coral::after {
+  box-shadow: 0 0 0 0 rgba(176,58,46,.35);
+  animation: pulse-coral 2s infinite;
+}
+
+@keyframes pulse-tulsi {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(11,92,63,.35);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(11,92,63,0);
+  }
+}
+@keyframes pulse-coral {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(176,58,46,.35);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(176,58,46,0);
+  }
+}
+
+/* Voice Waveform animators */
+.waveform-container {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 24px;
+}
+.waveform-bar {
+  width: 3px;
+  background-color: var(--tulsi);
+  border-radius: 9999px;
+  animation: voice-wave 1.2s ease-in-out infinite;
+  transform-origin: bottom;
+}
+.waveform-bar:nth-child(1) { animation-delay: 0.1s; height: 30%; }
+.waveform-bar:nth-child(2) { animation-delay: 0.2s; height: 50%; }
+.waveform-bar:nth-child(3) { animation-delay: 0.15s; height: 75%; }
+.waveform-bar:nth-child(4) { animation-delay: 0.3s; height: 40%; }
+.waveform-bar:nth-child(5) { animation-delay: 0.25s; height: 90%; }
+.waveform-bar:nth-child(6) { animation-delay: 0.4s; height: 25%; }
+.waveform-bar:nth-child(7) { animation-delay: 0.35s; height: 60%; }
+.waveform-bar:nth-child(8) { animation-delay: 0.18s; height: 80%; }
+.waveform-bar:nth-child(9) { animation-delay: 0.32s; height: 45%; }
+
+.waveform-paused .waveform-bar {
+  animation-play-state: paused !important;
+  height: 50% !important;
+}
+
+/* ── Shell text utilities ── */
+.text-eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.text-stat {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: 2rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.text-data {
+  font-family: 'IBM Plex Mono', monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+}
+
+.text-caption {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  line-height: 1.4;
+}
+
+/* ── Nav active indicator bar ── */
+.nav-active-bar {
+  position: relative;
+}
+.nav-active-bar::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--banyan);
+}
+
