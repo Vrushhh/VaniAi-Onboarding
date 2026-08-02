@@ -115,7 +115,14 @@ function AuthPage() {
         {/* Logo/Name + Theme Toggle + Back to Homepage */}
         <div className="flex items-center justify-between z-10 w-full">
           <a href="/" className="flex items-center gap-3 group hover:opacity-90 transition-opacity">
-            <img src="/images/kzuno_splash_logo.png" alt="KZUNO" className="h-24 lg:h-28 w-auto brightness-0 invert transition-transform group-hover:scale-105 drop-shadow-xl object-contain" />
+            <img
+              src="/images/kzuno_splash_logo.png"
+              alt="KZUNO"
+              className="h-20 lg:h-24 w-auto transition-transform group-hover:scale-105 drop-shadow-xl object-contain"
+              style={{
+                filter: "invert(28%) sepia(65%) saturate(1100%) hue-rotate(115deg) brightness(95%) contrast(92%)"
+              }}
+            />
           </a>
 
           <div className="flex items-center gap-3">
@@ -204,7 +211,14 @@ function AuthPage() {
           {/* Logo on mobile only */}
           <div className="flex items-center justify-center md:hidden mb-4">
             <a href="/" className="flex items-center hover:opacity-90 transition-opacity">
-              <img src="/images/kzuno_splash_logo.png" alt="KZUNO" className="h-10 w-auto dark:brightness-0 dark:invert" />
+              <img
+                src="/images/kzuno_splash_logo.png"
+                alt="KZUNO"
+                className="h-10 w-auto"
+                style={{
+                  filter: "invert(28%) sepia(65%) saturate(1100%) hue-rotate(115deg) brightness(95%) contrast(92%)"
+                }}
+              />
             </a>
           </div>
 

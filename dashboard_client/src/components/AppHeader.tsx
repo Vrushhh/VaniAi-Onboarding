@@ -37,7 +37,14 @@ export function AppHeader({
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
         <div className="flex items-center gap-3.5 text-sm">
           <Link to="/" className="flex items-center gap-2 group">
-            <img src="/images/kzuno_splash_logo.png" alt="KZUNO" className="h-8 w-auto dark:brightness-0 dark:invert transition-transform group-hover:scale-105" />
+            <img
+              src="/images/kzuno_splash_logo.png"
+              alt="KZUNO"
+              className="h-9 w-auto transition-transform group-hover:scale-105"
+              style={{
+                filter: "invert(28%) sepia(65%) saturate(1100%) hue-rotate(115deg) brightness(95%) contrast(92%)"
+              }}
+            />
           </Link>
           {breadcrumbs?.map((b, i) => (
             <span key={i} className="flex items-center gap-2 text-muted-foreground animate-in slide-in-from-left-2 duration-200">
