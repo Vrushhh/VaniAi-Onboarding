@@ -114,15 +114,11 @@ function AuthPage() {
 
         {/* Logo/Name + Theme Toggle + Back to Homepage */}
         <div className="flex items-center justify-between z-10 w-full">
-          <a href="/" className="flex items-center gap-3 group hover:opacity-90 transition-opacity">
-            <img
-              src="/images/kzuno_splash_logo.png"
-              alt="KZUNO"
-              className="h-20 lg:h-24 w-auto transition-transform group-hover:scale-105 drop-shadow-xl object-contain"
-              style={{
-                filter: "invert(28%) sepia(65%) saturate(1100%) hue-rotate(115deg) brightness(95%) contrast(92%)"
-              }}
-            />
+          <a href="/" className="flex items-center gap-3.5 group hover:opacity-90 transition-opacity">
+            <img src="/images/kzuno_icon.png" alt="KZUNO" className="h-12 lg:h-14 w-12 lg:w-14 object-contain transition-transform group-hover:scale-110 drop-shadow-xl" />
+            <span className="font-display font-extrabold text-3xl tracking-tight text-white">
+              KZUNO
+            </span>
           </a>
 
           <div className="flex items-center gap-3">
@@ -210,15 +206,9 @@ function AuthPage() {
         <div className="w-full max-w-md space-y-6">
           {/* Logo on mobile only */}
           <div className="flex items-center justify-center md:hidden mb-4">
-            <a href="/" className="flex items-center hover:opacity-90 transition-opacity">
-              <img
-                src="/images/kzuno_splash_logo.png"
-                alt="KZUNO"
-                className="h-10 w-auto"
-                style={{
-                  filter: "invert(28%) sepia(65%) saturate(1100%) hue-rotate(115deg) brightness(95%) contrast(92%)"
-                }}
-              />
+            <a href="/" className="flex items-center gap-2.5 hover:opacity-90 transition-opacity">
+              <img src="/images/kzuno_icon.png" alt="KZUNO" className="h-9 w-9 object-contain" />
+              <span className="font-display font-extrabold text-2xl tracking-tight text-foreground">KZUNO</span>
             </a>
           </div>
 

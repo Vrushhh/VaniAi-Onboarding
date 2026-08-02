@@ -212,9 +212,7 @@ export function AppSidebar({ collapsed, onToggle }: AppSidebarProps) {
                 collapsed && "justify-center px-0"
               )}
             >
-              <span className="grid place-items-center w-8 h-8 rounded-[10px] bg-primary text-white shadow-sm shrink-0">
-                <Mic className="h-4 w-4" />
-              </span>
+              <img src="/images/kzuno_icon.png" alt="KZUNO" className="w-8 h-8 object-contain shrink-0 transition-transform hover:scale-105" />
               {!collapsed && (
                 <>
                   <div className="flex-1 min-w-0">
