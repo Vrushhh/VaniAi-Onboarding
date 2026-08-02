@@ -6,11 +6,32 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
-import { Mic, CheckCircle2, Sparkles, PhoneCall } from "lucide-react";
+import { Mic, CheckCircle2, Sparkles, PhoneCall, Sun, Moon } from "lucide-react";
+import { useTheme } from "@/lib/theme";
 
 type SearchParams = {
   redirect?: string;
 };
+
+function ThemeToggle({ className = "" }: { className?: string }) {
+  const { theme, setTheme } = useTheme();
+  const isDark =
+    theme === "dark" ||
+    (theme === "system" &&
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+  return (
+    <button
+      type="button"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      className={`inline-flex items-center justify-center p-2 rounded-full border transition-all cursor-pointer shadow-sm hover:scale-105 ${className}`}
+      title={`Switch to ${isDark ? "light" : "dark"} mode`}
+    >
+      {isDark ? <Sun className="h-4 w-4 text-amber-300" /> : <Moon className="h-4 w-4 text-slate-600 dark:text-slate-300" />}
+    </button>
+  );
+}
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
@@ -91,18 +112,21 @@ function AuthPage() {
         <div className="absolute top-[-20%] left-[-10%] w-[80%] h-[80%] rounded-full bg-primary/15 blur-[120px] animate-gradient-pulse" />
         <div className="absolute bottom-[-20%] right-[-10%] w-[80%] h-[80%] rounded-full bg-emerald-500/10 blur-[120px] animate-gradient-pulse" style={{ animationDelay: "-4s" }} />
 
-        {/* Logo/Name + Back to Homepage */}
+        {/* Logo/Name + Theme Toggle + Back to Homepage */}
         <div className="flex items-center justify-between z-10 w-full">
           <a href="/" className="flex items-center gap-3 group hover:opacity-90 transition-opacity">
-            <img src="/images/kzuno_splash_logo.png" alt="KZUNO" className="h-14 lg:h-16 w-auto brightness-0 invert transition-transform group-hover:scale-105 drop-shadow-md" />
+            <img src="/images/kzuno_splash_logo.png" alt="KZUNO" className="h-24 lg:h-28 w-auto brightness-0 invert transition-transform group-hover:scale-105 drop-shadow-xl object-contain" />
           </a>
 
-          <a
-            href="/"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-semibold border border-white/20 transition-all shadow-md backdrop-blur-sm hover:scale-105"
-          >
-            ← Back to Homepage
-          </a>
+          <div className="flex items-center gap-3">
+            <ThemeToggle className="bg-white/10 hover:bg-white/20 text-white border-white/20 backdrop-blur-sm" />
+            <a
+              href="/"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-semibold border border-white/20 transition-all shadow-md backdrop-blur-sm hover:scale-105"
+            >
+              ← Back to Homepage
+            </a>
+          </div>
         </div>
 
         {/* Hero Section */}
@@ -188,9 +212,12 @@ function AuthPage() {
             <div className="mb-6">
               <div className="flex items-center justify-between">
                 <div className="text-[10px] font-mono uppercase tracking-widest font-semibold text-primary">Kzuno Platform</div>
-                <a href="/" className="text-xs text-primary font-semibold hover:underline flex items-center gap-1">
-                  ← Back to Homepage
-                </a>
+                <div className="flex items-center gap-2">
+                  <ThemeToggle className="bg-background border-border/60 text-foreground hover:bg-muted" />
+                  <a href="/" className="text-xs text-primary font-semibold hover:underline flex items-center gap-1">
+                    ← Back to Homepage
+                  </a>
+                </div>
               </div>
               <h1 className="mt-1.5 text-2xl font-bold font-display tracking-tight">{title}</h1>
               <p className="mt-1.5 text-sm text-muted-foreground">
