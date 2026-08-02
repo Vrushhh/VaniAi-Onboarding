@@ -86,13 +86,19 @@ function AnalyticsPage() {
           .eq("org_id", orgId)
       ]);
 
-      if (callsRes.error) throw callsRes.error;
-      if (agentsRes.error) throw agentsRes.error;
+      if (callsRes.error) {
+        console.warn("[Analytics] Calls table error:", callsRes.error.message);
+      } else {
+        setCalls(callsRes.data || []);
+      }
 
-      setCalls(callsRes.data || []);
-      setAgents(agentsRes.data || []);
+      if (agentsRes.error) {
+        console.warn("[Analytics] Agents table error:", agentsRes.error.message);
+      } else {
+        setAgents(agentsRes.data || []);
+      }
     } catch (err: any) {
-      toast.error(err.message || "Failed to load analytics data");
+      console.error("[Analytics] Error loading analytics data:", err);
     } finally {
       setLoading(false);
     }

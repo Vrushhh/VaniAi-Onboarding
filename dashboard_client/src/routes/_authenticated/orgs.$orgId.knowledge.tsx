@@ -68,11 +68,14 @@ function KnowledgePage() {
         .eq("org_id", orgId)
         .order("created_at", { ascending: false });
 
-      if (error) throw error;
-      setSources((data as SourceRow[]) || []);
+      if (error) {
+        console.warn("[Knowledge] Knowledge sources table error:", error.message);
+        setSources([]);
+      } else {
+        setSources((data as SourceRow[]) || []);
+      }
     } catch (err: any) {
-      console.error(err);
-      toast.error(err.message || "Failed to load knowledge sources");
+      console.error("[Knowledge] Error loading knowledge sources:", err);
     } finally {
       setSourcesLoading(false);
     }

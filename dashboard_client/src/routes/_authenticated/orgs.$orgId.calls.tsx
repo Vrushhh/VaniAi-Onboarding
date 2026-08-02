@@ -145,10 +145,14 @@ function CallsPage() {
       }
 
       const { data, error } = await query;
-      if (error) throw error;
-      setCalls((data as CallRow[]) || []);
+      if (error) {
+        console.warn("[Calls] Calls table error:", error.message);
+        setCalls([]);
+      } else {
+        setCalls((data as CallRow[]) || []);
+      }
     } catch (err: any) {
-      toast.error(err.message || "Failed to load calls");
+      console.error("[Calls] Error loading calls:", err);
     } finally {
       setLoading(false);
     }

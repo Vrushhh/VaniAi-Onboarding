@@ -30,11 +30,6 @@ import {
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 
-app.get("/debug-logs", (req, res) => {
-  res.type("text/plain");
-  res.send((global.debugLogs || []).join("\n"));
-});
-
 /* ── Admin Gmail Authentication & Google OAuth Flow ────────────────── */
 const ADMIN_EMAIL = "vrushabhcr7@gmail.com";
 
@@ -181,7 +176,7 @@ app.get("/auth/google/callback", async (req, res) => {
   const baseUrl = process.env.PUBLIC_BASE_URL || "https://www.kzuno.in";
   const redirectUri = `${baseUrl}/auth/google/callback`;
 
-  let userEmail = ADMIN_EMAIL; // Default sign-in email if direct OAuth code is passed
+  let userEmail = null;
 
   if (code && clientId && clientSecret) {
     try {
@@ -210,10 +205,15 @@ app.get("/auth/google/callback", async (req, res) => {
       console.error("[OAuth] Error fetching Google User Info:", e.message);
     }
   } else if (emailQuery) {
-    userEmail = emailQuery.trim().toLowerCase();
+    const candidate = emailQuery.trim().toLowerCase();
+    if (candidate === ADMIN_EMAIL.toLowerCase()) {
+      userEmail = candidate;
+    }
   }
 
-  res.setHeader("Set-Cookie", `kz_session_email=${encodeURIComponent(userEmail)}; Path=/; HttpOnly; Max-Age=86400`);
+  if (userEmail) {
+    res.setHeader("Set-Cookie", `kz_session_email=${encodeURIComponent(userEmail)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=86400`);
+  }
   res.redirect("/transcripts");
 });
 
