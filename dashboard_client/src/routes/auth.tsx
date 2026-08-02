@@ -80,18 +80,6 @@ function AuthPage() {
     }
   }
 
-  const [activeLang, setActiveLang] = useState<string>("Hindi");
-  const [isPlaying, setIsPlaying] = useState<boolean>(true);
-
-  const langSample: Record<string, { voice: string; text: string }> = {
-    Hindi: { voice: "Vaani (AI)", text: "नमस्ते! आपकी EMI कल ड्यू है — reminder के लिए कॉल किया है।" },
-    Tamil: { voice: "Vaani (AI)", text: "வணக்கம்! உங்கள் COD ஆர்டர் உறுதிப்படுத்த தயவுசெய்து உறுதிப்படுத்தவும்." },
-    Gujarati: { voice: "Vaani (AI)", text: "નમસ્તે! તમારી ઓર્ડર કન્ફર્મેશન માટે KZUNO એજન્ટ કૉલ કરી રહ્યા છે." },
-    Marathi: { voice: "Vaani (AI)", text: "नमस्कार! तुमच्या ऑर्डर कन्फर्मेशनसाठी कॉल केला आहे." },
-    Bengali: { voice: "Vaani (AI)", text: "নমস্কার! আপনার অর্ডারের তথ্যের জন্য KZUNO থেকে কল করা হয়েছে।" },
-    English: { voice: "Vaani (AI)", text: "Hello! Calling from KZUNO to confirm your order details." },
-  };
-
   const title =
     mode === "signin" ? "Sign in" : mode === "signup" ? "Create your account" : "Reset password";
 
@@ -106,7 +94,7 @@ function AuthPage() {
         {/* Logo/Name + Back to Homepage */}
         <div className="flex items-center justify-between z-10 w-full">
           <a href="/" className="flex items-center gap-3 group hover:opacity-90 transition-opacity">
-            <img src="/images/kzuno_splash_logo.png" alt="KZUNO" className="h-9 w-auto brightness-0 invert transition-transform group-hover:scale-105" />
+            <img src="/images/kzuno_splash_logo.png" alt="KZUNO" className="h-14 lg:h-16 w-auto brightness-0 invert transition-transform group-hover:scale-105 drop-shadow-md" />
           </a>
 
           <a
@@ -118,92 +106,45 @@ function AuthPage() {
         </div>
 
         {/* Hero Section */}
-        <div className="my-auto space-y-8 z-10 max-w-xl py-6">
+        <div className="my-auto space-y-10 z-10 max-w-lg">
           <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold font-mono shadow-sm">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium font-mono">
               <Sparkles className="h-3.5 w-3.5" />
-              <span>Next-Gen Voice-AI Control Plane</span>
+              <span>Next-Gen Voice-AI platform</span>
             </div>
-            <h1 className="text-4xl lg:text-5xl font-bold font-display tracking-tight leading-[1.1] bg-gradient-to-b from-white via-neutral-100 to-neutral-400 bg-clip-text text-transparent">
-              The AI Voice Workforce, for Modern Businesses.
+            <h1 className="text-4xl lg:text-5xl font-bold font-display tracking-tight leading-[1.1] bg-gradient-to-b from-white to-neutral-400 bg-clip-text text-transparent">
+              Voice-AI Control Plane for D2C Brands.
             </h1>
-            <p className="text-neutral-400 text-sm lg:text-base leading-relaxed">
-              Design, build, and deploy low-latency conversational voice agents that automatically resolve support tickets, recover abandoned checkouts, and boost customer satisfaction in 12+ Indian languages.
+            <p className="text-neutral-400 text-base leading-relaxed">
+              Design, build, and deploy low-latency conversational voice agents that automatically resolve support tickets, recover abandoned checkouts, and boost customer satisfaction.
             </p>
           </div>
 
-          {/* Interactive Voice Player & Waveform Visualizer */}
-          <div className="p-5 rounded-2xl bg-neutral-900/60 backdrop-blur-xl border border-white/10 shadow-2xl space-y-4">
-            {/* Top Bar: Play Toggle + Waveform + Latency Badge */}
-            <div className="flex items-center justify-between gap-3">
-              <div className="flex items-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => setIsPlaying(!isPlaying)}
-                  className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/30 transition-all active:scale-95 cursor-pointer shrink-0"
-                  title={isPlaying ? "Pause visualizer" : "Play visualizer"}
-                >
-                  <PhoneCall className={`h-4.5 w-4.5 ${isPlaying ? "animate-pulse" : ""}`} />
-                </button>
-                <div className="text-left">
-                  <div className="text-xs font-semibold text-white flex items-center gap-1.5">
-                    <span>{langSample[activeLang].voice}</span>
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping" />
-                  </div>
-                  <div className="text-[11px] text-emerald-400/90 font-mono">Live Demo Agent</div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono shrink-0">
-                <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span>12.5ms latency</span>
-              </div>
+          {/* Sound Wave Animation Visualizer */}
+          <div className="flex items-center gap-2 h-20 px-6 rounded-2xl bg-neutral-900/40 backdrop-blur-md border border-white/5 shadow-inner">
+            <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-neutral-800 border border-white/5 text-primary shrink-0">
+              <PhoneCall className="h-5 w-5 animate-pulse" />
             </div>
-
-            {/* Bouncing Audio Bars */}
-            <div className="flex items-end gap-[3px] h-9 px-2 bg-neutral-950/50 rounded-lg border border-white/5 py-1">
-              {[0.6, 0.4, 0.8, 0.5, 0.9, 0.3, 0.7, 0.5, 0.9, 0.4, 0.8, 0.6, 0.4, 0.7, 0.3, 0.8, 0.5, 0.7, 0.4, 0.6, 0.8, 0.5, 0.9, 0.4, 0.7].map((h, i) => (
+            <div className="flex items-end gap-[3px] h-10 px-4 flex-1">
+              {[0.6, 0.4, 0.8, 0.5, 0.9, 0.3, 0.7, 0.5, 0.9, 0.4, 0.8, 0.6, 0.4, 0.7, 0.3, 0.8, 0.5, 0.7, 0.4, 0.6].map((h, i) => (
                 <div
                   key={i}
-                  className={`w-full rounded-full transition-all duration-300 ${isPlaying ? "bg-emerald-400 animate-voice-wave" : "bg-neutral-700"}`}
+                  className="w-1 bg-primary rounded-full animate-voice-wave"
                   style={{
-                    height: isPlaying ? `${h * 100}%` : "20%",
-                    animationDelay: `${i * 0.06}s`,
-                    animationDuration: `${0.7 + h * 0.7}s`
+                    height: `${h * 100}%`,
+                    animationDelay: `${i * 0.08}s`,
+                    animationDuration: `${0.8 + h * 0.8}s`
                   }}
                 />
               ))}
             </div>
-
-            {/* Simulated Dynamic Transcript Bubble */}
-            <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-xs text-neutral-200 font-sans transition-all duration-300">
-              <span className="font-semibold text-emerald-400">{langSample[activeLang].voice}:</span> "{langSample[activeLang].text}"
-            </div>
-
-            {/* Interactive Language Selector Pills */}
-            <div className="flex flex-wrap items-center gap-1.5 pt-1">
-              <span className="text-[11px] text-neutral-400 mr-1 font-mono uppercase">Languages:</span>
-              {Object.keys(langSample).map((lang) => (
-                <button
-                  key={lang}
-                  type="button"
-                  onClick={() => setActiveLang(lang)}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer ${
-                    activeLang === lang
-                      ? "bg-primary text-white shadow-md shadow-primary/20 scale-105"
-                      : "bg-white/5 hover:bg-white/10 text-neutral-300 border border-white/10"
-                  }`}
-                >
-                  {lang}
-                </button>
-              ))}
-            </div>
+            <span className="text-xs font-mono text-neutral-400 select-none">12.5ms latency</span>
           </div>
 
-          {/* Interactive Feature List */}
-          <div className="space-y-3.5 pt-2">
-            <div className="flex items-start gap-3.5 p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-emerald-500/30 transition-all group hover:translate-x-1">
-              <div className="mt-0.5 rounded-lg p-1.5 text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 group-hover:scale-110 transition-transform shrink-0">
+          {/* Feature List */}
+          <div className="space-y-4">
+            <div className="flex items-start gap-3 group">
+              <div className="mt-0.5 rounded-full p-0.5 text-primary bg-primary/10 border border-primary/20 group-hover:scale-110 transition-transform">
                 <CheckCircle2 className="h-4 w-4" />
               </div>
               <div>
@@ -211,9 +152,8 @@ function AuthPage() {
                 <p className="text-xs text-neutral-400 mt-0.5">Visually design agent reasoning and branching logics.</p>
               </div>
             </div>
-
-            <div className="flex items-start gap-3.5 p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-emerald-500/30 transition-all group hover:translate-x-1">
-              <div className="mt-0.5 rounded-lg p-1.5 text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 group-hover:scale-110 transition-transform shrink-0">
+            <div className="flex items-start gap-3 group">
+              <div className="mt-0.5 rounded-full p-0.5 text-primary bg-primary/10 border border-primary/20 group-hover:scale-110 transition-transform">
                 <CheckCircle2 className="h-4 w-4" />
               </div>
               <div>
@@ -225,9 +165,8 @@ function AuthPage() {
         </div>
 
         {/* Footer */}
-        <div className="text-xs text-neutral-500 z-10 font-mono flex items-center justify-between">
-          <span>&copy; {new Date().getFullYear()} KZUNO. All rights reserved.</span>
-          <span className="text-emerald-500/80 font-semibold">24×7 Active Workforce</span>
+        <div className="text-xs text-neutral-500 z-10 font-mono">
+          &copy; {new Date().getFullYear()} Kzuno. All rights reserved.
         </div>
       </div>
 
@@ -241,7 +180,7 @@ function AuthPage() {
           {/* Logo on mobile only */}
           <div className="flex items-center justify-center md:hidden mb-4">
             <a href="/" className="flex items-center hover:opacity-90 transition-opacity">
-              <img src="/images/kzuno_splash_logo.png" alt="KZUNO" className="h-8 w-auto dark:brightness-0 dark:invert" />
+              <img src="/images/kzuno_splash_logo.png" alt="KZUNO" className="h-10 w-auto dark:brightness-0 dark:invert" />
             </a>
           </div>
 
