@@ -36,11 +36,15 @@ export function AppHeader({
     <header className="sticky top-0 z-50 w-full border-b bg-background/70 backdrop-blur-md border-border/40 transition-colors">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
         <div className="flex items-center gap-3.5 text-sm">
-          <Link to="/" className="flex items-center gap-2.5 group">
-            <img src="/images/kzuno_icon.png" alt="KZUNO" className="h-8 w-8 object-contain transition-transform group-hover:scale-105" />
-            <span className="font-display font-extrabold text-xl tracking-tight text-foreground group-hover:text-primary transition-colors">
-              KZUNO
-            </span>
+          <Link to="/" className="flex items-center gap-2 group">
+            <img
+              src="/images/kzuno_splash_logo.png"
+              alt="KZUNO"
+              className="h-9 w-auto transition-transform group-hover:scale-105"
+              style={{
+                filter: "invert(28%) sepia(65%) saturate(1100%) hue-rotate(115deg) brightness(95%) contrast(92%)"
+              }}
+            />
           </Link>
           {breadcrumbs?.map((b, i) => (
             <span key={i} className="flex items-center gap-2 text-muted-foreground animate-in slide-in-from-left-2 duration-200">
