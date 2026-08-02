@@ -37,12 +37,7 @@ export function AppHeader({
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
         <div className="flex items-center gap-3.5 text-sm">
           <Link to="/" className="flex items-center gap-2 group">
-            <span className="grid place-items-center w-8 h-8 rounded-[10px] bg-primary text-white shadow-sm group-hover:scale-105 transition-all duration-200">
-              <Mic className="h-4.5 w-4.5" />
-            </span>
-            <span className="font-display font-bold text-[19px] tracking-tight text-foreground transition-colors group-hover:text-primary">
-              Kzuno
-            </span>
+            <img src="/images/kzuno_splash_logo.png" alt="KZUNO" className="h-8 w-auto dark:brightness-0 dark:invert transition-transform group-hover:scale-105" />
           </Link>
           {breadcrumbs?.map((b, i) => (
             <span key={i} className="flex items-center gap-2 text-muted-foreground animate-in slide-in-from-left-2 duration-200">
