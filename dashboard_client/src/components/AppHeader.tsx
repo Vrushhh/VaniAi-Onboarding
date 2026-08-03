@@ -38,13 +38,13 @@ export function AppHeader({
         <div className="flex items-center gap-3.5 text-sm">
           <Link to="/" className="flex items-center gap-2 group">
             <img
-              src="/images/kzuno_splash_logo.png"
+              src="/images/green_waveform_pure_transparent.png"
               alt="KZUNO"
-              className="h-9 w-auto transition-transform group-hover:scale-105"
-              style={{
-                filter: "invert(28%) sepia(65%) saturate(1100%) hue-rotate(115deg) brightness(95%) contrast(92%)"
-              }}
+              className="h-6 w-6 object-contain transition-transform group-hover:scale-105"
             />
+            <span className="text-base font-extrabold tracking-tight text-foreground font-display" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+              KZUNO
+            </span>
           </Link>
           {breadcrumbs?.map((b, i) => (
             <span key={i} className="flex items-center gap-2 text-muted-foreground animate-in slide-in-from-left-2 duration-200">
