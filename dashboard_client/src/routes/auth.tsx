@@ -116,7 +116,7 @@ function AuthPage() {
         <div className="flex items-center justify-between z-10 w-full">
           <a href="/" className="flex items-center group hover:opacity-90 transition-opacity">
             <img
-              src="/images/kzuno_splash_logo_white.png"
+              src="/images/kzuno_full_logo_white.png"
               alt="KZUNO"
               className="h-10 lg:h-12 w-auto object-contain transition-transform group-hover:scale-105"
             />
