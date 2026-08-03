@@ -14,8 +14,10 @@
   <meta name="twitter:description"
     content="KZUNO handles inbound calls, outbound calls, lead qualification, customer support and order confirmations in 12+ Indian languages, so your team can focus on growing the business.">
   <meta name="twitter:image" content="https://www.kzuno.in/logo.png">
-  <link rel="apple-touch-icon" href="/images/green_waveform_pure_transparent.png">
-  <link rel="icon" type="image/png" id="favicon" href="/images/green_waveform_pure_transparent.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -3738,10 +3740,7 @@
                 var iconCtx = iconCanvas.getContext('2d');
                 iconCtx.drawImage(cropCanvas, 0, 0, iconSize, iconSize, 0, 0, iconSize, iconSize);
 
-                var faviconEl = document.getElementById('favicon');
-                if (faviconEl) {
-                  faviconEl.href = iconCanvas.toDataURL();
-                }
+                // Favicon set statically via HTML head tags to ensure clean green icon rendering
               } catch (err) {
                 console.error('Failed to generate icon:', err);
               }
