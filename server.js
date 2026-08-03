@@ -653,16 +653,19 @@ app.get("/api/demo-call/:id", (req, res) => {
 });
 
 /* ── Vobiz status callbacks (answer / hangup) ────────────────────────── */
-app.post(
+app.all(
   "/webhooks/vobiz-answer",
+  express.urlencoded({ extended: true }),
+  express.json(),
   (req, res) => {
-    const demoId = req.query.demo_id;
+    const demoId = req.query.demo_id || req.body?.demo_id || req.body?.demoId || "";
     console.log(`[vobiz] answer callback: demo=${demoId}`);
     if (demoId && getCall(demoId)) {
       updateCallStatus(demoId, "connected");
     }
 
-    const wsUrl = `${process.env.PUBLIC_BASE_URL.replace(/^http/, "ws")}/vobiz-media?demo_id=${encodeURIComponent(demoId)}`;
+    const baseUrl = process.env.PUBLIC_BASE_URL || "https://www.kzuno.in";
+    const wsUrl = `${baseUrl.replace(/^http/, "ws")}/vobiz-media?demo_id=${encodeURIComponent(demoId)}`;
 
     res.set("Content-Type", "application/xml");
     res.send(`<?xml version="1.0" encoding="UTF-8"?>
@@ -673,10 +676,12 @@ app.post(
   }
 );
 
-app.post(
+app.all(
   "/webhooks/vobiz-hangup",
+  express.urlencoded({ extended: true }),
+  express.json(),
   (req, res) => {
-    const demoId = req.query.demo_id;
+    const demoId = req.query.demo_id || req.body?.demo_id || req.body?.demoId || "";
     console.log(`[vobiz] hangup callback: demo=${demoId}`);
     if (demoId && getCall(demoId)) {
       updateCallStatus(demoId, "completed");
