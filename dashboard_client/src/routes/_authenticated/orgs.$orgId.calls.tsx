@@ -76,9 +76,7 @@ function formatDuration(seconds: number | null): string {
 
 function maskPhoneNumber(num: string) {
   if (!num) return "—";
-  const cleaned = num.trim();
-  if (cleaned.length <= 4) return cleaned;
-  return cleaned.substring(0, cleaned.length - 4).replace(/\d/g, "•") + cleaned.substring(cleaned.length - 4);
+  return num.trim();
 }
 
 function CallsPage() {
@@ -114,48 +112,57 @@ function CallsPage() {
 
   async function loadCalls() {
     setLoading(true);
+    let liveCallsLoaded = false;
     try {
-      let query = (supabase as any)
-        .from("calls")
-        .select(`
-          id,
-          direction,
-          phone_number,
-          status,
-          duration_seconds,
-          recording_url,
-          transcript,
-          outcome,
-          started_at,
-          ended_at,
-          agent_id,
-          agents(name)
-        `)
-        .eq("org_id", orgId)
-        .order("started_at", { ascending: false });
-
-      if (selectedAgentId !== "all") {
-        query = query.eq("agent_id", selectedAgentId);
+      const res = await fetch("/api/calls");
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          const mapped: CallRow[] = data.map((c: any) => ({
+            id: c.id,
+            direction: "outbound",
+            phone_number: c.to || "Demo Call",
+            status: c.status === "completed" || c.status === "in-progress" ? (c.status === "in-progress" ? "in_progress" : "completed") : "completed",
+            duration_seconds: c.transcript ? c.transcript.length * 8 : 30,
+            recording_url: null,
+            transcript: c.transcript || [],
+            outcome: "Sarvam Voice AI Call Completed",
+            started_at: new Date(c.createdAt || Date.now()).toISOString(),
+            ended_at: new Date((c.createdAt || Date.now()) + 30000).toISOString(),
+            agent_id: "agent-vaani",
+            agents: { name: "Vaani (Voice AI)" }
+          }));
+          setCalls(mapped);
+          liveCallsLoaded = true;
+        }
       }
-      if (selectedStatus !== "all") {
-        query = query.eq("status", selectedStatus);
-      }
-      if (searchPhone.trim()) {
-        query = query.ilike("phone_number", `%${searchPhone.trim()}%`);
-      }
-
-      const { data, error } = await query;
-      if (error) {
-        console.warn("[Calls] Calls table error:", error.message);
-        setCalls([]);
-      } else {
-        setCalls((data as CallRow[]) || []);
-      }
-    } catch (err: any) {
-      console.error("[Calls] Error loading calls:", err);
-    } finally {
-      setLoading(false);
+    } catch (e) {
+      console.warn("[Calls] Live API fetch fallback:", e);
     }
+
+    if (!liveCallsLoaded) {
+      try {
+        let query = (supabase as any)
+          .from("calls")
+          .select(`
+            id, direction, phone_number, status, duration_seconds, recording_url, transcript, outcome, started_at, ended_at, agent_id, agents(name)
+          `)
+          .eq("org_id", orgId)
+          .order("started_at", { ascending: false });
+
+        if (selectedAgentId !== "all") query = query.eq("agent_id", selectedAgentId);
+        if (selectedStatus !== "all") query = query.eq("status", selectedStatus);
+        if (searchPhone.trim()) query = query.ilike("phone_number", `%${searchPhone.trim()}%`);
+
+        const { data, error } = await query;
+        if (!error && data) {
+          setCalls((data as CallRow[]) || []);
+        }
+      } catch (err: any) {
+        console.error("[Calls] Error loading calls:", err);
+      }
+    }
+    setLoading(false);
   }
 
   useEffect(() => {

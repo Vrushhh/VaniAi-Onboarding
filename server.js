@@ -31,7 +31,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 
 /* ── Admin Gmail Authentication & Google OAuth Flow ────────────────── */
-const ADMIN_EMAIL = "vrushabhcr7@gmail.com";
+const ADMIN_EMAILS = [
+  "vrushabhcr7@gmail.com",
+  "ha.prasad0203@gmail.com",
+  "haprasad0203@gmail.com"
+];
 
 function parseCookies(req) {
   const list = {};
@@ -680,6 +684,15 @@ app.post(
     res.status(200).json({ ok: true });
   }
 );
+
+/* ── API Endpoints for Dashboard Call Logs & Transcripts ─────────────── */
+app.get("/api/calls", (_req, res) => {
+  res.json(getAllCalls());
+});
+
+app.get("/api/transcripts", (_req, res) => {
+  res.json(getAllCalls());
+});
 
 app.get("/healthz", (_req, res) => res.json({ ok: true }));
 

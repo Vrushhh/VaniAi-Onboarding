@@ -1,0 +1,26 @@
+[
+  {
+    "id": "test-call-1",
+    "to": "Live Call",
+    "status": "in-progress",
+    "createdAt": 1785746872401,
+    "transcript": [
+      {
+        "id": "b29b4477-075b-4dbb-86d5-3eed5ebe798e",
+        "callId": "test-call-1",
+        "phone": "Live Call",
+        "role": "user",
+        "text": "Hello, my brand is Organic Glow",
+        "timestamp": "2026-08-03T08:47:52.401Z"
+      },
+      {
+        "id": "46c7f9cd-71fc-4a3e-b2a3-8af4b3799dab",
+        "callId": "test-call-1",
+        "phone": "Live Call",
+        "role": "agent",
+        "text": "Hi! Welcome to Keezoono! How can I help your skincare brand?",
+        "timestamp": "2026-08-03T08:47:52.403Z"
+      }
+    ]
+  }
+]
