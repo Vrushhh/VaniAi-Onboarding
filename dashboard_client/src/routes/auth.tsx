@@ -114,15 +114,12 @@ function AuthPage() {
 
         {/* Logo/Name + Theme Toggle + Back to Homepage */}
         <div className="flex items-center justify-between z-10 w-full">
-          <a href="/" className="flex items-center gap-2.5 group hover:opacity-90 transition-opacity">
+          <a href="/" className="flex items-center group hover:opacity-90 transition-opacity">
             <img
-              src="/images/green_waveform_pure_transparent.png"
+              src="/images/kzuno_full_logo_white.png"
               alt="KZUNO"
-              className="h-8 w-8 object-contain transition-transform group-hover:scale-105"
+              className="h-10 lg:h-12 w-auto object-contain transition-transform group-hover:scale-105"
             />
-            <span className="text-xl font-extrabold tracking-tight text-white font-display" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              KZUNO
-            </span>
           </a>
 
           <div className="flex items-center gap-3">
@@ -210,15 +207,12 @@ function AuthPage() {
         <div className="w-full max-w-md space-y-6">
           {/* Logo on mobile only */}
           <div className="flex items-center justify-center md:hidden mb-4">
-            <a href="/" className="flex items-center gap-2.5 hover:opacity-90 transition-opacity">
+            <a href="/" className="flex items-center justify-center hover:opacity-90 transition-opacity">
               <img
-                src="/images/green_waveform_pure_transparent.png"
+                src="/images/kzuno_full_logo_green.png"
                 alt="KZUNO"
-                className="h-7 w-7 object-contain"
+                className="h-9 w-auto object-contain"
               />
-              <span className="text-lg font-bold tracking-tight text-foreground font-display" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                KZUNO
-              </span>
             </a>
           </div>
 
