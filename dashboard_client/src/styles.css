@@ -244,7 +244,7 @@
   }
 
   html, body {
-    font-family: 'Instrument Sans', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-size: 15px;
     line-height: 1.55;
     background-color: var(--background);
@@ -253,8 +253,8 @@
   }
 
   h1, h2, h3, .font-display, .display, .stat-value {
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-weight: 800;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
     letter-spacing: -0.01em;
   }
 
