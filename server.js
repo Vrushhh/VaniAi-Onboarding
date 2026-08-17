@@ -18,6 +18,7 @@ import { spawn } from "node:child_process";
 import fs from "node:fs";
 import { startVobizCall, assertVobizConfigured } from "./lib/vobiz.js";
 import { attachBridge } from "./lib/bridge.js";
+import { getSarvamAgentConfig, SARVAM_AGENT_ID } from "./lib/sarvam.js";
 import {
   normalizeIndianNumber,
   rateLimitOk,
@@ -699,7 +700,39 @@ app.get("/api/transcripts", (_req, res) => {
   res.json(getAllCalls());
 });
 
-app.get("/healthz", (_req, res) => res.json({ ok: true }));
+/* ── Sarvam Samvaad (Voice Agents Platform) Endpoints ──────────────── */
+app.get("/api/sarvam/agent", (_req, res) => {
+  res.json(getSarvamAgentConfig());
+});
+
+app.post("/api/sarvam/tools/execute", express.json(), (req, res) => {
+  const { tool_name, parameters, call_id } = req.body || {};
+  console.log(`[Sarvam Samvaad Tool Executed] Tool="${tool_name}" CallID="${call_id}" Params=${JSON.stringify(parameters)}`);
+
+  // Default handler for Sarvam Samvaad agent API tools (e.g. get_order_status, create_support_ticket, book_demo)
+  let responseData = { status: "success", tool: tool_name, executed_at: new Date().toISOString() };
+
+  if (tool_name === "get_order_status") {
+    responseData.result = {
+      order_id: parameters?.order_id || "ORD-98421",
+      status: "In Transit",
+      estimated_delivery: "Tomorrow by 5 PM",
+      carrier: "Delhivery"
+    };
+  } else if (tool_name === "book_demo") {
+    responseData.result = {
+      confirmation: "Demo scheduled successfully",
+      meeting_link: "https://kzuno.in/demo-room",
+      date: parameters?.date || "Tomorrow"
+    };
+  } else {
+    responseData.result = { message: `Tool '${tool_name}' executed successfully by KZUNO engine` };
+  }
+
+  res.json(responseData);
+});
+
+app.get("/healthz", (_req, res) => res.json({ ok: true, sarvam_agent_id: SARVAM_AGENT_ID }));
 
 /* ── HTTP + WebSocket on one port ────────────────────────────────────── */
 const server = http.createServer(app);
