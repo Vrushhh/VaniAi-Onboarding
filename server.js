@@ -16,7 +16,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawn } from "node:child_process";
 import fs from "node:fs";
-import { startVobizCall, assertVobizConfigured } from "./lib/vobiz.js";
+import { startVobizCall, triggerSarvamSamvaadCall, assertVobizConfigured } from "./lib/vobiz.js";
 import { attachBridge } from "./lib/bridge.js";
 import { getSarvamAgentConfig, SARVAM_AGENT_ID } from "./lib/sarvam.js";
 import {
@@ -636,9 +636,13 @@ app.post("/api/demo-call", express.json(), async (req, res) => {
 
   const record = createCall(phone);
   try {
-    const sid = await startVobizCall(phone, record.id);
+    console.log(`[demo-call] Triggering Sarvam Samvaad Managed Voice Agent call for ${phone}...`);
+    const sid = await triggerSarvamSamvaadCall(phone, record.id).catch(async (err) => {
+      console.warn("[demo-call] Sarvam Samvaad Outbound API error, falling back to Vobiz REST:", err.message);
+      return await startVobizCall(phone, record.id);
+    });
     updateCallStatus(record.id, "dialing", { vobizCallId: sid });
-    return res.json({ id: record.id, status: "dialing" });
+    return res.json({ id: record.id, status: "dialing", attempt_id: sid });
   } catch (err) {
     console.error("[api] demo-call failed:", err.message);
     updateCallStatus(record.id, "failed");
