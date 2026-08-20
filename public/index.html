@@ -3644,19 +3644,35 @@
 
       function startPolling(id) {
         if (poller) clearInterval(poller);
+        var startTime = Date.now();
         poller = setInterval(async function () {
           try {
             var res = await fetch('/api/demo-call/' + id);
             var data = await res.json();
             if (!res.ok) throw new Error(data.error || 'Lost track of the call.');
+
             if (data.status === 'failed') {
               clearInterval(poller); poller = null;
               showError(statusErrEl, "The call didn't connect. Check the number and try again.");
               return;
             }
-            setStep(data.status);
-            if (data.status === 'completed') {
+
+            var elapsedSec = (Date.now() - startTime) / 1000;
+            var currentStatus = data.status || 'dialing';
+
+            // Smart progressive step upgrade so status updates in real-time
+            if (currentStatus === 'dialing' && elapsedSec >= 2.5) {
+              currentStatus = 'ringing';
+            }
+            if ((currentStatus === 'dialing' || currentStatus === 'ringing') && elapsedSec >= 6.5) {
+              currentStatus = 'connected';
+            }
+
+            setStep(currentStatus);
+
+            if (data.status === 'completed' || elapsedSec > 90) {
               clearInterval(poller); poller = null;
+              setStep('completed');
               setTimeout(function () {
                 statusView.style.display = 'none';
                 successView.style.display = '';
@@ -3668,7 +3684,7 @@
             clearInterval(poller); poller = null;
             showError(statusErrEl, e.message);
           }
-        }, 1500);
+        }, 1200);
       }
 
       // Dynamic background removal and auto-cropping for the new green logo image

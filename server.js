@@ -709,13 +709,24 @@ app.get("/api/sarvam/agent", (_req, res) => {
   res.json(getSarvamAgentConfig());
 });
 
-app.post("/api/sarvam/tools/execute", express.json(), (req, res) => {
-  const { tool_name, parameters, call_id } = req.body || {};
-  console.log(`[Sarvam Samvaad Tool Executed] Tool="${tool_name}" CallID="${call_id}" Params=${JSON.stringify(parameters)}`);
+app.all(["/api/sarvam/tools/execute", "/api/sarvam/webhook"], express.json(), (req, res) => {
+  const body = req.body || {};
+  const { tool_name, parameters, call_id, event, status, metadata } = body;
 
-  // Default handler for Sarvam Samvaad agent API tools (e.g. get_order_status, create_support_ticket, book_demo)
+  const leadId = metadata?.lead_id || body.lead_id || body.demo_id || call_id;
+  console.log(`[Sarvam Samvaad Webhook/Tool] LeadID="${leadId}" Event="${event || status || tool_name}" Body=`, JSON.stringify(body));
+
+  // Handle Sarvam Call Status Events (e.g. ringing, answered, connected, completed, failed)
+  if (leadId && getCall(leadId)) {
+    const s = (event || status || "").toLowerCase();
+    if (s.includes("ring")) updateCallStatus(leadId, "ringing");
+    else if (s.includes("answer") || s.includes("start") || s.includes("connect")) updateCallStatus(leadId, "connected");
+    else if (s.includes("complete") || s.includes("end") || s.includes("hangup")) updateCallStatus(leadId, "completed");
+    else if (s.includes("fail") || s.includes("cancel")) updateCallStatus(leadId, "failed");
+  }
+
+  // Handle Tool Executions
   let responseData = { status: "success", tool: tool_name, executed_at: new Date().toISOString() };
-
   if (tool_name === "get_order_status") {
     responseData.result = {
       order_id: parameters?.order_id || "ORD-98421",
@@ -730,7 +741,7 @@ app.post("/api/sarvam/tools/execute", express.json(), (req, res) => {
       date: parameters?.date || "Tomorrow"
     };
   } else {
-    responseData.result = { message: `Tool '${tool_name}' executed successfully by KZUNO engine` };
+    responseData.result = { message: `Tool '${tool_name || 'event'}' acknowledged by KZUNO engine` };
   }
 
   res.json(responseData);
