@@ -15,15 +15,20 @@ type SearchParams = {
 };
 
 export const Route = createFileRoute("/auth")({
-  ssr: false,
   validateSearch: (search: Record<string, unknown>): SearchParams => {
     return {
       redirect: typeof search.redirect === "string" ? search.redirect : undefined,
     };
   },
   beforeLoad: async ({ search }) => {
-    const { data } = await supabase.auth.getUser();
-    if (data.user) throw redirect({ to: search.redirect || "/" });
+    try {
+      const { data } = await supabase.auth.getUser();
+      if (data?.user) {
+        throw redirect({ to: search.redirect || "/orgs" });
+      }
+    } catch (e) {
+      if (e && typeof e === "object" && ("to" in e || "href" in e)) throw e;
+    }
   },
   component: AuthPage,
 });
@@ -74,7 +79,7 @@ function AuthPage() {
         if (data.user && !data.user.email_confirmed_at) {
           navigate({ to: "/verify-email" });
         } else {
-          navigate({ to: redirectUrl || "/" });
+          navigate({ to: redirectUrl || "/orgs" });
         }
       } else {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
