@@ -102,10 +102,10 @@
 }
 
 :root {
-  /* Banyan Green — PRIMARY */
-  --banyan-50:#E9F2ED; --banyan-100:#CFE5DA; --banyan-200:#A3CDBB; --banyan-300:#6FAE95;
-  --banyan-400:#37886A; --banyan-500:#12704B; --banyan-600:#0B5C3F; --banyan-700:#084A32;
-  --banyan-800:#073C2A; --banyan-900:#052D20;
+  /* Banyan Green — PRIMARY (KZUNO Forest Green #0F5B38) */
+  --banyan-50:#EAF4EE; --banyan-100:#D0E7DA; --banyan-200:#A4CFBA; --banyan-300:#72B596;
+  --banyan-400:#39946E; --banyan-500:#12704B; --banyan-600:#0F5B38; --banyan-700:#0A4529;
+  --banyan-800:#07341F; --banyan-900:#042415;
 
   /* Monsoon Indigo — DEPTH / dark canvas */
   --indigo-50:#ECEEF6; --indigo-100:#D6DAEC; --indigo-200:#B0B8D8; --indigo-300:#8590BE;
@@ -123,20 +123,20 @@
   --terra-800:#6E3521; --terra-900:#57291A;
 
   /* Ivory Stone — NEUTRAL field + text */
-  --ivory-50:#F5F2E9; --ivory-100:#EFEBDF; --ivory-200:#E4DED0; --ivory-300:#D5CEBC;
-  --ivory-400:#B8B0A0; --ivory-500:#948C7C; --ivory-600:#6E685B; --ivory-700:#514C42;
-  --ivory-800:#37332C; --ivory-900:#221F1A; --ivory-950:#181611;
+  --ivory-50:#F6F8F6; --ivory-100:#EEF2EF; --ivory-200:#E0E7E2; --ivory-300:#CDD7D0;
+  --ivory-400:#B0BEB4; --ivory-500:#8C9D91; --ivory-600:#68786D; --ivory-700:#4D5B52;
+  --ivory-800:#333E37; --ivory-900:#1F2722; --ivory-950:#121814;
 
-  /* Semantic hues (solid / tint). Marigold is the one derived functional hue (caution). */
-  --success:#12704B;  --success-tint:#E9F2ED;
+  /* Semantic hues */
+  --success:#0F5B38;  --success-tint:#EAF4EE;
   --info:#1A6E67;     --info-tint:#E5F3F1;
   --warning:#CB8A24;  --warning-tint:#FBF0D8;
   --error:#A93B29;    --error-tint:#F5E0DA;
 
-  /* Elevation — tinted to the ivory/indigo field */
-  --shadow-sm:0 1px 2px rgba(24,22,17,.06);
-  --shadow-md:0 10px 28px rgba(24,22,17,.08),0 2px 6px rgba(24,22,17,.05);
-  --shadow-lg:0 24px 60px rgba(24,22,17,.10);
+  /* Elevation */
+  --shadow-sm:0 1px 2px rgba(18,24,20,.05);
+  --shadow-md:0 10px 28px rgba(18,24,20,.07),0 2px 6px rgba(18,24,20,.04);
+  --shadow-lg:0 24px 60px rgba(18,24,20,.09);
 
   /* Radius */
   --radius-sm:.625rem; --radius-md:.875rem; --radius-lg:1.375rem; --radius-full:9999px;
@@ -165,7 +165,7 @@
   --input:var(--ivory-300);
   --ring:var(--banyan-600);
 
-  /* brand aliases repointed to the new palette (keep names; swap values) */
+  /* brand aliases */
   --paper:var(--ivory-50); --surface:var(--ivory-100);
   --ink:var(--ivory-950); --ink-soft:var(--ivory-700); --ink-faint:var(--ivory-500);
   --banyan:var(--banyan-600); --banyan-hover:var(--banyan-700); --banyan-tint:var(--banyan-50);
@@ -173,9 +173,8 @@
   --terra:var(--terra-500); --terra-hover:var(--terra-600); --terra-tint:var(--terra-50);
   --indigo:var(--indigo-800); --indigo-tint:var(--indigo-50);
 
-  /* DEPRECATED aliases — repoint so old references don't break, then migrate off */
   --tulsi:var(--banyan-600); --tulsi-tint:var(--banyan-50);
-  --turmeric:var(--terra-500); --turmeric-tint:var(--terra-50); /* turmeric now = terracotta */
+  --turmeric:var(--terra-500); --turmeric-tint:var(--terra-50);
   --coral:var(--error); --coral-tint:var(--error-tint);
   --river:var(--teal-600); --river-tint:var(--teal-50);
 
@@ -191,30 +190,30 @@
 }
 
 .dark {
-  --background:var(--indigo-950);          /* #0F1426 */
-  --foreground:#ECEBE2;
-  --card:#18203A;                          --card-foreground:#ECEBE2;
-  --popover:#18203A;                       --popover-foreground:#ECEBE2;
-  --surface-muted:var(--indigo-800);       /* #1E2846 */
-  --primary:#4FAE82;                        --primary-foreground:#0F1426;
-  --secondary:var(--indigo-800);           --secondary-foreground:#ECEBE2;
-  --muted:var(--indigo-800);               --muted-foreground:#AEB4C6;
-  --accent:#33241C;                        --accent-foreground:#D98B66;
-  --flow:#4FB3AA;                          --flow-foreground:#0F1426;
+  --background:#07140E;                    /* Deep KZUNO Dark Forest */
+  --foreground:#ECEFEA;
+  --card:#0E2319;                          --card-foreground:#ECEFEA;
+  --popover:#0E2319;                       --popover-foreground:#ECEFEA;
+  --surface-muted:#142E22;
+  --primary:#1EAA6B;                        --primary-foreground:#07140E;
+  --secondary:#142E22;                     --secondary-foreground:#ECEFEA;
+  --muted:#142E22;                         --muted-foreground:#A2B3A9;
+  --accent:#2A1C16;                        --accent-foreground:#D98B66;
+  --flow:#38B0A4;                          --flow-foreground:#07140E;
   --destructive:#D07059;                   --destructive-foreground:#160B08;
-  --border:#2C3760;
-  --input:#2C3760;
-  --ring:#4FAE82;
+  --border:#1B3B2B;
+  --input:#1B3B2B;
+  --ring:#1EAA6B;
 
-  --paper:var(--indigo-950); --surface:var(--indigo-800);
-  --ink:#ECEBE2; --ink-soft:#AEB4C6; --ink-faint:#7A82A0;
-  --banyan:#4FAE82; --banyan-hover:#6BC49A; --banyan-tint:#173C2C;
-  --teal:#4FB3AA; --teal-hover:#6BC7BF; --teal-tint:#123E3A;
-  --terra:#D98B66; --terra-hover:#E4A585; --terra-tint:#33241C;
-  --indigo:#8590BE; --indigo-tint:#1E2846;
+  --paper:#07140E; --surface:#142E22;
+  --ink:#ECEFEA; --ink-soft:#A2B3A9; --ink-faint:#6B7D73;
+  --banyan:#1EAA6B; --banyan-hover:#2AC37E; --banyan-tint:#0D3322;
+  --teal:#38B0A4; --teal-hover:#55C4B9; --teal-tint:#0D2E2B;
+  --terra:#D98B66; --terra-hover:#E4A585; --terra-tint:#2A1C16;
+  --indigo:#7888B4; --indigo-tint:#142338;
 
-  --success:#5FB88C; --success-tint:#12291F;
-  --info:#4FB3AA;    --info-tint:#123E3A;
+  --success:#1EAA6B; --success-tint:#0D3322;
+  --info:#38B0A4;    --info-tint:#0D2E2B;
   --warning:#E0A94A; --warning-tint:#33290F;
   --error:#D07059;   --error-tint:#33150F;
 
@@ -244,7 +243,7 @@
   }
 
   html, body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Instrument Sans', sans-serif;
     font-size: 15px;
     line-height: 1.55;
     background-color: var(--background);
@@ -253,8 +252,8 @@
   }
 
   h1, h2, h3, .font-display, .display, .stat-value {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
     letter-spacing: -0.01em;
   }
 

@@ -3,11 +3,11 @@ import { useEffect, useState, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { AppHeader } from "@/components/AppHeader";
 import { useOrgRole } from "@/hooks/useOrgRole";
 import { Users, ArrowLeft, MoreVertical, Check, AlertCircle, Copy, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { logAuditEvent } from "@/lib/audit-logger";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -197,6 +197,7 @@ function OrgMembersPage() {
       toast.error(error.message);
       return;
     }
+    logAuditEvent(orgId, "member.role_changed", "member", targetUserId, { new_role: newRole });
     toast.success("Role updated");
     setMembers((prev) => {
       if (!prev) return null;
@@ -218,6 +219,7 @@ function OrgMembersPage() {
       toast.error(error.message);
       return;
     }
+    logAuditEvent(orgId, "member.removed", "member", targetUserId, { name });
     toast.success(`${name} removed`);
     setMembers((prev) => {
       if (!prev) return null;
@@ -245,6 +247,7 @@ function OrgMembersPage() {
       if (error) throw error;
 
       const newInvite = data as unknown as OrgInvite;
+      logAuditEvent(orgId, "member.invited", "invite", newInvite.id, { email: newInvite.email, role: inviteRole });
       setCreatedInviteToken(newInvite.token);
       toast.success("Invitation created!");
       setInviteEmail("");

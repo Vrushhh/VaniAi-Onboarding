@@ -303,10 +303,12 @@ function isDashboardRoute(urlPath) {
     urlPath.startsWith("/verify-email") ||
     urlPath.startsWith("/invite") ||
     urlPath.startsWith("/reset-password") ||
-    urlPath.startsWith("/assets") ||  // Dashboard static assets
-    urlPath.startsWith("/@vite") ||   // Vite dev HMR
-    urlPath.startsWith("/@id") ||     // Vite dev virtual modules
-    urlPath.startsWith("/@fs") ||     // Vite dev file system
+    urlPath.startsWith("/brand") ||     // Brand assets from dashboard_client
+    urlPath.startsWith("/assets") ||    // Dashboard static assets
+    urlPath.startsWith("/_") ||         // TanStack Start SSR & Server functions
+    urlPath.startsWith("/@vite") ||     // Vite dev HMR
+    urlPath.startsWith("/@id") ||       // Vite dev virtual modules
+    urlPath.startsWith("/@fs") ||       // Vite dev file system
     urlPath.startsWith("/@tanstack") || // TanStack dev styles
     urlPath.startsWith("/src/")         // Vite dev source files
   );

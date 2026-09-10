@@ -92,11 +92,9 @@ function VerifyEmailPage() {
       <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-terra/5 blur-[120px] pointer-events-none" />
 
       <div className="w-full max-w-md space-y-6 relative z-10">
-        <div className="flex items-center gap-2.5 justify-center mb-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary shadow-md">
-            <Mic className="h-4.5 w-4.5 text-white" />
-          </div>
-          <span className="text-lg font-bold tracking-tight text-foreground font-display">Kzuno</span>
+        <div className="flex items-center justify-center mb-2">
+          <img src="/brand/kzuno_logo_green.png" alt="KZUNO" className="h-12 sm:h-14 w-auto object-contain dark:hidden" />
+          <img src="/brand/kzuno_logo_white.png" alt="KZUNO" className="h-12 sm:h-14 w-auto object-contain hidden dark:block" />
         </div>
 
         <Card className="p-8 border-border/40 shadow-xl shadow-muted/5 bg-card/90 backdrop-blur-md text-center flex flex-col items-center gap-5">

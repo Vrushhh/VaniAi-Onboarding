@@ -58,6 +58,8 @@ type CallRow = {
   };
 };
 
+import { maskPhoneNumber, formatDuration } from "@/lib/utils";
+
 const STATUS_OPTIONS = [
   { value: "all", label: "All Statuses", variant: "outline" as const },
   { value: "in_progress", label: "In Progress", variant: "secondary" as const },
@@ -66,18 +68,6 @@ const STATUS_OPTIONS = [
   { value: "missed", label: "Missed", variant: "outline" as const },
   { value: "no_answer", label: "No Answer", variant: "outline" as const },
 ];
-
-function formatDuration(seconds: number | null): string {
-  if (seconds === null || seconds === undefined) return "—";
-  const mins = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return `${mins}:${secs.toString().padStart(2, "0")}`;
-}
-
-function maskPhoneNumber(num: string) {
-  if (!num) return "—";
-  return num.trim();
-}
 
 function CallsPage() {
   const { orgId } = Route.useParams() as any;
@@ -112,57 +102,44 @@ function CallsPage() {
 
   async function loadCalls() {
     setLoading(true);
-    let liveCallsLoaded = false;
     try {
-      const res = await fetch("/api/calls");
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
-          const mapped: CallRow[] = data.map((c: any) => ({
-            id: c.id,
-            direction: "outbound",
-            phone_number: c.to || "Demo Call",
-            status: c.status === "completed" || c.status === "in-progress" ? (c.status === "in-progress" ? "in_progress" : "completed") : "completed",
-            duration_seconds: c.transcript ? c.transcript.length * 8 : 30,
-            recording_url: null,
-            transcript: c.transcript || [],
-            outcome: "Sarvam Voice AI Call Completed",
-            started_at: new Date(c.createdAt || Date.now()).toISOString(),
-            ended_at: new Date((c.createdAt || Date.now()) + 30000).toISOString(),
-            agent_id: "agent-vaani",
-            agents: { name: "Vaani (Voice AI)" }
-          }));
-          setCalls(mapped);
-          liveCallsLoaded = true;
-        }
+      let query = (supabase as any)
+        .from("calls")
+        .select(`
+          id,
+          direction,
+          phone_number,
+          status,
+          duration_seconds,
+          recording_url,
+          transcript,
+          outcome,
+          started_at,
+          ended_at,
+          agent_id,
+          agents(name)
+        `)
+        .eq("org_id", orgId)
+        .order("started_at", { ascending: false });
+
+      if (selectedAgentId !== "all") {
+        query = query.eq("agent_id", selectedAgentId);
       }
-    } catch (e) {
-      console.warn("[Calls] Live API fetch fallback:", e);
-    }
-
-    if (!liveCallsLoaded) {
-      try {
-        let query = (supabase as any)
-          .from("calls")
-          .select(`
-            id, direction, phone_number, status, duration_seconds, recording_url, transcript, outcome, started_at, ended_at, agent_id, agents(name)
-          `)
-          .eq("org_id", orgId)
-          .order("started_at", { ascending: false });
-
-        if (selectedAgentId !== "all") query = query.eq("agent_id", selectedAgentId);
-        if (selectedStatus !== "all") query = query.eq("status", selectedStatus);
-        if (searchPhone.trim()) query = query.ilike("phone_number", `%${searchPhone.trim()}%`);
-
-        const { data, error } = await query;
-        if (!error && data) {
-          setCalls((data as CallRow[]) || []);
-        }
-      } catch (err: any) {
-        console.error("[Calls] Error loading calls:", err);
+      if (selectedStatus !== "all") {
+        query = query.eq("status", selectedStatus);
       }
+      if (searchPhone.trim()) {
+        query = query.ilike("phone_number", `%${searchPhone.trim()}%`);
+      }
+
+      const { data, error } = await query;
+      if (error) throw error;
+      setCalls((data as CallRow[]) || []);
+    } catch (err: any) {
+      toast.error(err.message || "Failed to load calls");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   useEffect(() => {

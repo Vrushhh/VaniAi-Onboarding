@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { logAuditEvent } from "@/lib/audit-logger";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -24,7 +25,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-import { AppHeader } from "@/components/AppHeader";
 import { useOrgRole } from "@/hooks/useOrgRole";
 
 export const Route = createFileRoute(
@@ -49,6 +49,7 @@ function AgentSettings() {
       toast.error(error.message);
       return;
     }
+    logAuditEvent(orgId, "agent.deleted", "agent", agentId, { name: original.name });
     toast.success("Agent deleted");
     navigate({ to: "/orgs/$orgId/agents", params: { orgId } });
   }
@@ -160,6 +161,7 @@ function AgentSettings() {
       }
 
       setOriginal({ name: name.trim(), language, direction, numberId: assignedNumberId });
+      logAuditEvent(orgId, "agent.updated", "agent", agentId, { name: name.trim(), language, direction });
       toast.success("Agent settings updated successfully");
       loadData();
     } catch (err: any) {

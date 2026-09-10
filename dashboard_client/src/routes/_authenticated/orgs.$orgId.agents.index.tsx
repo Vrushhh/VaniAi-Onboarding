@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { logAuditEvent } from "@/lib/audit-logger";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -21,7 +22,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { AppHeader } from "@/components/AppHeader";
 import { useOrgRole } from "@/hooks/useOrgRole";
 import { Settings, Users } from "lucide-react";
 import { LiveCallWidget } from "@/components/LiveCallWidget";
@@ -99,17 +99,18 @@ function AgentsList() {
     e.preventDefault();
     if (!name.trim()) return;
     setCreating(true);
-    const { error } = await supabase.from("agents").insert({
+    const { data, error } = await supabase.from("agents").insert({
       org_id: orgId,
       name: name.trim(),
       language,
       direction,
-    });
+    }).select("id").maybeSingle();
     setCreating(false);
     if (error) {
       toast.error(error.message);
       return;
     }
+    logAuditEvent(orgId, "agent.created", "agent", data?.id, { name: name.trim(), language, direction });
     setOpen(false);
     setName("");
     load();

@@ -31,11 +31,14 @@ import { Route as ApiTelephonyTestConnectionRouteImport } from './routes/api/tel
 import { Route as AuthenticatedOrgsOrgIdIndexRouteImport } from './routes/_authenticated/orgs.$orgId.index'
 import { Route as AuthenticatedOrgsOrgIdAgentsRouteImport } from './routes/_authenticated/orgs.$orgId.agents'
 import { Route as AuthenticatedOrgsOrgIdAnalyticsRouteImport } from './routes/_authenticated/orgs.$orgId.analytics'
+import { Route as AuthenticatedOrgsOrgIdAuditLogRouteImport } from './routes/_authenticated/orgs.$orgId.audit-log'
 import { Route as AuthenticatedOrgsOrgIdCallsRouteImport } from './routes/_authenticated/orgs.$orgId.calls'
+import { Route as AuthenticatedOrgsOrgIdIntegrationsRouteImport } from './routes/_authenticated/orgs.$orgId.integrations'
 import { Route as AuthenticatedOrgsOrgIdKnowledgeRouteImport } from './routes/_authenticated/orgs.$orgId.knowledge'
 import { Route as AuthenticatedOrgsOrgIdMembersRouteImport } from './routes/_authenticated/orgs.$orgId.members'
 import { Route as AuthenticatedOrgsOrgIdMessagingRouteImport } from './routes/_authenticated/orgs.$orgId.messaging'
 import { Route as AuthenticatedOrgsOrgIdSettingsRouteImport } from './routes/_authenticated/orgs.$orgId.settings'
+import { Route as AuthenticatedOrgsOrgIdSystemHealthRouteImport } from './routes/_authenticated/orgs.$orgId.system-health'
 import { Route as AuthenticatedOrgsOrgIdTelephonyRouteImport } from './routes/_authenticated/orgs.$orgId.telephony'
 import { Route as AuthenticatedOrgsOrgIdAgentsIndexRouteImport } from './routes/_authenticated/orgs.$orgId.agents.index'
 import { Route as AuthenticatedOrgsOrgIdAgentsAgentIdRouteImport } from './routes/_authenticated/orgs.$orgId.agents.$agentId'
@@ -163,10 +166,22 @@ const AuthenticatedOrgsOrgIdAnalyticsRoute =
     path: '/analytics',
     getParentRoute: () => AuthenticatedOrgsOrgIdRoute,
   } as any)
+const AuthenticatedOrgsOrgIdAuditLogRoute =
+  AuthenticatedOrgsOrgIdAuditLogRouteImport.update({
+    id: '/audit-log',
+    path: '/audit-log',
+    getParentRoute: () => AuthenticatedOrgsOrgIdRoute,
+  } as any)
 const AuthenticatedOrgsOrgIdCallsRoute =
   AuthenticatedOrgsOrgIdCallsRouteImport.update({
     id: '/calls',
     path: '/calls',
+    getParentRoute: () => AuthenticatedOrgsOrgIdRoute,
+  } as any)
+const AuthenticatedOrgsOrgIdIntegrationsRoute =
+  AuthenticatedOrgsOrgIdIntegrationsRouteImport.update({
+    id: '/integrations',
+    path: '/integrations',
     getParentRoute: () => AuthenticatedOrgsOrgIdRoute,
   } as any)
 const AuthenticatedOrgsOrgIdKnowledgeRoute =
@@ -191,6 +206,12 @@ const AuthenticatedOrgsOrgIdSettingsRoute =
   AuthenticatedOrgsOrgIdSettingsRouteImport.update({
     id: '/settings',
     path: '/settings',
+    getParentRoute: () => AuthenticatedOrgsOrgIdRoute,
+  } as any)
+const AuthenticatedOrgsOrgIdSystemHealthRoute =
+  AuthenticatedOrgsOrgIdSystemHealthRouteImport.update({
+    id: '/system-health',
+    path: '/system-health',
     getParentRoute: () => AuthenticatedOrgsOrgIdRoute,
   } as any)
 const AuthenticatedOrgsOrgIdTelephonyRoute =
@@ -275,11 +296,14 @@ export interface FileRoutesByFullPath {
   '/orgs/': typeof AuthenticatedOrgsIndexRoute
   '/orgs/$orgId/agents': typeof AuthenticatedOrgsOrgIdAgentsRouteWithChildren
   '/orgs/$orgId/analytics': typeof AuthenticatedOrgsOrgIdAnalyticsRoute
+  '/orgs/$orgId/audit-log': typeof AuthenticatedOrgsOrgIdAuditLogRoute
   '/orgs/$orgId/calls': typeof AuthenticatedOrgsOrgIdCallsRoute
+  '/orgs/$orgId/integrations': typeof AuthenticatedOrgsOrgIdIntegrationsRoute
   '/orgs/$orgId/knowledge': typeof AuthenticatedOrgsOrgIdKnowledgeRoute
   '/orgs/$orgId/members': typeof AuthenticatedOrgsOrgIdMembersRoute
   '/orgs/$orgId/messaging': typeof AuthenticatedOrgsOrgIdMessagingRoute
   '/orgs/$orgId/settings': typeof AuthenticatedOrgsOrgIdSettingsRoute
+  '/orgs/$orgId/system-health': typeof AuthenticatedOrgsOrgIdSystemHealthRoute
   '/orgs/$orgId/telephony': typeof AuthenticatedOrgsOrgIdTelephonyRoute
   '/orgs/$orgId/': typeof AuthenticatedOrgsOrgIdIndexRoute
   '/orgs/$orgId/agents/$agentId': typeof AuthenticatedOrgsOrgIdAgentsAgentIdRouteWithChildren
@@ -310,11 +334,14 @@ export interface FileRoutesByTo {
   '/api/telephony/test-connection': typeof ApiTelephonyTestConnectionRoute
   '/orgs': typeof AuthenticatedOrgsIndexRoute
   '/orgs/$orgId/analytics': typeof AuthenticatedOrgsOrgIdAnalyticsRoute
+  '/orgs/$orgId/audit-log': typeof AuthenticatedOrgsOrgIdAuditLogRoute
   '/orgs/$orgId/calls': typeof AuthenticatedOrgsOrgIdCallsRoute
+  '/orgs/$orgId/integrations': typeof AuthenticatedOrgsOrgIdIntegrationsRoute
   '/orgs/$orgId/knowledge': typeof AuthenticatedOrgsOrgIdKnowledgeRoute
   '/orgs/$orgId/members': typeof AuthenticatedOrgsOrgIdMembersRoute
   '/orgs/$orgId/messaging': typeof AuthenticatedOrgsOrgIdMessagingRoute
   '/orgs/$orgId/settings': typeof AuthenticatedOrgsOrgIdSettingsRoute
+  '/orgs/$orgId/system-health': typeof AuthenticatedOrgsOrgIdSystemHealthRoute
   '/orgs/$orgId/telephony': typeof AuthenticatedOrgsOrgIdTelephonyRoute
   '/orgs/$orgId': typeof AuthenticatedOrgsOrgIdIndexRoute
   '/api/public/exotel/audio/$audioId': typeof ApiPublicExotelAudioAudioIdRoute
@@ -348,11 +375,14 @@ export interface FileRoutesById {
   '/_authenticated/orgs/': typeof AuthenticatedOrgsIndexRoute
   '/_authenticated/orgs/$orgId/agents': typeof AuthenticatedOrgsOrgIdAgentsRouteWithChildren
   '/_authenticated/orgs/$orgId/analytics': typeof AuthenticatedOrgsOrgIdAnalyticsRoute
+  '/_authenticated/orgs/$orgId/audit-log': typeof AuthenticatedOrgsOrgIdAuditLogRoute
   '/_authenticated/orgs/$orgId/calls': typeof AuthenticatedOrgsOrgIdCallsRoute
+  '/_authenticated/orgs/$orgId/integrations': typeof AuthenticatedOrgsOrgIdIntegrationsRoute
   '/_authenticated/orgs/$orgId/knowledge': typeof AuthenticatedOrgsOrgIdKnowledgeRoute
   '/_authenticated/orgs/$orgId/members': typeof AuthenticatedOrgsOrgIdMembersRoute
   '/_authenticated/orgs/$orgId/messaging': typeof AuthenticatedOrgsOrgIdMessagingRoute
   '/_authenticated/orgs/$orgId/settings': typeof AuthenticatedOrgsOrgIdSettingsRoute
+  '/_authenticated/orgs/$orgId/system-health': typeof AuthenticatedOrgsOrgIdSystemHealthRoute
   '/_authenticated/orgs/$orgId/telephony': typeof AuthenticatedOrgsOrgIdTelephonyRoute
   '/_authenticated/orgs/$orgId/': typeof AuthenticatedOrgsOrgIdIndexRoute
   '/_authenticated/orgs/$orgId/agents/$agentId': typeof AuthenticatedOrgsOrgIdAgentsAgentIdRouteWithChildren
@@ -388,11 +418,14 @@ export interface FileRouteTypes {
     | '/orgs/'
     | '/orgs/$orgId/agents'
     | '/orgs/$orgId/analytics'
+    | '/orgs/$orgId/audit-log'
     | '/orgs/$orgId/calls'
+    | '/orgs/$orgId/integrations'
     | '/orgs/$orgId/knowledge'
     | '/orgs/$orgId/members'
     | '/orgs/$orgId/messaging'
     | '/orgs/$orgId/settings'
+    | '/orgs/$orgId/system-health'
     | '/orgs/$orgId/telephony'
     | '/orgs/$orgId/'
     | '/orgs/$orgId/agents/$agentId'
@@ -423,11 +456,14 @@ export interface FileRouteTypes {
     | '/api/telephony/test-connection'
     | '/orgs'
     | '/orgs/$orgId/analytics'
+    | '/orgs/$orgId/audit-log'
     | '/orgs/$orgId/calls'
+    | '/orgs/$orgId/integrations'
     | '/orgs/$orgId/knowledge'
     | '/orgs/$orgId/members'
     | '/orgs/$orgId/messaging'
     | '/orgs/$orgId/settings'
+    | '/orgs/$orgId/system-health'
     | '/orgs/$orgId/telephony'
     | '/orgs/$orgId'
     | '/api/public/exotel/audio/$audioId'
@@ -460,11 +496,14 @@ export interface FileRouteTypes {
     | '/_authenticated/orgs/'
     | '/_authenticated/orgs/$orgId/agents'
     | '/_authenticated/orgs/$orgId/analytics'
+    | '/_authenticated/orgs/$orgId/audit-log'
     | '/_authenticated/orgs/$orgId/calls'
+    | '/_authenticated/orgs/$orgId/integrations'
     | '/_authenticated/orgs/$orgId/knowledge'
     | '/_authenticated/orgs/$orgId/members'
     | '/_authenticated/orgs/$orgId/messaging'
     | '/_authenticated/orgs/$orgId/settings'
+    | '/_authenticated/orgs/$orgId/system-health'
     | '/_authenticated/orgs/$orgId/telephony'
     | '/_authenticated/orgs/$orgId/'
     | '/_authenticated/orgs/$orgId/agents/$agentId'
@@ -648,11 +687,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedOrgsOrgIdAnalyticsRouteImport
       parentRoute: typeof AuthenticatedOrgsOrgIdRoute
     }
+    '/_authenticated/orgs/$orgId/audit-log': {
+      id: '/_authenticated/orgs/$orgId/audit-log'
+      path: '/audit-log'
+      fullPath: '/orgs/$orgId/audit-log'
+      preLoaderRoute: typeof AuthenticatedOrgsOrgIdAuditLogRouteImport
+      parentRoute: typeof AuthenticatedOrgsOrgIdRoute
+    }
     '/_authenticated/orgs/$orgId/calls': {
       id: '/_authenticated/orgs/$orgId/calls'
       path: '/calls'
       fullPath: '/orgs/$orgId/calls'
       preLoaderRoute: typeof AuthenticatedOrgsOrgIdCallsRouteImport
+      parentRoute: typeof AuthenticatedOrgsOrgIdRoute
+    }
+    '/_authenticated/orgs/$orgId/integrations': {
+      id: '/_authenticated/orgs/$orgId/integrations'
+      path: '/integrations'
+      fullPath: '/orgs/$orgId/integrations'
+      preLoaderRoute: typeof AuthenticatedOrgsOrgIdIntegrationsRouteImport
       parentRoute: typeof AuthenticatedOrgsOrgIdRoute
     }
     '/_authenticated/orgs/$orgId/knowledge': {
@@ -681,6 +734,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/orgs/$orgId/settings'
       preLoaderRoute: typeof AuthenticatedOrgsOrgIdSettingsRouteImport
+      parentRoute: typeof AuthenticatedOrgsOrgIdRoute
+    }
+    '/_authenticated/orgs/$orgId/system-health': {
+      id: '/_authenticated/orgs/$orgId/system-health'
+      path: '/system-health'
+      fullPath: '/orgs/$orgId/system-health'
+      preLoaderRoute: typeof AuthenticatedOrgsOrgIdSystemHealthRouteImport
       parentRoute: typeof AuthenticatedOrgsOrgIdRoute
     }
     '/_authenticated/orgs/$orgId/telephony': {
@@ -831,11 +891,14 @@ const AuthenticatedOrgsOrgIdAgentsRouteWithChildren =
 interface AuthenticatedOrgsOrgIdRouteChildren {
   AuthenticatedOrgsOrgIdAgentsRoute: typeof AuthenticatedOrgsOrgIdAgentsRouteWithChildren
   AuthenticatedOrgsOrgIdAnalyticsRoute: typeof AuthenticatedOrgsOrgIdAnalyticsRoute
+  AuthenticatedOrgsOrgIdAuditLogRoute: typeof AuthenticatedOrgsOrgIdAuditLogRoute
   AuthenticatedOrgsOrgIdCallsRoute: typeof AuthenticatedOrgsOrgIdCallsRoute
+  AuthenticatedOrgsOrgIdIntegrationsRoute: typeof AuthenticatedOrgsOrgIdIntegrationsRoute
   AuthenticatedOrgsOrgIdKnowledgeRoute: typeof AuthenticatedOrgsOrgIdKnowledgeRoute
   AuthenticatedOrgsOrgIdMembersRoute: typeof AuthenticatedOrgsOrgIdMembersRoute
   AuthenticatedOrgsOrgIdMessagingRoute: typeof AuthenticatedOrgsOrgIdMessagingRoute
   AuthenticatedOrgsOrgIdSettingsRoute: typeof AuthenticatedOrgsOrgIdSettingsRoute
+  AuthenticatedOrgsOrgIdSystemHealthRoute: typeof AuthenticatedOrgsOrgIdSystemHealthRoute
   AuthenticatedOrgsOrgIdTelephonyRoute: typeof AuthenticatedOrgsOrgIdTelephonyRoute
   AuthenticatedOrgsOrgIdIndexRoute: typeof AuthenticatedOrgsOrgIdIndexRoute
 }
@@ -845,11 +908,16 @@ const AuthenticatedOrgsOrgIdRouteChildren: AuthenticatedOrgsOrgIdRouteChildren =
     AuthenticatedOrgsOrgIdAgentsRoute:
       AuthenticatedOrgsOrgIdAgentsRouteWithChildren,
     AuthenticatedOrgsOrgIdAnalyticsRoute: AuthenticatedOrgsOrgIdAnalyticsRoute,
+    AuthenticatedOrgsOrgIdAuditLogRoute: AuthenticatedOrgsOrgIdAuditLogRoute,
     AuthenticatedOrgsOrgIdCallsRoute: AuthenticatedOrgsOrgIdCallsRoute,
+    AuthenticatedOrgsOrgIdIntegrationsRoute:
+      AuthenticatedOrgsOrgIdIntegrationsRoute,
     AuthenticatedOrgsOrgIdKnowledgeRoute: AuthenticatedOrgsOrgIdKnowledgeRoute,
     AuthenticatedOrgsOrgIdMembersRoute: AuthenticatedOrgsOrgIdMembersRoute,
     AuthenticatedOrgsOrgIdMessagingRoute: AuthenticatedOrgsOrgIdMessagingRoute,
     AuthenticatedOrgsOrgIdSettingsRoute: AuthenticatedOrgsOrgIdSettingsRoute,
+    AuthenticatedOrgsOrgIdSystemHealthRoute:
+      AuthenticatedOrgsOrgIdSystemHealthRoute,
     AuthenticatedOrgsOrgIdTelephonyRoute: AuthenticatedOrgsOrgIdTelephonyRoute,
     AuthenticatedOrgsOrgIdIndexRoute: AuthenticatedOrgsOrgIdIndexRoute,
   }

@@ -128,16 +128,8 @@ export function AppTopbar({ onMenuClick, showMenuButton }: AppTopbarProps) {
         </div>
       </div>
 
-      {/* Right: search + homepage link + theme + avatar */}
+      {/* Right: search + theme + avatar */}
       <div className="flex items-center gap-2.5">
-        <a
-          href="/"
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border/60 text-xs font-semibold text-primary hover:bg-primary/10 transition-colors"
-          title="Return to KZUNO Main Landing Page"
-        >
-          <span>← Back to Homepage</span>
-        </a>
-
         {/* Search pill (visual only) */}
         <button
           className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border/60 text-xs text-muted-foreground hover:bg-muted/50 transition-colors"

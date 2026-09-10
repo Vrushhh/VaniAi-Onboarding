@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { logAuditEvent } from "@/lib/audit-logger";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -17,7 +18,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-import { AppHeader } from "@/components/AppHeader";
+import { NotificationPreferencesTab } from "@/components/NotificationPreferencesTab";
 import { useOrgRole } from "@/hooks/useOrgRole";
 
 export const Route = createFileRoute("/_authenticated/orgs/$orgId/settings")({
@@ -58,14 +59,31 @@ function OrgSettings() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
+  const [isPlatformAdmin, setIsPlatformAdmin] = useState(false);
 
   const [deleteConfirm, setDeleteConfirm] = useState("");
   const [deleting, setDeleting] = useState(false);
   const [leaving, setLeaving] = useState(false);
 
-  const [activeTab, setActiveTab] = useState<"settings" | "activity">("settings");
+  const [activeTab, setActiveTab] = useState<"settings" | "notifications" | "activity">("settings");
   const [auditLogs, setAuditLogs] = useState<any[]>([]);
   const [auditLoading, setAuditLoading] = useState(false);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user) {
+        setUserId(data.user.id);
+        supabase
+          .from("profiles")
+          .select("is_platform_admin")
+          .eq("id", data.user.id)
+          .maybeSingle()
+          .then(({ data: profile }) => {
+            setIsPlatformAdmin(profile?.is_platform_admin ?? false);
+          });
+      }
+    });
+  }, []);
 
   async function loadAuditLogs() {
     setAuditLoading(true);
@@ -128,6 +146,7 @@ function OrgSettings() {
       return;
     }
     setOriginalName(orgName.trim());
+    logAuditEvent(orgId, "org.settings_updated", "org", orgId, { name: orgName.trim() });
     toast.success("Organization renamed");
   }
 
@@ -179,7 +198,17 @@ function OrgSettings() {
                 : "border-transparent text-muted-foreground hover:text-foreground"
             }`}
           >
-            General & Integrations
+            General & Organization
+          </button>
+          <button
+            onClick={() => setActiveTab("notifications")}
+            className={`text-sm font-medium pb-2.5 border-b-2 transition-all cursor-pointer ${
+              activeTab === "notifications"
+                ? "border-primary text-foreground font-semibold"
+                : "border-transparent text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            Notifications
           </button>
           {isOwner && (
             <button
@@ -195,7 +224,9 @@ function OrgSettings() {
           )}
         </div>
 
-        {activeTab === "settings" ? (
+        {activeTab === "notifications" ? (
+          <NotificationPreferencesTab orgId={orgId} isPlatformAdmin={isPlatformAdmin} />
+        ) : activeTab === "settings" ? (
           <>
             <Card className="p-6">
               <h2 className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
@@ -222,6 +253,24 @@ function OrgSettings() {
                 ) : (
                   <div className="text-sm">{originalName}</div>
                 )}
+              </div>
+            </Card>
+
+            <Card className="mt-6 p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
+                    Custom Webhooks & CRM Integrations
+                  </h2>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Connect Kzuno to Shopify, Salesforce, HubSpot, or custom HTTPS endpoints.
+                  </p>
+                </div>
+                <Button asChild variant="outline" size="sm">
+                  <Link to="/orgs/$orgId/integrations" params={{ orgId }}>
+                    Manage Webhooks
+                  </Link>
+                </Button>
               </div>
             </Card>
 

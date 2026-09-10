@@ -12,11 +12,9 @@ import {
   DialogContent,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { AppHeader } from "@/components/AppHeader";
 import { Building2, Calendar, Plus } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/orgs/")({
@@ -89,7 +87,7 @@ function OrgPicker() {
     }
     setOpen(false);
     setNewName("");
-    window.location.assign(`/orgs/${(data as { id: string }).id}/agents`);
+    navigate({ to: "/orgs/$orgId/agents", params: { orgId: (data as { id: string }).id } });
   }
 
   return (

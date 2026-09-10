@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -20,7 +20,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
-import { AppHeader } from "@/components/AppHeader";
 import { emptyDraft } from "@/lib/flow-types";
 import { useOrgRole } from "@/hooks/useOrgRole";
 import { Settings, MoreVertical } from "lucide-react";
@@ -40,6 +39,7 @@ type Flow = {
 };
 
 function FlowsList() {
+  const navigate = useNavigate();
   const { orgId, agentId } = Route.useParams();
   const { canEdit, loading: roleLoading } = useOrgRole(orgId);
   const [agent, setAgent] = useState<Agent | null>(null);
@@ -94,7 +94,7 @@ function FlowsList() {
     }
     setOpen(false);
     setName("");
-    window.location.assign(`/orgs/${orgId}/agents/${agentId}/flows/${data.id}`);
+    navigate({ to: "/orgs/$orgId/agents/$agentId/flows/$flowId", params: { orgId, agentId, flowId: data.id } });
   }
 
   async function duplicateFlow(flow: Flow) {

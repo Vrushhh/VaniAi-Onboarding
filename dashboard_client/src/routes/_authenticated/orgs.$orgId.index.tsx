@@ -24,6 +24,8 @@ import {
   PhoneMissed,
 } from "lucide-react";
 
+import { maskPhoneNumber } from "@/lib/utils";
+
 export const Route = createFileRoute("/_authenticated/orgs/$orgId/")({
   component: Dashboard,
 });
@@ -59,57 +61,6 @@ function getGreeting(): string {
   if (h < 17) return "Good afternoon";
   return "Good evening";
 }
-
-function formatIndianNumber(n: number): string {
-  return n.toLocaleString("en-IN");
-}
-
-const PLACEHOLDER_KPIS: KPI[] = [
-  {
-    label: "Calls today",
-    value: formatIndianNumber(1_247),
-    delta: "+12%",
-    deltaType: "up",
-    icon: Phone,
-    iconColor: "text-banyan",
-    iconBg: "bg-banyan-tint",
-  },
-  {
-    label: "COD confirmed",
-    value: formatIndianNumber(823),
-    delta: "+8%",
-    deltaType: "up",
-    icon: CheckCircle,
-    iconColor: "text-teal",
-    iconBg: "bg-teal-tint",
-  },
-  {
-    label: "Carts recovered",
-    value: formatIndianNumber(156),
-    delta: "-3%",
-    deltaType: "down",
-    icon: ShoppingCart,
-    iconColor: "text-terra",
-    iconBg: "bg-terra-tint",
-  },
-  {
-    label: "Avg response",
-    value: "2.4s",
-    delta: "–",
-    deltaType: "neutral",
-    icon: Clock,
-    iconColor: "text-indigo",
-    iconBg: "bg-indigo-tint",
-  },
-];
-
-const PLACEHOLDER_CALLS: RecentCall[] = [
-  { id: "1", phone: "+91 98•••••412", agentName: "Order Agent", status: "completed", duration: "0:42", time: "2 min ago" },
-  { id: "2", phone: "+91 87•••••901", agentName: "NPS Survey", status: "completed", duration: "1:18", time: "5 min ago" },
-  { id: "3", phone: "+91 99•••••654", agentName: "Collections", status: "failed", duration: "0:08", time: "12 min ago" },
-  { id: "4", phone: "+91 70•••••223", agentName: "Order Agent", status: "in-progress", duration: "0:31", time: "now" },
-  { id: "5", phone: "+91 98•••••877", agentName: "Cart Recovery", status: "missed", duration: "–", time: "18 min ago" },
-];
 
 const STATUS_MAP: Record<RecentCall["status"], { label: string; variant: "default" | "secondary" | "outline" | "destructive"; icon: React.ElementType }> = {
   completed: { label: "Completed", variant: "secondary", icon: PhoneCall },
@@ -438,14 +389,6 @@ function Dashboard() {
                     icon: PhoneCall,
                   };
                   const StatusIcon = st.icon;
-                  
-                  // Masking helper
-                  const maskText = (num: string) => {
-                    if (!num) return "—";
-                    const cl = num.trim();
-                    if (cl.length <= 4) return cl;
-                    return cl.substring(0, cl.length - 4).replace(/\d/g, "•") + cl.substring(cl.length - 4);
-                  };
 
                   return (
                     <tr
@@ -453,7 +396,7 @@ function Dashboard() {
                       className="border-b border-border/20 last:border-0 hover:bg-muted/20 transition-colors"
                     >
                       <td className="px-4 py-3 text-data text-foreground font-semibold font-mono">
-                        {maskText(call.phone_number)}
+                        {maskPhoneNumber(call.phone_number)}
                       </td>
                       <td className="px-4 py-3 text-sm text-foreground font-medium">
                         {call.agents?.name || "Unknown Agent"}

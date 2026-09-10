@@ -52,11 +52,7 @@ type AgentStat = {
   avgDuration: number;
 };
 
-function formatDuration(seconds: number): string {
-  const mins = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return `${mins}:${secs.toString().padStart(2, "0")}`;
-}
+import { formatDuration } from "@/lib/utils";
 
 function AnalyticsPage() {
   const { orgId } = Route.useParams() as any;
@@ -86,19 +82,13 @@ function AnalyticsPage() {
           .eq("org_id", orgId)
       ]);
 
-      if (callsRes.error) {
-        console.warn("[Analytics] Calls table error:", callsRes.error.message);
-      } else {
-        setCalls(callsRes.data || []);
-      }
+      if (callsRes.error) throw callsRes.error;
+      if (agentsRes.error) throw agentsRes.error;
 
-      if (agentsRes.error) {
-        console.warn("[Analytics] Agents table error:", agentsRes.error.message);
-      } else {
-        setAgents(agentsRes.data || []);
-      }
+      setCalls(callsRes.data || []);
+      setAgents(agentsRes.data || []);
     } catch (err: any) {
-      console.error("[Analytics] Error loading analytics data:", err);
+      toast.error(err.message || "Failed to load analytics data");
     } finally {
       setLoading(false);
     }
